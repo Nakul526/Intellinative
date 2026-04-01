@@ -75,8 +75,8 @@ function MembersModal({ group, onClose, onAddMember, onRemoveMember }) {
   const roleColors = { Admin: '#f85149', Editor: '#f0883e', Viewer: '#58a6ff', 'Read-Only': '#8b949e' }
 
   return (
-    <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 400, backdropFilter: 'blur(6px)' }}>
-      <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border-accent)', borderRadius: 14, width: 700, maxWidth: '92vw', maxHeight: '86vh', display: 'flex', flexDirection: 'column', boxShadow: '0 24px 64px rgba(0,0,0,0.5)', overflow: 'hidden' }}>
+    <div style={{ position: 'fixed', inset: 0, background: 'var(--modal-overlay)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999, backdropFilter: 'blur(6px)' }}>
+      <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border-accent)', borderRadius: 14, width: 700, maxWidth: '92vw', maxHeight: '86vh', display: 'flex', flexDirection: 'column', boxShadow: 'var(--card-shadow), 0 20px 60px rgba(0,0,0,0.2)', overflow: 'hidden' }}>
         {/* Header */}
         <div style={{ padding: '14px 20px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: 10 }}>
           <div style={{ width: 34, height: 34, borderRadius: 9, background: `linear-gradient(135deg, ${group.color}40, ${group.color}20)`, border: `1px solid ${group.color}50`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 800, color: group.color }}>
@@ -147,7 +147,7 @@ function MembersModal({ group, onClose, onAddMember, onRemoveMember }) {
               <tbody>
                 {group.members.map(m => (
                   <tr key={m.id} style={{ borderBottom: '1px solid var(--border)', transition: 'background 0.12s' }}
-                    onMouseEnter={e => e.currentTarget.style.background = 'rgba(0,0,0,0.04)'}
+                    onMouseEnter={e => e.currentTarget.style.background = 'var(--row-hover)'}
                     onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
                     <td style={{ padding: '10px 14px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
@@ -280,7 +280,9 @@ export default function Notifications() {
               const sel = selectedAsset.id === asset.id
               return (
                 <div key={asset.id} onClick={() => setSelectedAsset(asset)}
-                  style={{ padding: '11px 14px', borderBottom: '1px solid var(--border)', cursor: 'pointer', background: sel ? 'rgba(248,81,73,0.07)' : 'transparent', borderLeft: sel ? '3px solid #f85149' : '3px solid transparent', transition: 'all 0.15s' }}>
+                  style={{ padding: '11px 14px', borderBottom: '1px solid var(--border)', cursor: 'pointer', background: sel ? 'rgba(239,68,68,0.07)' : 'transparent', borderLeft: sel ? '3px solid #f85149' : '3px solid transparent', transition: 'all 0.15s' }}
+                  onMouseEnter={e => { if (!sel) e.currentTarget.style.background = 'var(--row-hover)' }}
+                  onMouseLeave={e => { if (!sel) e.currentTarget.style.background = 'transparent' }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 3 }}>
                     <span style={{ fontWeight: 600, fontSize: 12, color: sel ? '#f85149' : 'var(--text-primary)' }}>{asset.name}</span>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>

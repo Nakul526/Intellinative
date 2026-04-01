@@ -181,7 +181,7 @@ function GraphTab({ nodes, edges, positions, eased, activeNode, setHovered, setS
 
 function TreeTab({ components, appName }) {
   const root = buildTree(components, appName)
-  const [col, setCol] = useState(new Set())
+  const [col, setCol] = useState(() => getAllNodeIds(buildTree(components, appName)))
 
   const toggle = (id) => setCol(p => { const n = new Set(p); n.has(id) ? n.delete(id) : n.add(id); return n })
   const expandAll = () => setCol(new Set())

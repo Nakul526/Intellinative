@@ -1,5 +1,23 @@
-export default function Sidebar({ activePage, onNavigate }) {
+import React, { useState, useRef, useEffect } from 'react'
+
+const ORGS = [
+  { id: 'acme', name: 'Acme Corp', initials: 'AC', color: '#3b82f6,#a855f7' },
+  { id: 'globex', name: 'Globex Inc', initials: 'GI', color: '#10b981,#3b82f6' },
+  { id: 'initech', name: 'Initech LLC', initials: 'IL', color: '#f0883e,#f85149' },
+  { id: 'umbrella', name: 'Umbrella Corp', initials: 'UC', color: '#a855f7,#ec4899' },
+]
+
+export default function Sidebar({ activePage, onNavigate, activeOrg, setActiveOrg }) {
   const nav = (page) => () => onNavigate(page)
+  const [orgOpen, setOrgOpen] = useState(false)
+  const dropRef = useRef(null)
+  const org = ORGS.find(o => o.id === activeOrg) || ORGS[0]
+
+  useEffect(() => {
+    function handler(e) { if (dropRef.current && !dropRef.current.contains(e.target)) setOrgOpen(false) }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [])
 
   return (
     <div className="sidebar">
@@ -8,12 +26,34 @@ export default function Sidebar({ activePage, onNavigate }) {
         <span className="logo-text">IntelliBOM</span>
       </div>
 
-      <div className="sidebar-section" style={{ padding: '10px 16px 8px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 10px', cursor: 'pointer', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 8, transition: 'all 0.2s' }}>
-          <div style={{ width: 24, height: 24, background: 'linear-gradient(135deg, #3b82f6, #a855f7)', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, fontWeight: 800, boxShadow: '0 0 8px rgba(168,85,247,0.4)', flexShrink: 0 }}>AC</div>
-          <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-secondary)' }}>Acme Corp</span>
-          <span style={{ marginLeft: 'auto', color: 'var(--text-muted)', fontSize: 10 }}>▾</span>
+      {/* Org switcher */}
+      <div className="sidebar-section" style={{ padding: '10px 16px 8px', position: 'relative' }} ref={dropRef}>
+        <div
+          onClick={() => setOrgOpen(o => !o)}
+          style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 10px', cursor: 'pointer', background: orgOpen ? 'rgba(88,166,255,0.08)' : 'rgba(255,255,255,0.03)', border: `1px solid ${orgOpen ? 'rgba(88,166,255,0.3)' : 'rgba(255,255,255,0.06)'}`, borderRadius: 8, transition: 'all 0.2s' }}
+        >
+          <div style={{ width: 24, height: 24, background: `linear-gradient(135deg, ${org.color})`, borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, fontWeight: 800, color: '#fff', boxShadow: '0 0 8px rgba(168,85,247,0.4)', flexShrink: 0 }}>{org.initials}</div>
+          <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-secondary)', flex: 1 }}>{org.name}</span>
+          <span style={{ color: 'var(--text-muted)', fontSize: 10, transition: 'transform 0.2s', display: 'inline-block', transform: orgOpen ? 'rotate(180deg)' : 'none' }}>▾</span>
         </div>
+
+        {orgOpen && (
+          <div style={{ position: 'absolute', top: '100%', left: 10, right: 10, background: 'var(--bg-card)', border: '1px solid var(--border-accent)', borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,0.4)', zIndex: 200, overflow: 'hidden', marginTop: 4 }}>
+            {ORGS.map(o => (
+              <div
+                key={o.id}
+                onClick={() => { setActiveOrg(o.id); setOrgOpen(false) }}
+                style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 12px', cursor: 'pointer', background: o.id === activeOrg ? 'rgba(88,166,255,0.08)' : 'transparent', transition: 'background 0.15s' }}
+                onMouseEnter={e => { if (o.id !== activeOrg) e.currentTarget.style.background = 'rgba(255,255,255,0.03)' }}
+                onMouseLeave={e => { if (o.id !== activeOrg) e.currentTarget.style.background = 'transparent' }}
+              >
+                <div style={{ width: 22, height: 22, background: `linear-gradient(135deg, ${o.color})`, borderRadius: 5, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 8, fontWeight: 800, color: '#fff', flexShrink: 0 }}>{o.initials}</div>
+                <span style={{ fontSize: 11, fontWeight: o.id === activeOrg ? 700 : 500, color: o.id === activeOrg ? 'var(--accent-blue)' : 'var(--text-secondary)' }}>{o.name}</span>
+                {o.id === activeOrg && <span style={{ marginLeft: 'auto', fontSize: 10, color: 'var(--accent-blue)' }}>✓</span>}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="sidebar-section">
@@ -57,7 +97,6 @@ export default function Sidebar({ activePage, onNavigate }) {
         <div className={`sidebar-item${activePage === 'notifications' ? ' active' : ''}`} onClick={nav('notifications')} style={{ position: 'relative' }}>
           <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
           Notifications
-          {/* Alert dot */}
           <span style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', width: 7, height: 7, borderRadius: '50%', background: '#f85149', boxShadow: '0 0 6px #f85149' }}/>
         </div>
       </div>
