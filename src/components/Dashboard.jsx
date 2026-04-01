@@ -140,6 +140,7 @@ function ProgressBar({ value, max, color, height = 6 }) {
 // ── Main Dashboard ─────────────────────────────────────────────────────────────
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('All SBOM')
+  const show = (tab) => activeTab === 'All SBOM' || activeTab === tab
 
   return (
     <div className="main-content">
@@ -239,18 +240,22 @@ export default function Dashboard() {
                   { label: 'HBOM', value: '3,685', sub: '15.0%', color: '#3fb950', tag: 'Maven' },
                   { label: 'MBOM', value: '2,458', sub: '10.0%', color: '#f85149', tag: 'Conan' },
                   { label: 'OBom', value: '', sub: '', color: '#8b949e', tag: 'Galaxy' },
-                ].map((item, i) => (
-                  <div key={i} className="mini-stat" style={{ borderLeft: `2px solid ${item.color}` }}>
+                ].map((item, i) => {
+                  const filterKey = item.label === 'OBom' ? 'All SBOM' : item.label
+                  const isActive = activeTab === filterKey
+                  return (
+                  <div key={i} className="mini-stat" onClick={() => setActiveTab(isActive ? 'All SBOM' : filterKey)} style={{ borderLeft: `2px solid ${item.color}`, cursor: 'pointer', transition: 'all 0.18s', background: isActive ? `${item.color}14` : undefined, boxShadow: isActive ? `0 0 12px ${item.color}30, inset 0 0 20px ${item.color}08` : undefined, transform: isActive ? 'translateY(-1px)' : undefined }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                       <div>
-                        <div style={{ fontSize: 10, color: 'var(--text-muted)' }}>{item.label}</div>
-                        {item.value && <div className="mini-stat-value">{item.value}</div>}
+                        <div style={{ fontSize: 10, color: isActive ? item.color : 'var(--text-muted)', fontWeight: isActive ? 700 : 400 }}>{item.label}</div>
+                        {item.value && <div className="mini-stat-value" style={{ color: isActive ? item.color : undefined }}>{item.value}</div>}
                         {item.sub && <div style={{ fontSize: 9, color: 'var(--text-muted)' }}>{item.sub}</div>}
                       </div>
-                      <span className="badge" style={{ background: 'rgba(255,255,255,0.05)', color: 'var(--text-muted)', fontSize: 9 }}>{item.tag}</span>
+                      <span className="badge" style={{ background: isActive ? `${item.color}22` : 'rgba(255,255,255,0.05)', color: isActive ? item.color : 'var(--text-muted)', fontSize: 9, border: isActive ? `1px solid ${item.color}44` : undefined }}>{item.tag}</span>
                     </div>
                   </div>
-                ))}
+                  )
+                })}
               </div>
             </div>
           </div>
@@ -258,7 +263,7 @@ export default function Dashboard() {
       </div>
 
       {/* ── Software Bill of Materials ── */}
-      <div className="section">
+      {show('SBOM') && <div className="section">
         <SectionHeader label="Software Bill of Materials" badge="SBOM" color="#3fb950" />
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, marginBottom: 10 }}>
           <div className="sbom-highlight-card sbom-blue">
@@ -322,7 +327,7 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
-      </div>
+      </div>}
 
       {/* ── License Distribution ── */}
       <div className="section">
@@ -372,7 +377,7 @@ export default function Dashboard() {
       </div>
 
       {/* ── Cryptography Bill of Materials ── */}
-      <div className="section">
+      {show('CBOM') && <div className="section">
         <SectionHeader label="Cryptography Bill of Materials" isNew badge="CBOM" color="#a855f7" />
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 280px', gap: 12 }}>
           <div className="card">
@@ -458,10 +463,10 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
-      </div>
+      </div>}
 
       {/* ── AI Bill of Materials ── */}
-      <div className="section">
+      {show('AI BOM') && <div className="section">
         <SectionHeader label="AI Bill of Materials" isNew badge="AI BOM" color="#3b82f6" />
         <div className="card" style={{ marginBottom: 12 }}>
           <div className="section-title">AI Model Inventory</div>
@@ -528,10 +533,10 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
-      </div>
+      </div>}
 
       {/* ── Hardware Bill of Materials ── */}
-      <div className="section">
+      {show('HBOM') && <div className="section">
         <SectionHeader label="Hardware Bill of Materials" badge="HBOM" color="#f0883e" />
         <div className="card" style={{ marginBottom: 12 }}>
           <div className="section-title">Hardware Components</div>
@@ -584,7 +589,7 @@ export default function Dashboard() {
             </div>
           ))}
         </div>
-      </div>
+      </div>}
 
       {/* ── File Intelligence + Security Intelligence ── */}
       <div className="section">
