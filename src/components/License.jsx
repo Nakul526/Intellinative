@@ -297,7 +297,7 @@ export default function License() {
               <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 11 }}>
                 <thead style={{ position: 'sticky', top: 0, zIndex: 2 }}>
                   <tr style={{ background: 'var(--bg-card2)' }}>
-                    {['Component', 'Version', 'Type', 'SPDX License', 'Category', 'License Type', 'Compatibility', 'Cost', 'Source'].map(h => (
+                    {['Component', 'Version', 'Type', 'SPDX License', 'Category', 'License Type', 'Source'].map(h => (
                       <th key={h} style={{ padding: '8px 14px', textAlign: 'left', fontSize: 9, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.07em', borderBottom: '1px solid var(--border)', whiteSpace: 'nowrap' }}>{h}</th>
                     ))}
                   </tr>
@@ -324,10 +324,7 @@ export default function License() {
                           </span>
                         </td>
                         <td style={{ padding: '9px 14px', color: typeCol, fontSize: 10, fontWeight: 600 }}>{comp.lic.type}</td>
-                        <td style={{ padding: '9px 14px' }}>
-                          <span style={{ fontSize: 9, padding: '2px 7px', borderRadius: 4, fontWeight: 700, background: `${compatCol}15`, color: compatCol, border: `1px solid ${compatCol}35` }}>{comp.lic.compat}</span>
-                        </td>
-                        <td style={{ padding: '9px 14px', color: isFree ? '#3fb950' : '#f85149', fontFamily: 'JetBrains Mono', fontSize: 10, fontWeight: 700 }}>{comp.lic.cost}</td>
+                        
                         <td style={{ padding: '9px 14px', color: 'var(--text-muted)', fontSize: 10 }}>{comp.lic.source}</td>
                       </tr>
                     )

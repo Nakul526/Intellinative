@@ -7,12 +7,11 @@ import RadarChart from './RadarChart'
 // ── Data ──────────────────────────────────────────────────────────────────────
 
 const bomDonutData = [
-  { label: 'SBOM', value: 9826, color: '#f0d060' },
-  { label: 'CBOM', value: 4913, color: '#3b82f6' },
-  { label: 'AI BOM', value: 3685, color: '#a855f7' },
-  { label: 'HBOM', value: 3685, color: '#3fb950' },
-  { label: 'MBOM', value: 2458, color: '#f85149' },
-  { label: 'Other', value: 1000, color: '#8b949e' },
+  { label: 'SBOM',   value: 9826, color: '#f0d060', pct: '42.5%', desc: 'Software components & libraries' },
+  { label: 'CBOM',   value: 4913, color: '#3b82f6', pct: '21.3%', desc: 'Cryptographic algorithms & certs' },
+  { label: 'AI BOM', value: 3685, color: '#a855f7', pct: '15.9%', desc: 'AI/ML models & training data' },
+  { label: 'HBOM',   value: 3685, color: '#3fb950', pct: '15.9%', desc: 'Hardware components & firmware' },
+  { label: 'Other',  value: 1000, color: '#8b949e', pct: '4.3%',  desc: 'Uncategorized & miscellaneous' },
 ]
 
 const cryptoAlgos = [
@@ -137,13 +136,269 @@ function ProgressBar({ value, max, color, height = 6 }) {
   )
 }
 
+// ── Framework Bar Chart ────────────────────────────────────────────────────────
+function FrameworkBarChart({ data }) {
+  const [hovered, setHovered] = useState(null)
+  const W = 300, H = 130, padB = 32, padT = 14, padL = 8, padR = 8
+  const iW = W - padL - padR
+  const iH = H - padT - padB
+  const max = Math.max(...data.map(d => d.value))
+  const barW = iW / data.length * 0.58
+  const gap = iW / data.length
+
+  return (
+    <div style={{ position: 'relative' }}>
+      <svg width="100%" viewBox={`0 0 ${W} ${H}`} onMouseLeave={() => setHovered(null)} style={{ overflow: 'visible' }}>
+        {/* Grid lines */}
+        {[0.25, 0.5, 0.75, 1].map((f, i) => (
+          <line key={i} x1={padL} y1={padT + iH * (1 - f)} x2={W - padR} y2={padT + iH * (1 - f)}
+            stroke="rgba(255,255,255,0.04)" strokeWidth="1" strokeDasharray="3,4" />
+        ))}
+
+        {data.map((d, i) => {
+          const barH = (d.value / max) * iH
+          const x = padL + i * gap + (gap - barW) / 2
+          const y = padT + iH - barH
+          const isHov = hovered?.label === d.label
+          return (
+            <g key={d.label} onMouseEnter={() => setHovered(d)} style={{ cursor: 'pointer' }}>
+              {/* Shadow */}
+              <rect x={x + 2} y={y + 2} width={barW} height={barH} rx="4"
+                fill="rgba(0,0,0,0.25)" style={{ pointerEvents: 'none' }} />
+              {/* Bar */}
+              <rect x={x} y={y} width={barW} height={barH} rx="4"
+                fill={d.color}
+                opacity={hovered ? (isHov ? 1 : 0.35) : 0.82}
+                style={{ transition: 'opacity 0.15s', filter: isHov ? `drop-shadow(0 0 10px ${d.color}90)` : 'none' }}
+              />
+              {/* Top cap glow */}
+              {isHov && (
+                <rect x={x} y={y} width={barW} height={4} rx="4" fill={d.color} opacity="0.9"
+                  style={{ filter: `drop-shadow(0 0 6px ${d.color})` }} />
+              )}
+              {/* Value label */}
+              <text x={x + barW / 2} y={y - 5} textAnchor="middle"
+                fill={isHov ? d.color : 'transparent'} fontSize="9" fontWeight="700" fontFamily="JetBrains Mono">
+                {d.value}
+              </text>
+              {/* X-axis label */}
+              <text x={x + barW / 2} y={H - 6} textAnchor="middle"
+                fill={isHov ? '#e6edf3' : '#8b949e'} fontSize="7.5" fontWeight={isHov ? '700' : '400'}>
+                {d.label.length > 8 ? d.label.slice(0, 7) + '…' : d.label}
+              </text>
+            </g>
+          )
+        })}
+
+        {/* Baseline */}
+        <line x1={padL} y1={padT + iH} x2={W - padR} y2={padT + iH}
+          stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
+      </svg>
+
+      {hovered && (
+        <div style={{
+          position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
+          background: 'rgba(13,17,23,0.97)', border: `1px solid ${hovered.color}55`,
+          borderRadius: 7, padding: '6px 14px', pointerEvents: 'none', zIndex: 100,
+          whiteSpace: 'nowrap', boxShadow: `0 4px 16px rgba(0,0,0,0.5)`,
+        }}>
+          <span style={{ fontSize: 10, color: '#8b949e' }}>{hovered.label}: </span>
+          <span style={{ fontSize: 13, color: hovered.color, fontWeight: 700, fontFamily: 'JetBrains Mono' }}>{hovered.value}</span>
+          <span style={{ fontSize: 10, color: '#8b949e', marginLeft: 4 }}>models</span>
+        </div>
+      )}
+    </div>
+  )
+}
+
 // ── Main Dashboard ─────────────────────────────────────────────────────────────
+const ASSETS = [
+  { id: 'all',   label: 'All Assets',      ip: '',              status: null },
+  { id: 'web1',  label: 'prod-web-01',     ip: '192.168.0.1',   status: 'online'  },
+  { id: 'db1',   label: 'prod-db-02',      ip: '192.168.0.2',   status: 'online'  },
+  { id: 'api1',  label: 'prod-api-03',     ip: '192.168.0.3',   status: 'online'  },
+  { id: 'cch1',  label: 'prod-cache-04',   ip: '192.168.0.4',   status: 'offline' },
+  { id: 'web2',  label: 'prod-web-07',     ip: '192.168.0.7',   status: 'online'  },
+  { id: 'bld1',  label: 'build-server-01', ip: '192.168.1.10',  status: 'online'  },
+  { id: 'bld2',  label: 'build-server-02', ip: '192.168.1.11',  status: 'offline' },
+  { id: 'gw1',   label: 'api-gateway-03',  ip: '192.168.2.3',   status: 'online'  },
+  { id: 'db2',   label: 'db-replica-01',   ip: '192.168.3.1',   status: 'online'  },
+  { id: 'mq1',   label: 'mq-broker-01',    ip: '192.168.4.1',   status: 'online'  },
+  { id: 'mon1',  label: 'monitor-01',      ip: '192.168.5.1',   status: 'offline' },
+]
+
+function AssetDropdown({ value, onChange }) {
+  const [open, setOpen] = useState(false)
+  const [search, setSearch] = useState('')
+  const [dropPos, setDropPos] = useState({ top: 0, left: 0 })
+  const ref = React.useRef(null)
+
+  const current = ASSETS.find(a => a.id === value) || ASSETS[0]
+  const filtered = ASSETS.filter(a =>
+    a.label.toLowerCase().includes(search.toLowerCase()) ||
+    a.ip.includes(search)
+  )
+
+  React.useEffect(() => {
+    function handleClick(e) {
+      if (ref.current && !ref.current.contains(e.target)) setOpen(false)
+    }
+    document.addEventListener('mousedown', handleClick)
+    return () => document.removeEventListener('mousedown', handleClick)
+  }, [])
+
+  return (
+    <div ref={ref} style={{ position: 'relative' }}>
+      {/* Trigger */}
+      <button
+        onClick={() => {
+          if (!open && ref.current) {
+            const rect = ref.current.getBoundingClientRect()
+            setDropPos({ top: rect.bottom + 6, left: rect.left })
+          }
+          setOpen(o => !o)
+        }}
+        style={{
+          display: 'flex', alignItems: 'center', gap: 8,
+          background: open ? 'rgba(88,166,255,0.1)' : 'var(--bg-card)',
+          border: `1px solid ${open ? 'rgba(88,166,255,0.5)' : 'var(--border-accent)'}`,
+          borderRadius: 9, padding: '7px 12px', cursor: 'pointer',
+          color: 'var(--text-primary)', fontSize: 12, fontWeight: 600,
+          minWidth: 210, transition: 'all 0.15s',
+          boxShadow: open ? '0 0 0 3px rgba(88,166,255,0.12)' : 'none',
+        }}
+      >
+        <svg width="13" height="13" fill="none" stroke="#58a6ff" strokeWidth="2" viewBox="0 0 24 24">
+          <rect x="2" y="3" width="20" height="5" rx="1"/><rect x="2" y="10" width="20" height="5" rx="1"/><rect x="2" y="17" width="20" height="4" rx="1"/>
+        </svg>
+        {current.status && (
+          <span style={{ width: 7, height: 7, borderRadius: '50%', background: current.status === 'online' ? '#3fb950' : '#6e7681', flexShrink: 0, boxShadow: current.status === 'online' ? '0 0 5px #3fb950' : 'none' }} />
+        )}
+        <span style={{ flex: 1, textAlign: 'left', fontFamily: current.id === 'all' ? 'inherit' : 'JetBrains Mono, monospace', fontSize: current.id === 'all' ? 12 : 11 }}>
+          {current.label}
+        </span>
+        {value !== 'all' && (
+          <span style={{ fontSize: 9, padding: '1px 6px', borderRadius: 4, background: 'rgba(88,166,255,0.15)', color: '#58a6ff', fontFamily: 'monospace' }}>
+            {current.ip}
+          </span>
+        )}
+        <svg width="12" height="12" fill="none" stroke="var(--text-muted)" strokeWidth="2.5" viewBox="0 0 24 24"
+          style={{ transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s', flexShrink: 0 }}>
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </button>
+
+      {/* Dropdown panel */}
+      {open && (
+        <div style={{
+          position: 'fixed', top: dropPos.top, left: dropPos.left,
+          background: '#0d1117', border: '1px solid rgba(88,166,255,0.25)',
+          borderRadius: 11, width: 300, zIndex: 99999,
+          boxShadow: '0 16px 48px rgba(0,0,0,0.6), 0 0 0 1px rgba(88,166,255,0.08)',
+          overflow: 'hidden',
+        }}>
+          {/* Search */}
+          <div style={{ padding: '10px 12px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+            <div style={{ position: 'relative' }}>
+              <svg width="11" height="11" fill="none" stroke="#4d5a6a" strokeWidth="2" viewBox="0 0 24 24"
+                style={{ position: 'absolute', left: 9, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}>
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+              <input
+                autoFocus
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                placeholder="Search assets or IP..."
+                style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 7, padding: '6px 10px 6px 28px', color: '#e6edf3', fontSize: 11, outline: 'none' }}
+              />
+            </div>
+          </div>
+
+          {/* Count */}
+          <div style={{ padding: '6px 14px', fontSize: 10, color: '#4d5a6a', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+            {filtered.length} asset{filtered.length !== 1 ? 's' : ''} found
+          </div>
+
+          {/* List */}
+          <div style={{ maxHeight: 280, overflowY: 'auto' }}>
+            {filtered.map(a => {
+              const isSelected = value === a.id
+              return (
+                <div
+                  key={a.id}
+                  onClick={() => { onChange(a.id); setOpen(false); setSearch('') }}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: 10,
+                    padding: '9px 14px', cursor: 'pointer',
+                    background: isSelected ? 'rgba(88,166,255,0.1)' : 'transparent',
+                    borderLeft: isSelected ? '3px solid #58a6ff' : '3px solid transparent',
+                    transition: 'background 0.1s',
+                  }}
+                  onMouseEnter={e => { if (!isSelected) e.currentTarget.style.background = 'rgba(255,255,255,0.04)' }}
+                  onMouseLeave={e => { if (!isSelected) e.currentTarget.style.background = 'transparent' }}
+                >
+                  {a.id === 'all' ? (
+                    <div style={{ width: 24, height: 24, borderRadius: 6, background: 'rgba(88,166,255,0.1)', border: '1px solid rgba(88,166,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      <svg width="11" height="11" fill="none" stroke="#58a6ff" strokeWidth="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="5" rx="1"/><rect x="2" y="10" width="20" height="5" rx="1"/><rect x="2" y="17" width="20" height="4" rx="1"/></svg>
+                    </div>
+                  ) : (
+                    <span style={{ width: 8, height: 8, borderRadius: '50%', background: a.status === 'online' ? '#3fb950' : '#6e7681', flexShrink: 0, boxShadow: a.status === 'online' ? '0 0 5px #3fb950' : 'none' }} />
+                  )}
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: 12, fontWeight: isSelected ? 700 : 500, color: isSelected ? '#58a6ff' : '#e6edf3', fontFamily: a.id === 'all' ? 'inherit' : 'JetBrains Mono, monospace', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      {a.label}
+                    </div>
+                    {a.ip && <div style={{ fontSize: 10, color: '#4d5a6a', fontFamily: 'JetBrains Mono' }}>{a.ip}</div>}
+                  </div>
+                  {a.status && (
+                    <span style={{ fontSize: 9, fontWeight: 700, color: a.status === 'online' ? '#3fb950' : '#6e7681' }}>
+                      {a.status.toUpperCase()}
+                    </span>
+                  )}
+                  {isSelected && (
+                    <svg width="12" height="12" fill="none" stroke="#58a6ff" strokeWidth="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                  )}
+                </div>
+              )
+            })}
+            {filtered.length === 0 && (
+              <div style={{ padding: '20px 14px', textAlign: 'center', fontSize: 11, color: '#4d5a6a' }}>No assets match "{search}"</div>
+            )}
+          </div>
+
+          {/* Footer */}
+          <div style={{ padding: '8px 14px', borderTop: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', fontSize: 10, color: '#4d5a6a' }}>
+            <span>{ASSETS.filter(a => a.status === 'online').length} online · {ASSETS.filter(a => a.status === 'offline').length} offline</span>
+            {value !== 'all' && (
+              <button onClick={() => { onChange('all'); setOpen(false) }} style={{ background: 'none', border: 'none', color: '#58a6ff', cursor: 'pointer', fontSize: 10, padding: 0 }}>
+                Clear selection
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('All SBOM')
+  const [activeAsset, setActiveAsset] = useState('all')
   const show = (tab) => activeTab === 'All SBOM' || activeTab === tab
+
+  const currentAsset = ASSETS.find(a => a.id === activeAsset)
 
   return (
     <div className="main-content">
+
+      {/* ── Asset Dropdown Header ── */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <div style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 600 }}>Viewing:</div>
+          <AssetDropdown value={activeAsset} onChange={setActiveAsset} />
+        </div>
+
+      </div>
 
       {/* ── Top KPI Row ── */}
       <div className="grid-4 section">
@@ -227,37 +482,58 @@ export default function Dashboard() {
       <div className="section">
         <SectionHeader label="BOM Distribution" />
         <div className="card">
-          <div style={{ display: 'grid', gridTemplateColumns: '180px 1fr', gap: 20, alignItems: 'center' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <DonutChart size={150} data={bomDonutData} centerText="24,567" centerSub="Total SBOM" />
-            </div>
-            <div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
-                {[
-                  { label: 'SBOM', value: '9,826', sub: '41.1%', color: '#f0d060', tag: 'NPM' },
-                  { label: 'CBOM', value: '4,913', sub: '20.0%', color: '#3b82f6', tag: 'PyPI' },
-                  { label: 'AI BOM', value: '3,685', sub: '15.0%', color: '#a855f7', tag: 'Docker' },
-                  { label: 'HBOM', value: '3,685', sub: '15.0%', color: '#3fb950', tag: 'Maven' },
-                  { label: 'MBOM', value: '2,458', sub: '10.0%', color: '#f85149', tag: 'Conan' },
-                  { label: 'OBom', value: '', sub: '', color: '#8b949e', tag: 'Galaxy' },
-                ].map((item, i) => {
-                  const filterKey = item.label === 'OBom' ? 'All SBOM' : item.label
-                  const isActive = activeTab === filterKey
-                  return (
-                  <div key={i} className="mini-stat" onClick={() => setActiveTab(isActive ? 'All SBOM' : filterKey)} style={{ borderLeft: `2px solid ${item.color}`, cursor: 'pointer', transition: 'all 0.18s', background: isActive ? `${item.color}14` : undefined, boxShadow: isActive ? `0 0 12px ${item.color}30, inset 0 0 20px ${item.color}08` : undefined, transform: isActive ? 'translateY(-1px)' : undefined }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                      <div>
-                        <div style={{ fontSize: 10, color: isActive ? item.color : 'var(--text-muted)', fontWeight: isActive ? 700 : 400 }}>{item.label}</div>
-                        {item.value && <div className="mini-stat-value" style={{ color: isActive ? item.color : undefined }}>{item.value}</div>}
-                        {item.sub && <div style={{ fontSize: 9, color: 'var(--text-muted)' }}>{item.sub}</div>}
-                      </div>
-                      <span className="badge" style={{ background: isActive ? `${item.color}22` : 'rgba(255,255,255,0.05)', color: isActive ? item.color : 'var(--text-muted)', fontSize: 9, border: isActive ? `1px solid ${item.color}44` : undefined }}>{item.tag}</span>
-                    </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '40% 60%', gap: 24, alignItems: 'start' }}>
+
+            {/* Left – Donut + legend */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 18 }}>
+              <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <DonutChart size={190} data={bomDonutData} centerText="23,109" centerSub="Total BOMs" />
+              </div>
+              {/* Legend */}
+              <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 6 }}>
+                {bomDonutData.map((d, i) => (
+                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <div style={{ width: 8, height: 8, borderRadius: 2, background: d.color, flexShrink: 0 }} />
+                    <span style={{ fontSize: 11, color: 'var(--text-primary)', fontWeight: 600, flex: 1 }}>{d.label}</span>
+                    <span style={{ fontSize: 10, color: 'var(--text-muted)', fontFamily: "'JetBrains Mono', monospace" }}>{d.value.toLocaleString()}</span>
+                    <span style={{ fontSize: 10, color: d.color, fontWeight: 700, minWidth: 36, textAlign: 'right' }}>{d.pct}</span>
                   </div>
-                  )
-                })}
+                ))}
+                <div style={{ marginTop: 4, paddingTop: 8, borderTop: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', fontSize: 10, color: 'var(--text-muted)' }}>
+                  <span>Total tracked BOMs</span>
+                  <span style={{ fontWeight: 700, color: 'var(--text-primary)', fontFamily: "'JetBrains Mono', monospace" }}>23,109</span>
+                </div>
               </div>
             </div>
+
+            {/* Right – 4 tiles (2×2) */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 10 }}>
+              {[
+                { label: 'SBOM',   fullName: 'Software Bill of Materials',    value: '9,826', pct: '42.5%', color: '#f0d060', tag: 'Software', desc: 'Open-source & third-party software libraries tracked across your assets' },
+                { label: 'CBOM',   fullName: 'Cryptography Bill of Materials', value: '4,913', pct: '21.3%', color: '#3b82f6', tag: 'Crypto',   desc: 'Encryption algorithms, certificates, and cryptographic primitives in use' },
+                { label: 'AI BOM', fullName: 'AI Bill of Materials',           value: '3,685', pct: '15.9%', color: '#a855f7', tag: 'AI/ML',    desc: 'Machine learning models, datasets, and AI dependencies registered' },
+                { label: 'HBOM',   fullName: 'Hardware Bill of Materials',     value: '3,685', pct: '15.9%', color: '#3fb950', tag: 'Hardware', desc: 'Physical hardware components, firmware versions, and device inventory' },
+              ].map((item, i) => {
+                const isActive = activeTab === item.label
+                return (
+                  <div key={i} className="mini-stat" onClick={() => setActiveTab(isActive ? 'All SBOM' : item.label)} style={{ borderLeft: `3px solid ${item.color}`, cursor: 'pointer', transition: 'all 0.18s', background: isActive ? `${item.color}14` : undefined, boxShadow: isActive ? `0 0 14px ${item.color}30, inset 0 0 20px ${item.color}08` : undefined, transform: isActive ? 'translateY(-1px)' : undefined, padding: '12px 14px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 6 }}>
+                      <div>
+                        <div style={{ fontSize: 9, color: isActive ? item.color : 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 2 }}>{item.label}</div>
+                        <div style={{ fontSize: 10, color: 'var(--text-muted)', marginBottom: 6 }}>{item.fullName}</div>
+                      </div>
+                      <span className="badge" style={{ background: isActive ? `${item.color}22` : 'rgba(255,255,255,0.05)', color: isActive ? item.color : 'var(--text-muted)', fontSize: 9, border: isActive ? `1px solid ${item.color}44` : undefined, flexShrink: 0 }}>{item.tag}</span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 6 }}>
+                      <div className="mini-stat-value" style={{ color: isActive ? item.color : undefined, fontSize: 22 }}>{item.value}</div>
+                      <span style={{ fontSize: 11, fontWeight: 700, color: item.color }}>{item.pct}</span>
+                    </div>
+                    <div style={{ fontSize: 10, color: 'var(--text-muted)', lineHeight: 1.4 }}>{item.desc}</div>
+                  </div>
+                )
+              })}
+            </div>
+
           </div>
         </div>
       </div>
@@ -327,11 +603,9 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
-      </div>}
 
-      {/* ── License Distribution ── */}
-      <div className="section">
-        <div className="card">
+        {/* ── License Distribution ── */}
+        <div className="card" style={{ marginTop: 12 }}>
           <div className="section-title">License Distribution</div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
             {[
@@ -351,11 +625,9 @@ export default function Dashboard() {
             ))}
           </div>
         </div>
-      </div>
 
-      {/* ── Package Ecosystems ── */}
-      <div className="section">
-        <div className="card">
+        {/* ── Package Ecosystems ── */}
+        <div className="card" style={{ marginTop: 12 }}>
           <div className="section-title">Package Ecosystems</div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8 }}>
             {[
@@ -374,7 +646,7 @@ export default function Dashboard() {
             ))}
           </div>
         </div>
-      </div>
+      </div>}
 
       {/* ── Cryptography Bill of Materials ── */}
       {show('CBOM') && <div className="section">
@@ -511,20 +783,13 @@ export default function Dashboard() {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
           <div className="card">
             <div className="section-title">Framework Distribution</div>
-            <div className="framework-bar">
-              {[
-                { label: 'TensorFlow', height: 70, color: '#f0883e' },
-                { label: 'PyTorch', height: 55, color: '#f85149' },
-                { label: 'Keras', height: 40, color: '#a855f7' },
-                { label: 'HuggingFace', height: 30, color: '#3fb950' },
-                { label: 'Other', height: 15, color: '#8b949e' },
-              ].map((bar, i) => (
-                <div className="bar-col" key={i}>
-                  <div className="bar-rect" style={{ height: bar.height, background: bar.color }} />
-                  <div className="bar-label">{bar.label}</div>
-                </div>
-              ))}
-            </div>
+            <FrameworkBarChart data={[
+              { label: 'TensorFlow', value: 70, color: '#f0883e' },
+              { label: 'PyTorch',    value: 55, color: '#f85149' },
+              { label: 'Keras',      value: 40, color: '#a855f7' },
+              { label: 'HuggingFace', value: 30, color: '#3fb950' },
+              { label: 'Other',      value: 15, color: '#8b949e' },
+            ]} />
           </div>
           <div className="card">
             <div className="section-title">Performance Metrics</div>

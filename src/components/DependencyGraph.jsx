@@ -251,23 +251,26 @@ function TreeTab({ components, appName }) {
               <g key={node.id}>
                 {/* Shadow */}
                 <rect x={bx+2} y={by+3} width={NW} height={NH} rx="9" fill="rgba(0,0,0,0.12)"/>
-                {/* Node rect */}
+                {/* Node rect — explicit dark bg for legibility in both themes */}
                 <rect x={bx} y={by} width={NW} height={NH} rx="9"
-                  fill={`${color}${node.isRoot ? '18' : '0d'}`}
+                  fill="rgba(10,14,26,0.82)"
                   stroke={color} strokeWidth={node.isRoot ? 2 : 1.5}/>
+                {/* Color tint overlay */}
+                <rect x={bx} y={by} width={NW} height={NH} rx="9"
+                  fill={color} opacity={node.isRoot ? 0.08 : 0.04}/>
                 {/* Left accent bar */}
-                <rect x={bx} y={by + 6} width="4" height={NH - 12} rx="2" fill={color} opacity="0.8"/>
+                <rect x={bx} y={by + 6} width="4" height={NH - 12} rx="2" fill={color} opacity="0.9"/>
 
-                {/* Name */}
+                {/* Name — always white for contrast on dark bg */}
                 <text x={bx + 16} y={cy + (node.version ? -7 : 2)}
-                  fill={node.isRoot ? color : 'var(--text-primary)'}
+                  fill={node.isRoot ? color : '#e6edf3'}
                   fontSize={node.isRoot ? 11 : 10} fontWeight="700" fontFamily="JetBrains Mono,monospace">
                   {node.label.length > 18 ? node.label.slice(0, 17) + '…' : node.label}
                 </text>
 
-                {/* Version + type */}
+                {/* Version + type — fixed color for contrast */}
                 {node.version && (
-                  <text x={bx + 16} y={cy + 8} fill="var(--text-muted)" fontSize="8" fontFamily="JetBrains Mono">
+                  <text x={bx + 16} y={cy + 8} fill="#8b949e" fontSize="8" fontFamily="JetBrains Mono">
                     v{node.version}{node.type ? `  ·  ${node.type}` : ''}
                   </text>
                 )}
@@ -275,8 +278,8 @@ function TreeTab({ components, appName }) {
                 {/* Risk badge */}
                 {!node.isRoot && (
                   <>
-                    <rect x={bx + NW - 52} y={by + 8} width="44" height="14" rx="4" fill={`${color}20`} stroke={`${color}45`} strokeWidth="1"/>
-                    <text x={bx + NW - 30} y={by + 18} textAnchor="middle" fill={color} fontSize="7" fontWeight="700" letterSpacing="0.05em">{node.risk}</text>
+                    <rect x={bx + NW - 52} y={by + 8} width="44" height="14" rx="4" fill={`${color}25`} stroke={`${color}60`} strokeWidth="1"/>
+                    <text x={bx + NW - 30} y={by + 18} textAnchor="middle" fill={color} fontSize="7" fontWeight="800" letterSpacing="0.06em">{node.risk}</text>
                   </>
                 )}
 

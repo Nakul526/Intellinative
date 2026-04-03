@@ -6,6 +6,133 @@ const initialAssets = [
   { id: 3, name: 'prod-api-01', ip: '192.168.1.30', os: 'Windows', status: 'inactive' },
 ]
 
+function UploadBomTab({ onAdd, onClose }) {
+  const [file, setFile] = useState(null)
+  const [dragging, setDragging] = useState(false)
+  const [parsed, setParsed] = useState(null)
+  const [error, setError] = useState('')
+
+  function handleFile(f) {
+    if (!f) return
+    const ext = f.name.split('.').pop().toLowerCase()
+    if (!['csv', 'pdf'].includes(ext)) {
+      setError('Only CSV and PDF files are supported.')
+      setFile(null)
+      setParsed(null)
+      return
+    }
+    setError('')
+    setFile(f)
+    if (ext === 'csv') {
+      const reader = new FileReader()
+      reader.onload = e => {
+        const lines = e.target.result.split('\n').filter(Boolean)
+        const rows = lines.slice(1).map(l => {
+          const cols = l.split(',').map(c => c.trim().replace(/^"|"$/g, ''))
+          return { name: cols[0] || '', ip: cols[1] || '', os: cols[2] || '', status: cols[3] || 'active' }
+        }).filter(r => r.name)
+        setParsed(rows)
+      }
+      reader.readAsText(f)
+    } else {
+      setParsed([{ name: f.name.replace('.pdf', ''), ip: '', os: 'Unknown', status: 'active' }])
+    }
+  }
+
+  function handleDrop(e) {
+    e.preventDefault()
+    setDragging(false)
+    handleFile(e.dataTransfer.files[0])
+  }
+
+  function handleImport() {
+    if (!parsed?.length) return
+    parsed.forEach(row => {
+      if (row.name) onAdd({ id: Date.now() + Math.random(), name: row.name, ip: row.ip, os: row.os, status: row.status })
+    })
+    onClose()
+  }
+
+  return (
+    <div>
+      {/* Drop zone */}
+      <div
+        onDragOver={e => { e.preventDefault(); setDragging(true) }}
+        onDragLeave={() => setDragging(false)}
+        onDrop={handleDrop}
+        onClick={() => document.getElementById('bom-file-input').click()}
+        style={{
+          border: `2px dashed ${dragging ? '#58a6ff' : 'rgba(88,166,255,0.3)'}`,
+          borderRadius: 10, padding: '28px 16px', textAlign: 'center', cursor: 'pointer',
+          background: dragging ? 'rgba(88,166,255,0.06)' : 'rgba(255,255,255,0.02)',
+          transition: 'all 0.2s', marginBottom: 12,
+        }}
+      >
+        <svg width="32" height="32" fill="none" stroke="#58a6ff" strokeWidth="1.5" viewBox="0 0 24 24" style={{ margin: '0 auto 10px', display: 'block', opacity: 0.7 }}>
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="17 8 12 3 7 8"/>
+          <line x1="12" y1="3" x2="12" y2="15"/>
+        </svg>
+        <div style={{ fontSize: 13, fontWeight: 600, color: '#58a6ff', marginBottom: 4 }}>
+          {file ? file.name : 'Drop file here or click to browse'}
+        </div>
+        <div style={{ fontSize: 11, color: 'rgba(139,148,158,0.8)' }}>Supports CSV and PDF · Max 10 MB</div>
+        <input id="bom-file-input" type="file" accept=".csv,.pdf" style={{ display: 'none' }}
+          onChange={e => handleFile(e.target.files[0])} />
+      </div>
+
+      {/* CSV format hint */}
+      <div style={{ background: 'rgba(88,166,255,0.06)', border: '1px solid rgba(88,166,255,0.15)', borderRadius: 7, padding: '8px 12px', marginBottom: 12, fontSize: 10, color: '#8b949e', lineHeight: 1.6 }}>
+        <span style={{ color: '#58a6ff', fontWeight: 700 }}>CSV format: </span>
+        name, ip, os, status — one asset per row (first row is header)
+      </div>
+
+      {error && (
+        <div style={{ color: '#f85149', fontSize: 11, marginBottom: 10, display: 'flex', alignItems: 'center', gap: 6 }}>
+          <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          {error}
+        </div>
+      )}
+
+      {/* Preview */}
+      {parsed && parsed.length > 0 && (
+        <div style={{ background: 'rgba(63,185,80,0.06)', border: '1px solid rgba(63,185,80,0.2)', borderRadius: 8, padding: '10px 14px', marginBottom: 4 }}>
+          <div style={{ fontSize: 11, fontWeight: 700, color: '#3fb950', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
+            <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            {parsed.length} asset{parsed.length > 1 ? 's' : ''} ready to import
+          </div>
+          <div style={{ maxHeight: 100, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 4 }}>
+            {parsed.slice(0, 5).map((r, i) => (
+              <div key={i} style={{ fontSize: 11, color: '#e6edf3', fontFamily: 'JetBrains Mono', display: 'flex', gap: 10 }}>
+                <span style={{ color: '#3fb950', minWidth: 80 }}>{r.name}</span>
+                {r.ip && <span style={{ color: '#8b949e' }}>{r.ip}</span>}
+                {r.os && <span style={{ color: '#8b949e' }}>{r.os}</span>}
+              </div>
+            ))}
+            {parsed.length > 5 && <div style={{ fontSize: 10, color: '#8b949e' }}>+{parsed.length - 5} more…</div>}
+          </div>
+        </div>
+      )}
+
+      {/* Import button */}
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 16 }}>
+        <button
+          onClick={handleImport}
+          disabled={!parsed?.length}
+          style={{
+            padding: '8px 20px', borderRadius: 8, border: 'none',
+            background: parsed?.length ? 'var(--accent-blue)' : 'rgba(88,166,255,0.2)',
+            color: parsed?.length ? '#fff' : 'rgba(88,166,255,0.5)',
+            fontSize: 12, fontWeight: 600, cursor: parsed?.length ? 'pointer' : 'not-allowed',
+          }}
+        >
+          Import Assets
+        </button>
+      </div>
+    </div>
+  )
+}
+
 function RegisterModal({ onClose, onAdd }) {
   const [tab, setTab] = useState('manual')
   const [form, setForm] = useState({ name: '', ip: '', username: '', password: '', os: '', port: '22', pem: null })
@@ -93,9 +220,7 @@ function RegisterModal({ onClose, onAdd }) {
             </div>
           </div>
         ) : (
-          <div style={{ textAlign: 'center', padding: '32px 0', color: 'var(--text-muted)', fontSize: 12 }}>
-            CSV import coming soon
-          </div>
+          <UploadBomTab onAdd={onAdd} onClose={onClose} />
         )}
 
         {/* Footer */}

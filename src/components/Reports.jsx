@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { jsPDF } from 'jspdf'
 
 // ── Data ──────────────────────────────────────────────────────────────────────
@@ -36,6 +36,7 @@ const MACHINES = ['WEB-SERVER-01', 'API-GATEWAY-03', 'BUILD-SERVER-02', 'DB-SERV
 // ── Chart components ───────────────────────────────────────────────────────────
 
 function BarChart({ data }) {
+  const [hovered, setHovered] = useState(null)
   const W = 420, H = 180, PAD = { t: 15, r: 20, b: 35, l: 45 }
   const iW = W - PAD.l - PAD.r, iH = H - PAD.t - PAD.b
   const max = Math.max(...data.map(d => d.v)) * 1.2
@@ -43,36 +44,62 @@ function BarChart({ data }) {
   const gap = iW / data.length
 
   return (
-    <svg width="100%" viewBox={`0 0 ${W} ${H}`}>
-      <defs>
-        <linearGradient id="bar-grad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#3b82f6" stopOpacity="1"/>
-          <stop offset="100%" stopColor="#a855f7" stopOpacity="0.8"/>
-        </linearGradient>
-      </defs>
-      {[0, 0.25, 0.5, 0.75, 1].map((f, i) => {
-        const y = PAD.t + f * iH
-        return (
-          <g key={i}>
-            <line x1={PAD.l} y1={y} x2={W - PAD.r} y2={y} stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-            <text x={PAD.l - 6} y={y + 3} textAnchor="end" fontSize="8" fill="var(--text-muted)">{Math.round(max * (1 - f))}</text>
-          </g>
-        )
-      })}
-      {data.map((d, i) => {
-        const barH = (d.v / max) * iH
-        const x = PAD.l + i * gap + (gap - barW) / 2
-        const y = PAD.t + iH - barH
-        return (
-          <g key={d.label}>
-            <rect x={x} y={PAD.t + iH} width={barW} height={1} rx="2" fill="rgba(59,130,246,0.2)"/>
-            <rect x={x} y={y} width={barW} height={barH} rx="4" fill="url(#bar-grad)" style={{ filter: 'drop-shadow(0 0 6px rgba(59,130,246,0.4))' }}/>
-            <text x={x + barW / 2} y={y - 4} textAnchor="middle" fontSize="8" fill="#3b82f6" fontWeight="700">{d.v}</text>
-            <text x={PAD.l + i * gap + gap / 2} y={H - PAD.b + 12} textAnchor="middle" fontSize="9" fill="var(--text-muted)">{d.label}</text>
-          </g>
-        )
-      })}
-    </svg>
+    <div style={{ position: 'relative' }}>
+      <svg width="100%" viewBox={`0 0 ${W} ${H}`} onMouseLeave={() => setHovered(null)} style={{ overflow: 'visible' }}>
+        <defs>
+          <linearGradient id="bar-grad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#3b82f6" stopOpacity="1"/>
+            <stop offset="100%" stopColor="#a855f7" stopOpacity="0.8"/>
+          </linearGradient>
+          <linearGradient id="bar-grad-hov" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#60a5fa" stopOpacity="1"/>
+            <stop offset="100%" stopColor="#c084fc" stopOpacity="0.9"/>
+          </linearGradient>
+        </defs>
+        {[0, 0.25, 0.5, 0.75, 1].map((f, i) => {
+          const y = PAD.t + f * iH
+          return (
+            <g key={i}>
+              <line x1={PAD.l} y1={y} x2={W - PAD.r} y2={y} stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
+              <text x={PAD.l - 6} y={y + 3} textAnchor="end" fontSize="8" fill="#8b949e">{Math.round(max * (1 - f))}</text>
+            </g>
+          )
+        })}
+        {data.map((d, i) => {
+          const barH = (d.v / max) * iH
+          const x = PAD.l + i * gap + (gap - barW) / 2
+          const y = PAD.t + iH - barH
+          const isHov = hovered?.label === d.label
+          return (
+            <g key={d.label}
+              onMouseEnter={() => setHovered(d)}
+              style={{ cursor: 'pointer' }}
+            >
+              <rect x={x} y={PAD.t + iH} width={barW} height={1} rx="2" fill="rgba(59,130,246,0.2)"/>
+              <rect x={x} y={y} width={barW} height={barH} rx="4"
+                fill={isHov ? 'url(#bar-grad-hov)' : 'url(#bar-grad)'}
+                opacity={hovered ? (isHov ? 1 : 0.45) : 0.9}
+                style={{ filter: isHov ? 'drop-shadow(0 0 10px rgba(59,130,246,0.7))' : 'drop-shadow(0 0 4px rgba(59,130,246,0.3))', transition: 'all 0.15s' }}
+              />
+              <text x={x + barW / 2} y={y - 5} textAnchor="middle" fontSize="8" fill={isHov ? '#60a5fa' : '#3b82f6'} fontWeight="700">{d.v}</text>
+              <text x={PAD.l + i * gap + gap / 2} y={H - PAD.b + 12} textAnchor="middle" fontSize="9" fill={isHov ? '#e6edf3' : '#8b949e'} fontWeight={isHov ? '700' : '400'}>{d.label}</text>
+            </g>
+          )
+        })}
+      </svg>
+      {hovered && (
+        <div style={{
+          position: 'absolute', top: 4, left: '50%', transform: 'translateX(-50%)',
+          background: 'rgba(13,17,23,0.97)', border: '1px solid rgba(59,130,246,0.4)',
+          borderRadius: 8, padding: '7px 14px', pointerEvents: 'none', zIndex: 100,
+          whiteSpace: 'nowrap', boxShadow: '0 4px 16px rgba(0,0,0,0.5)',
+        }}>
+          <span style={{ fontSize: 11, color: '#8b949e' }}>{hovered.label}: </span>
+          <span style={{ fontSize: 13, color: '#3b82f6', fontWeight: 700, fontFamily: 'JetBrains Mono' }}>{hovered.v}</span>
+          <span style={{ fontSize: 10, color: '#8b949e', marginLeft: 6 }}>reports</span>
+        </div>
+      )}
+    </div>
   )
 }
 
@@ -121,6 +148,7 @@ function DonutChart({ data }) {
 }
 
 function DualLineChart({ data }) {
+  const [hovered, setHovered] = useState(null)
   const W = 620, H = 180, PAD = { t: 20, r: 20, b: 35, l: 50 }
   const iW = W - PAD.l - PAD.r, iH = H - PAD.t - PAD.b
   const maxR = Math.max(...data.map(d => d.reports)) * 1.1
@@ -131,33 +159,82 @@ function DualLineChart({ data }) {
   const rPath = data.map((d, i) => `${i === 0 ? 'M' : 'L'} ${PAD.l + (i / (data.length - 1)) * iW} ${scaleR(d.reports)}`).join(' ')
   const vPath = data.map((d, i) => `${i === 0 ? 'M' : 'L'} ${PAD.l + (i / (data.length - 1)) * iW} ${scaleV(d.vulns)}`).join(' ')
 
+  const pts = data.map((d, i) => ({
+    x: PAD.l + (i / (data.length - 1)) * iW,
+    yr: scaleR(d.reports),
+    yv: scaleV(d.vulns),
+    ...d,
+  }))
+
   return (
-    <svg width="100%" viewBox={`0 0 ${W} ${H}`}>
-      <defs>
-        <linearGradient id="rline-grad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.2"/>
-          <stop offset="100%" stopColor="#3b82f6" stopOpacity="0"/>
-        </linearGradient>
-      </defs>
-      {[0, 0.25, 0.5, 0.75, 1].map((f, i) => (
-        <line key={i} x1={PAD.l} y1={PAD.t + f * iH} x2={W - PAD.r} y2={PAD.t + f * iH} stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-      ))}
-      <path d={`${rPath} L ${W - PAD.r} ${H - PAD.b} L ${PAD.l} ${H - PAD.b} Z`} fill="url(#rline-grad)"/>
-      <path d={rPath} fill="none" stroke="#3b82f6" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d={vPath} fill="none" stroke="#f85149" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="5 3"/>
-      {data.map((d, i) => {
-        const x = PAD.l + (i / (data.length - 1)) * iW
-        return (
-          <g key={i}>
-            <circle cx={x} cy={scaleR(d.reports)} r="3.5" fill="#3b82f6" stroke="var(--bg-card)" strokeWidth="1.5"/>
-            <circle cx={x} cy={scaleV(d.vulns)} r="3" fill="#f85149" stroke="var(--bg-card)" strokeWidth="1.5"/>
-            <text x={x} y={H - PAD.b + 12} textAnchor="middle" fontSize="9" fill="var(--text-muted)">{d.label}</text>
-          </g>
-        )
-      })}
-      <text x={PAD.l} y={PAD.t - 6} fontSize="8" fill="rgba(59,130,246,0.8)" fontWeight="600">▬ Report Generation</text>
-      <text x={PAD.l + 130} y={PAD.t - 6} fontSize="8" fill="rgba(248,81,73,0.8)" fontWeight="600">╌ Vulnerability Trends</text>
-    </svg>
+    <div style={{ position: 'relative' }}>
+      <svg width="100%" viewBox={`0 0 ${W} ${H}`} onMouseLeave={() => setHovered(null)} style={{ overflow: 'visible' }}>
+        <defs>
+          <linearGradient id="rline-grad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.2"/>
+            <stop offset="100%" stopColor="#3b82f6" stopOpacity="0"/>
+          </linearGradient>
+        </defs>
+        {[0, 0.25, 0.5, 0.75, 1].map((f, i) => (
+          <line key={i} x1={PAD.l} y1={PAD.t + f * iH} x2={W - PAD.r} y2={PAD.t + f * iH} stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
+        ))}
+        <path d={`${rPath} L ${W - PAD.r} ${H - PAD.b} L ${PAD.l} ${H - PAD.b} Z`} fill="url(#rline-grad)"/>
+        <path d={rPath} fill="none" stroke="#3b82f6" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d={vPath} fill="none" stroke="#f85149" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="5 3"/>
+
+        {/* Hover guide */}
+        {hovered && (
+          <line x1={hovered.x} y1={PAD.t} x2={hovered.x} y2={PAD.t + iH}
+            stroke="rgba(255,255,255,0.15)" strokeWidth="1" strokeDasharray="3,3"
+            style={{ pointerEvents: 'none' }} />
+        )}
+
+        {pts.map((p, i) => {
+          const isHov = hovered?.label === p.label
+          return (
+            <g key={i}>
+              {/* Invisible hit area */}
+              <rect x={p.x - 15} y={PAD.t} width={30} height={iH}
+                fill="transparent"
+                onMouseEnter={() => setHovered(p)}
+                style={{ cursor: 'crosshair' }}
+              />
+              <circle cx={p.x} cy={p.yr} r={isHov ? 5 : 3.5} fill="#3b82f6" stroke="#0d1117" strokeWidth="1.5" style={{ pointerEvents: 'none', transition: 'r 0.1s' }}/>
+              <circle cx={p.x} cy={p.yv} r={isHov ? 4.5 : 3} fill="#f85149" stroke="#0d1117" strokeWidth="1.5" style={{ pointerEvents: 'none', transition: 'r 0.1s' }}/>
+              <text x={p.x} y={H - PAD.b + 12} textAnchor="middle" fontSize="9" fill={isHov ? '#e6edf3' : '#8b949e'} fontWeight={isHov ? '700' : '400'}>{p.label}</text>
+            </g>
+          )
+        })}
+        <text x={PAD.l} y={PAD.t - 6} fontSize="8" fill="rgba(59,130,246,0.8)" fontWeight="600">▬ Report Generation</text>
+        <text x={PAD.l + 130} y={PAD.t - 6} fontSize="8" fill="rgba(248,81,73,0.8)" fontWeight="600">╌ Vulnerability Trends</text>
+      </svg>
+
+      {hovered && (
+        <div style={{
+          position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
+          background: 'rgba(13,17,23,0.97)',
+          border: '1px solid rgba(255,255,255,0.12)',
+          borderRadius: 9, padding: '9px 16px',
+          pointerEvents: 'none', zIndex: 100,
+          whiteSpace: 'nowrap', boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
+          display: 'flex', gap: 18,
+        }}>
+          <div>
+            <div style={{ fontSize: 9, color: '#8b949e', marginBottom: 2, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{hovered.label}</div>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#3b82f6' }}/>
+            <span style={{ fontSize: 10, color: '#8b949e' }}>Reports </span>
+            <span style={{ fontSize: 13, color: '#3b82f6', fontWeight: 700, fontFamily: 'JetBrains Mono' }}>{hovered.reports}</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#f85149' }}/>
+            <span style={{ fontSize: 10, color: '#8b949e' }}>Vulns </span>
+            <span style={{ fontSize: 13, color: '#f85149', fontWeight: 700, fontFamily: 'JetBrains Mono' }}>{hovered.vulns}</span>
+          </div>
+        </div>
+      )}
+    </div>
   )
 }
 
@@ -643,7 +720,7 @@ export default function Reports({ osFilter, activeOrg }) {
       </div>
 
       {/* ── Recent Reports Table ── */}
-      <div className="card section" style={{ background: 'linear-gradient(145deg, var(--bg-card), var(--card-gradient-end))' }}>
+      {/* <div className="card section" style={{ background: 'linear-gradient(145deg, var(--bg-card), var(--card-gradient-end))' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
           <div style={{ width: 3, height: 14, background: '#3fb950', borderRadius: 2 }}/>
           <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-primary)' }}>Recent Reports</span>
@@ -710,7 +787,7 @@ export default function Reports({ osFilter, activeOrg }) {
             </tbody>
           </table>
         </div>
-      </div>
+      </div> */}
 
       {/* ── Action Cards ── */}
       <div className="grid-3 section">
