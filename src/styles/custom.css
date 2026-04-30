@@ -1,0 +1,123 @@
+/* Custom Animations for IntelliXBOM */
+
+/* ── Grid pan (Hero background) ─────────────────────────── */
+@keyframes gridPan {
+  from { background-position: 0 0; }
+  to   { background-position: 0 60px; }
+}
+.animate-grid-pan { animation: gridPan 20s linear infinite; }
+
+/* ── Marquee ─────────────────────────────────────────────── */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.animate-marquee { animation: marquee 30s linear infinite; }
+.pause-marquee:hover { animation-play-state: paused; }
+
+/* ── Float (gentle up-down) ──────────────────────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33%       { transform: translateY(-18px) rotate(1deg); }
+  66%       { transform: translateY(-8px) rotate(-1deg); }
+}
+.animate-float { animation: float 8s ease-in-out infinite; }
+
+@keyframes floatB {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-14px); }
+}
+.animate-float-b { animation: floatB 6s ease-in-out infinite 1.5s; }
+.animate-float-c { animation: floatB 10s ease-in-out infinite 3s; }
+
+/* ── Glow pulse ───────────────────────────────────────────── */
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.15; }
+  50%       { opacity: 0.35; }
+}
+.animate-glow-pulse { animation: glowPulse 3s ease-in-out infinite; }
+
+/* ── Blink cursor ─────────────────────────────────────────── */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+.animate-blink { animation: blink 1s step-end infinite; }
+
+/* ── Animated gradient text ───────────────────────────────── */
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradientShift 5s ease infinite;
+}
+
+/* ── Spin slow ────────────────────────────────────────────── */
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.animate-spin-slow { animation: spinSlow 20s linear infinite; }
+
+/* ── Shimmer ──────────────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -1000px 0; }
+  100% { background-position:  1000px 0; }
+}
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
+  background-size: 1000px 100%;
+  animation: shimmer 2.5s infinite linear;
+}
+
+/* ── Scan line ────────────────────────────────────────────── */
+@keyframes scanLine {
+  0%   { transform: translateY(-100%); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateY(2000%); opacity: 0; }
+}
+.animate-scan { animation: scanLine 4s linear infinite 1s; }
+
+/* ── Fade-in-up (utility) ─────────────────────────────────── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up { animation: fadeInUp 0.6s ease forwards; }
+
+/* ── Scale-in ─────────────────────────────────────────────── */
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.animate-scale-in { animation: scaleIn 0.5s ease forwards; }
+
+/* ── Neon border pulse ────────────────────────────────────── */
+@keyframes neonPulse {
+  0%, 100% { box-shadow: 0 0 8px rgba(67,97,238,0.3); }
+  50%       { box-shadow: 0 0 24px rgba(67,97,238,0.7), 0 0 48px rgba(67,97,238,0.3); }
+}
+.animate-neon { animation: neonPulse 2.5s ease-in-out infinite; }
+
+/* ── Custom Scrollbar ─────────────────────────────────────── */
+.custom-scrollbar::-webkit-scrollbar { width: 4px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: var(--app-scrollbar-thumb, rgba(255,255,255,0.08)); border-radius: 2px; }
+.custom-scrollbar::-webkit-scrollbar-thumb:hover { background: var(--app-scrollbar-thumb, rgba(255,255,255,0.14)); opacity: 0.7; }
+
+/* ── Global ───────────────────────────────────────────────── */
+html { scroll-behavior: smooth; color-scheme: dark; }
+html:not(.dark) { color-scheme: light; }
+::selection { background-color: rgba(67,97,238,0.3); color: white; }
+* { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+/* ── Light mode: force dark-bg panels to stay dark ───────── */
+html:not(.dark) .force-dark {
+  background: #0D1117 !important;
+  color: #FFFFFF;
+}
+html:not(.dark) .force-dark * { color: inherit; }
