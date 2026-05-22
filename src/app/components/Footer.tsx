@@ -1,165 +1,227 @@
-import { Linkedin, Github, Twitter } from 'lucide-react';
 import { Link } from 'react-router';
-import { motion } from 'motion/react';
-import { useTheme } from '../context/ThemeContext';
-import logoWhite from '../../assets/IntelliXbom-White.png';
-import logoDark from '../../assets/IntelliXbom-Dark.png';
+import { Linkedin, Github, Mail, MapPin, ArrowUpRight } from 'lucide-react';
+import LogoImage from './LogoImage';
 
-export default function Footer() {
-  const { isDark } = useTheme();
+function GlassIconButton({
+  href,
+  label,
+  children,
+}: {
+  href: string;
+  label: string;
+  children: React.ReactNode;
+}) {
   return (
-    <footer
-      className="relative pt-12 pb-8 px-6 overflow-hidden"
-      style={{ background: 'var(--app-bg)', borderTop: '1px solid var(--app-border-subtle)' }}
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={label}
+      className="group flex items-center gap-2.5 px-4 py-2.5 rounded-xl border border-[rgba(255,255,255,0.08)] hover:border-[rgba(0,212,255,0.35)] transition-all duration-300"
+      style={{ background: 'rgba(255,255,255,0.03)' }}
     >
-      {/* Ghost watermark */}
-      <div
-        className="absolute bottom-[-28px] left-1/2 -translate-x-1/2 pointer-events-none select-none whitespace-nowrap font-black tracking-tighter leading-none"
-        style={{
-          fontSize: 'clamp(80px, 14vw, 180px)',
-          color: 'var(--app-border)',
-          fontFamily: 'Inter, system-ui, sans-serif'
-        }}
-      >
-        INTELLIXBOM
-      </div>
-
-      {/* Top gradient line */}
-      <div
-        className="absolute top-0 left-0 right-0 h-px"
-        style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(67,97,238,0.45) 35%, rgba(0,212,170,0.3) 65%, transparent 100%)' }}
-      />
-
-      <div className="relative z-10 max-w-[1440px] mx-auto">
-        {/* Main grid */}
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-10 mb-10">
-          {/* Brand column */}
-          <div className="md:col-span-2">
-            <Link to="/" className="inline-flex items-center mb-4">
-              <img
-                src={isDark ? logoWhite : logoDark}
-                alt="IntelliXBOM"
-                className="h-7 w-auto"
-              />
-            </Link>
-            <p className="text-[13px] mb-7 max-w-[240px] leading-relaxed" style={{ color: 'var(--app-text-dimmer)' }}>
-              Complete Digital Trust for India's Regulated Infrastructure — field by field.
-            </p>
-            <div className="flex items-center gap-2.5">
-              {[
-                { href: 'https://linkedin.com', Icon: Linkedin, label: 'LinkedIn' },
-                { href: 'https://github.com',   Icon: Github,   label: 'GitHub' },
-                { href: 'https://twitter.com',  Icon: Twitter,  label: 'X / Twitter' },
-              ].map(({ href, Icon, label }) => (
-                <motion.a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={label}
-                  whileHover={{ scale: 1.12 }}
-                  whileTap={{ scale: 0.94 }}
-                  className="w-9 h-9 rounded-xl flex items-center justify-center transition-colors duration-200"
-                  style={{ color: 'var(--app-text-dimmer)', background: 'var(--app-elevated)', border: '1px solid var(--app-border)' }}
-                  onMouseEnter={e => {
-                    (e.currentTarget as HTMLElement).style.color = 'var(--app-text-primary)';
-                    (e.currentTarget as HTMLElement).style.borderColor = 'rgba(67,97,238,0.45)';
-                  }}
-                  onMouseLeave={e => {
-                    (e.currentTarget as HTMLElement).style.color = 'var(--app-text-dimmer)';
-                    (e.currentTarget as HTMLElement).style.borderColor = 'var(--app-border)';
-                  }}
-                >
-                  <Icon className="w-4 h-4" />
-                </motion.a>
-              ))}
-            </div>
-          </div>
-
-          <FooterColumn
-            title="Platform"
-            links={[
-              { label: 'SBOM', href: '/bom-types#sbom' },
-              { label: 'CBOM', href: '/bom-types#cbom' },
-              { label: 'QBOM', href: '/bom-types#qbom' },
-              { label: 'AIBOM', href: '/bom-types#aibom' },
-              { label: 'HBOM', href: '/bom-types#hbom' },
-              { label: 'Platform Overview', href: '/platform' },
-            ]}
-          />
-          <FooterColumn
-            title="Compliance"
-            links={[
-              { label: 'CERT-In v2.0', href: '/compliance#cert-in' },
-              { label: 'RBI Advisory', href: '/compliance#rbi' },
-              { label: 'MeitY 2025', href: '/compliance#meity' },
-              { label: 'NCIIPC', href: '/compliance#nciipc' },
-              { label: 'SEBI', href: '/compliance#sebi' },
-            ]}
-          />
-          <FooterColumn
-            title="Company"
-            links={[
-              { label: 'About Us', href: '/about' },
-              { label: 'Blog', href: '/blog' },
-              { label: 'Why IxBOM', href: '/why' },
-              { label: 'BOM Comparison', href: '/compare' },
-              { label: 'Compliance', href: '/compliance' },
-              { label: 'Contact Us', href: '#contact' },
-            ]}
-          />
-        </div>
-
-        {/* Bottom bar */}
-        <div
-          className="pt-6 flex flex-col md:flex-row items-center justify-between gap-3"
-          style={{ borderTop: '1px solid var(--app-border-subtle)' }}
-        >
-          <p className="text-[12px] select-none" style={{ color: 'var(--app-text-dimmer)' }}>
-            © 2026 IntelliXBOM · Built for India's Digital Sovereignty
-          </p>
-          <div className="flex items-center gap-5">
-            {['Privacy Policy', 'Terms of Service', 'Security'].map(item => (
-              <Link
-                key={item}
-                to={`#${item.toLowerCase().replace(/\s+/g, '-')}`}
-                className="text-[12px] transition-colors duration-200"
-                style={{ color: 'var(--app-text-dimmer)' }}
-                onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = 'var(--app-text-muted)')}
-                onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = 'var(--app-text-dimmer)')}
-              >
-                {item}
-              </Link>
-            ))}
-          </div>
-        </div>
-      </div>
-    </footer>
+      <span className="text-[#8A9BB5] group-hover:text-[#00D4FF] transition-colors duration-300">
+        {children}
+      </span>
+    </a>
   );
 }
 
-function FooterColumn({ title, links }: { title: string; links: { label: string; href: string }[] }) {
+const companyLinks = [
+  { label: 'About',    path: '/about' },
+  { label: 'Pillars',  path: '/pillars' },
+  { label: 'Services', path: '/services' },
+  { label: 'Contact',  path: '/contact' },
+];
+
+const capabilityLinks = [
+  { label: 'Cloud Native',        path: '/services#cloud-native' },
+  { label: 'Platform Engineering', path: '/services#platform-eng' },
+  { label: 'AIOps',               path: '/services#aiops' },
+  { label: 'Security',            path: '/services#security' },
+  { label: 'App Modernization',   path: '/services#app-modernization' },
+  { label: 'Data & AI',           path: '/services#data-ai' },
+];
+
+export default function Footer() {
   return (
-    <div>
-      <h4 className="text-[10px] uppercase tracking-[0.14em] font-black mb-5 select-none" style={{ color: 'var(--app-text-dimmer)' }}>
-        {title}
-      </h4>
-      <ul className="space-y-3">
-        {links.map(link => (
-          <li key={link.label}>
-            <Link
-              to={link.href}
-              className="text-[13px] transition-colors duration-150"
-              style={{ color: 'var(--app-text-dimmer)' }}
-              onClick={() => window.scrollTo({ top: 0, behavior: 'instant' })}
-              onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = 'var(--app-text-muted)')}
-              onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = 'var(--app-text-dimmer)')}
-            >
-              {link.label}
+    <footer className="relative bg-[#050810] text-[#F0F4FF]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+
+      {/* ── Top gradient accent line ── */}
+      <div
+        aria-hidden="true"
+        className="absolute top-0 left-0 right-0 h-[1.5px]"
+        style={{
+          background:
+            'linear-gradient(90deg, transparent 0%, #7B2FFF 20%, #00D4FF 50%, #7B2FFF 80%, transparent 100%)',
+        }}
+      />
+
+      {/* ── Subtle radial ambient glow behind content ── */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[300px] opacity-[0.07]"
+        style={{
+          background: 'radial-gradient(ellipse at 50% 0%, #7B2FFF 0%, #00D4FF 50%, transparent 75%)',
+          filter: 'blur(48px)',
+        }}
+      />
+
+      {/* ── Main grid ── */}
+      <div className="relative max-w-[1400px] mx-auto px-6 md:px-12 pt-20 pb-12">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8 mb-16">
+
+          {/* ── Col 1: Brand (wider) ── */}
+          <div className="md:col-span-4 flex flex-col gap-5">
+            <Link to="/" className="flex items-center select-none w-fit">
+              <LogoImage height={44} />
             </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
+
+            <div className="space-y-1">
+              <p className="text-base font-semibold text-[#F0F4FF]">
+                Engineering Intelligence. Built Native.
+              </p>
+              <p className="text-sm text-[#8A9BB5] leading-relaxed">
+                Platform engineering for the AI-native enterprise.
+              </p>
+            </div>
+
+            {/* Social buttons */}
+            <div className="flex items-center gap-3 mt-1">
+              <GlassIconButton href="https://linkedin.com/company/intellinative" label="LinkedIn">
+                <span className="flex items-center gap-2 text-sm font-medium">
+                  <Linkedin size={16} />
+                  LinkedIn
+                </span>
+              </GlassIconButton>
+              <GlassIconButton href="https://github.com/intellinative" label="GitHub">
+                <span className="flex items-center gap-2 text-sm font-medium">
+                  <Github size={16} />
+                  GitHub
+                </span>
+              </GlassIconButton>
+            </div>
+          </div>
+
+          {/* ── Col 2: Company ── */}
+          <div className="md:col-span-2 md:col-start-6">
+            <h4 className="text-xs font-semibold uppercase tracking-widest text-[#8A9BB5] mb-5">
+              Company
+            </h4>
+            <ul className="space-y-3">
+              {companyLinks.map((link) => (
+                <li key={link.path}>
+                  <Link
+                    to={link.path}
+                    className="text-sm text-[#8A9BB5] hover:text-[#F0F4FF] transition-colors duration-200 group flex items-center gap-1"
+                  >
+                    <span className="relative">
+                      {link.label}
+                      <span
+                        className="absolute -bottom-px left-0 h-[1px] w-0 group-hover:w-full transition-all duration-300 rounded-full"
+                        style={{ background: 'linear-gradient(90deg, #7B2FFF, #00D4FF)' }}
+                      />
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* ── Col 3: Capabilities ── */}
+          <div className="md:col-span-3">
+            <h4 className="text-xs font-semibold uppercase tracking-widest text-[#8A9BB5] mb-5">
+              Capabilities
+            </h4>
+            <ul className="space-y-3">
+              {capabilityLinks.map((link) => (
+                <li key={link.path}>
+                  <Link
+                    to={link.path}
+                    className="text-sm text-[#8A9BB5] hover:text-[#F0F4FF] transition-colors duration-200 group flex items-center gap-1"
+                  >
+                    <span className="relative">
+                      {link.label}
+                      <span
+                        className="absolute -bottom-px left-0 h-[1px] w-0 group-hover:w-full transition-all duration-300 rounded-full"
+                        style={{ background: 'linear-gradient(90deg, #7B2FFF, #00D4FF)' }}
+                      />
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* ── Col 4: Connect ── */}
+          <div className="md:col-span-3">
+            <h4 className="text-xs font-semibold uppercase tracking-widest text-[#8A9BB5] mb-5">
+              Connect
+            </h4>
+
+            <div className="space-y-4 mb-6">
+              <a
+                href="mailto:hello@intellinative.com"
+                className="flex items-center gap-3 group"
+              >
+                <span
+                  className="flex items-center justify-center w-8 h-8 rounded-lg border border-[rgba(255,255,255,0.08)] group-hover:border-[rgba(0,212,255,0.35)] transition-all duration-300"
+                  style={{ background: 'rgba(255,255,255,0.03)' }}
+                >
+                  <Mail size={14} className="text-[#8A9BB5] group-hover:text-[#00D4FF] transition-colors duration-300" />
+                </span>
+                <span className="text-sm text-[#8A9BB5] group-hover:text-[#F0F4FF] transition-colors duration-200">
+                  hello@intellinative.com
+                </span>
+              </a>
+
+              <div className="flex items-center gap-3">
+                <span
+                  className="flex items-center justify-center w-8 h-8 rounded-lg border border-[rgba(255,255,255,0.08)]"
+                  style={{ background: 'rgba(255,255,255,0.03)' }}
+                >
+                  <MapPin size={14} className="text-[#8A9BB5]" />
+                </span>
+                <span className="text-sm text-[#8A9BB5]">India · Global Delivery</span>
+              </div>
+            </div>
+
+            {/* Get in Touch glass button */}
+            <Link
+              to="/contact"
+              className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-[rgba(255,255,255,0.1)] hover:border-[rgba(0,212,255,0.4)] transition-all duration-300 text-sm font-medium text-[#F0F4FF]"
+              style={{ background: 'rgba(255,255,255,0.04)', backdropFilter: 'blur(8px)' }}
+            >
+              Get in Touch
+              <ArrowUpRight
+                size={15}
+                className="text-[#8A9BB5] group-hover:text-[#00D4FF] transition-colors duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transform"
+              />
+            </Link>
+          </div>
+        </div>
+
+        {/* ── Bottom bar ── */}
+        <div
+          className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3"
+          style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}
+        >
+          <p className="text-xs text-[#8A9BB5] opacity-70">
+            © 2025 Intellinative. All rights reserved.
+          </p>
+          <p
+            className="text-xs font-medium opacity-70"
+            style={{
+              background: 'linear-gradient(90deg, #7B2FFF, #00D4FF)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+            }}
+          >
+            Built with intelligence.
+          </p>
+        </div>
+      </div>
+    </footer>
   );
 }
