@@ -49,12 +49,12 @@ export default function DemoModal() {
           background: 'var(--app-card)',
           border: '1px solid var(--app-border)',
           boxShadow: isDark
-            ? '0 40px 100px rgba(0,0,0,0.8), 0 0 60px rgba(67,97,238,0.18)'
-            : '0 24px 80px rgba(0,0,0,0.15), 0 0 40px rgba(67,97,238,0.1)'
+            ? '0 40px 100px rgba(0,0,0,0.8), 0 0 60px rgba(0,177,220,0.18)'
+            : '0 24px 80px rgba(0,0,0,0.15), 0 0 40px rgba(0,177,220,0.1)'
         }}
       >
         {/* Header strip */}
-        <div className="h-1" style={{ background: 'linear-gradient(90deg, #4361EE, #00D4AA)' }} />
+        <div className="h-1" style={{ background: 'linear-gradient(90deg, var(--c5), var(--c4))' }} />
 
         {/* Close */}
         <button
@@ -106,7 +106,7 @@ export default function DemoModal() {
                 <div className="flex items-center gap-2 mb-4">
                   <div
                     className="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold text-white"
-                    style={{ background: 'linear-gradient(135deg, #4361EE, #3A0CA3)' }}
+                    style={{ background: 'linear-gradient(135deg, var(--c5), var(--c6))' }}
                   >
                     IX
                   </div>
@@ -118,7 +118,7 @@ export default function DemoModal() {
                   Request a Demo
                 </h2>
                 <p className="text-sm" style={{ color: 'var(--app-text-muted)' }}>
-                  See IntelliXBOM in action — tailored to your compliance environment.
+                  See IntelliXBOM in action tailored to your compliance environment.
                 </p>
               </div>
 
@@ -136,7 +136,7 @@ export default function DemoModal() {
                       placeholder="Rahul Sharma"
                       className="w-full px-3 py-2.5 text-sm rounded-lg outline-none transition-colors"
                       style={inputStyle}
-                      onFocus={e => (e.currentTarget.style.borderColor = 'rgba(67,97,238,0.6)')}
+                      onFocus={e => (e.currentTarget.style.borderColor = 'rgba(0,177,220,0.6)')}
                       onBlur={e => (e.currentTarget.style.borderColor = 'var(--app-border)')}
                     />
                   </div>
@@ -152,7 +152,7 @@ export default function DemoModal() {
                       placeholder="you@company.com"
                       className="w-full px-3 py-2.5 text-sm rounded-lg outline-none transition-colors"
                       style={inputStyle}
-                      onFocus={e => (e.currentTarget.style.borderColor = 'rgba(67,97,238,0.6)')}
+                      onFocus={e => (e.currentTarget.style.borderColor = 'rgba(0,177,220,0.6)')}
                       onBlur={e => (e.currentTarget.style.borderColor = 'var(--app-border)')}
                     />
                   </div>
@@ -170,7 +170,7 @@ export default function DemoModal() {
                     placeholder="State Bank of India, NTPC, IRCTC..."
                     className="w-full px-3 py-2.5 text-sm rounded-lg outline-none transition-colors"
                     style={inputStyle}
-                    onFocus={e => (e.currentTarget.style.borderColor = 'rgba(67,97,238,0.6)')}
+                    onFocus={e => (e.currentTarget.style.borderColor = 'rgba(0,177,220,0.6)')}
                     onBlur={e => (e.currentTarget.style.borderColor = 'var(--app-border)')}
                   />
                 </div>
@@ -198,8 +198,8 @@ export default function DemoModal() {
                   type="submit"
                   className="w-full py-3 text-sm font-semibold text-white rounded-lg transition-all hover:-translate-y-0.5 mt-1"
                   style={{
-                    background: 'linear-gradient(135deg, #4361EE 0%, #3A0CA3 100%)',
-                    boxShadow: '0 0 24px rgba(67,97,238,0.4)'
+                    background: 'var(--c5)',
+                    boxShadow: '0 0 24px rgba(0,177,220,0.4)'
                   }}
                 >
                   Request Demo →

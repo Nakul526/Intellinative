@@ -1,127 +1,144 @@
-@custom-variant dark (&:is(.dark *));
+/* ============================================================
+   IntelliXBOM Brand Design System v1.1
+   Light theme only. Based on official brand guidelines.
+   ============================================================ */
 
+/* Cyan / Teal Primary Brand */
 :root {
-  /* App-specific theme variables — light mode */
-  --app-bg: #F5F7FC;
-  --app-bg-alt: #EEF1F8;
-  --app-card: #FFFFFF;
-  --app-elevated: #F0F3FA;
-  --app-card-semi: rgba(240,243,250,0.94);
-  --app-text-primary: #0D1117;
-  --app-text-secondary: #334155;
-  --app-text-muted: #64748B;
-  --app-text-dim: #94A3B8;
-  --app-text-dimmer: #CBD5E1;
-  --app-border: rgba(0,0,0,0.08);
-  --app-border-subtle: rgba(0,0,0,0.05);
-  --app-border-dim: rgba(0,0,0,0.06);
-  --app-navbar-bg: rgba(245,247,252,0.92);
-  --app-navbar-border: rgba(0,0,0,0.1);
-  --app-navbar-shadow: 0 8px 40px rgba(0,0,0,0.08);
-  --app-dropdown-bg: rgba(248,249,253,0.98);
-  --app-mobile-menu-bg: rgba(245,247,252,0.98);
+  --c1: #E6F7FC;
+  --c2: #C2EAF5;
+  --c3: #8FDAED;
+  --c4: #3DC7F6;
+  --c5: #00B1DC;   /* ★ BRAND primary CTA, links, accents */
+  --c6: #0092C4;   /* hover state */
+  --c7: #007AA6;
+  --c8: #005A87;
+  --c9: #003D5F;
+  --c10: #002A40;
+
+  /* Navy / Deep Slate text & dark surfaces */
+  --n1: #F4F6FA;
+  --n2: #E5E9F0;
+  --n3: #C5CCD8;
+  --n5: #6B7589;
+  --n7: #2D3447;
+  --n8: #1A2030;
+  --n9: #0E1A2E;   /* ★ "Intelli" wordmark / headlines */
+  --n10: #060B14;  /* dark hero BG (used in hero/footer sections) */
+
+  /* Paper light surfaces (cool neutrals) */
+  --p0: #FFFFFF;
+  --p1: #FAFBFC;   /* ★ page background */
+  --p2: #F2F4F8;
+  --p3: #E5E8EE;
+  --p4: #D0D5DE;
+
+  /* Ink text tokens */
+  --ink-500: #6B7589;
+  --ink-600: #4A5570;
+  --ink-700: #2D3447;
+  --ink-800: #1A2030;
+  --ink-950: #0E1A2E;
+
+  /* Gold institutional accent (compliance badges, Live pills) */
+  --gold-1: #FBF5E5;
+  --gold-5: #C8941F;
+  --gold-7: #8C620E;
+
+  /* Semantic */
+  --sem-critical: #E53935;
+  --sem-critical-bg: #FDECEC;
+  --sem-warning: #F59E0B;
+  --sem-warning-bg: #FEF4E0;
+  --sem-info: #00B1DC;
+  --sem-info-bg: #E6F7FC;
+  --sem-success: #10B981;
+  --sem-success-bg: #E6F8F2;
+
+  /* BOM Module hues */
+  --m-sbom: #00B1DC;
+  --m-cbom: #5B6CFF;
+  --m-qbom: #8B5CF6;
+  --m-aibom: #C8941F;
+  --m-hbom: #4A5570;
+
+  /* ── App-level semantic tokens (used in components) ── */
+  --app-bg:             var(--p1);
+  --app-bg-alt:         var(--p2);
+  --app-card:           var(--p0);
+  --app-elevated:       var(--p2);
+  --app-card-semi:      rgba(250,251,252,0.96);
+
+  --app-text-primary:   var(--ink-950);
+  --app-text-secondary: var(--ink-700);
+  --app-text-muted:     var(--ink-600);
+  --app-text-dim:       var(--ink-500);
+  --app-text-dimmer:    var(--n3);
+
+  --app-border:         var(--p3);
+  --app-border-subtle:  var(--p4);
+  --app-border-dim:     var(--p3);
+
+  --app-navbar-bg:      rgba(250,251,252,0.92);
+  --app-navbar-border:  var(--p3);
+  --app-navbar-shadow:  0 4px 24px rgba(14,26,46,.07);
+  --app-dropdown-bg:    rgba(255,255,255,0.98);
+  --app-mobile-menu-bg: rgba(250,251,252,0.98);
+
   --app-scrollbar-thumb: rgba(0,0,0,0.12);
-  --app-dot-grid: rgba(0,0,0,0.12);
-  --app-grid-line: rgba(0,0,0,0.04);
+  --app-dot-grid:        rgba(0,0,0,0.09);
+  --app-grid-line:       rgba(0,0,0,0.04);
 
-  --font-size: 16px;
-  --background: #ffffff;
-  --foreground: oklch(0.145 0 0);
-  --card: #ffffff;
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: #030213;
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.95 0.0058 264.53);
-  --secondary-foreground: #030213;
-  --muted: #ececf0;
-  --muted-foreground: #717182;
-  --accent: #e9ebef;
-  --accent-foreground: #030213;
-  --destructive: #d4183d;
-  --destructive-foreground: #ffffff;
-  --border: rgba(0, 0, 0, 0.1);
+  /* ── Shadcn / Radix UI tokens ── */
+  --font-size: 15px;
+  --background: #FAFBFC;
+  --foreground: #0E1A2E;
+  --card: #FFFFFF;
+  --card-foreground: #0E1A2E;
+  --popover: #FFFFFF;
+  --popover-foreground: #0E1A2E;
+  --primary: #00B1DC;
+  --primary-foreground: #FFFFFF;
+  --secondary: #F2F4F8;
+  --secondary-foreground: #0E1A2E;
+  --muted: #F2F4F8;
+  --muted-foreground: #6B7589;
+  --accent: #E6F7FC;
+  --accent-foreground: #007AA6;
+  --destructive: #E53935;
+  --destructive-foreground: #FFFFFF;
+  --border: #E5E8EE;
   --input: transparent;
-  --input-background: #f3f3f5;
-  --switch-background: #cbced4;
+  --input-background: #F2F4F8;
+  --switch-background: #C5CCD8;
   --font-weight-medium: 500;
   --font-weight-normal: 400;
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: #030213;
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-}
+  --ring: #00B1DC;
+  --chart-1: #00B1DC;
+  --chart-2: #5B6CFF;
+  --chart-3: #8B5CF6;
+  --chart-4: #C8941F;
+  --chart-5: #10B981;
+  --radius: 0.5rem;
+  --sidebar: #F2F4F8;
+  --sidebar-foreground: #0E1A2E;
+  --sidebar-primary: #00B1DC;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #E6F7FC;
+  --sidebar-accent-foreground: #007AA6;
+  --sidebar-border: #E5E8EE;
+  --sidebar-ring: #00B1DC;
 
-.dark {
-  /* App-specific theme variables — dark mode */
-  --app-bg: #05070F;
-  --app-bg-alt: #0A0D14;
-  --app-card: #0D1117;
-  --app-elevated: #141A26;
-  --app-card-semi: rgba(13,17,23,0.92);
-  --app-text-primary: #FFFFFF;
-  --app-text-secondary: #CBD5E1;
-  --app-text-muted: #94A3B8;
-  --app-text-dim: #64748B;
-  --app-text-dimmer: #4B5563;
-  --app-border: rgba(255,255,255,0.07);
-  --app-border-subtle: rgba(255,255,255,0.05);
-  --app-border-dim: rgba(255,255,255,0.06);
-  --app-navbar-bg: rgba(5,7,15,0.88);
-  --app-navbar-border: rgba(255,255,255,0.07);
-  --app-navbar-shadow: 0 8px 40px rgba(0,0,0,0.35);
-  --app-dropdown-bg: rgba(10,13,20,0.97);
-  --app-mobile-menu-bg: rgba(8,10,18,0.97);
-  --app-scrollbar-thumb: rgba(255,255,255,0.08);
-  --app-dot-grid: rgba(255,255,255,0.8);
-  --app-grid-line: rgba(255,255,255,0.02);
+  /* Typography */
+  --f-d: 'Inter', system-ui, -apple-system, sans-serif;
+  --f-m: 'JetBrains Mono', 'Fira Code', monospace;
 
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.145 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.145 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.985 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.396 0.141 25.723);
-  --destructive-foreground: oklch(0.637 0.237 25.331);
-  --border: oklch(0.269 0 0);
-  --input: oklch(0.269 0 0);
-  --ring: oklch(0.439 0 0);
-  --font-weight-medium: 500;
-  --font-weight-normal: 400;
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(0.269 0 0);
-  --sidebar-ring: oklch(0.439 0 0);
+  /* Shadows */
+  --sh-xs: 0 1px 2px rgba(14,26,46,.04);
+  --sh-sm: 0 2px 4px rgba(14,26,46,.06), 0 1px 2px rgba(14,26,46,.04);
+  --sh-md: 0 4px 12px rgba(14,26,46,.08), 0 2px 4px rgba(14,26,46,.04);
+  --sh-lg: 0 12px 32px rgba(14,26,46,.10), 0 4px 8px rgba(14,26,46,.05);
+  --sh-glow: 0 0 32px rgba(0,177,220,.25);
 }
 
 @theme inline {
@@ -168,60 +185,75 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    box-sizing: border-box;
+  }
+
+  html {
+    font-size: var(--font-size);
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "ss01","cv11","tnum";
   }
 
   body {
     @apply bg-background text-foreground;
+    font-family: var(--f-d);
+    line-height: 1.6;
   }
 
-  /**
-  * Default typography styles for HTML elements (h1-h4, p, label, button, input).
-  * These are in @layer base, so Tailwind utility classes (like text-sm, text-lg) automatically override them.
-  */
-
-  html {
-    font-size: var(--font-size);
+  code, pre, kbd, samp, .mono {
+    font-family: var(--f-m);
   }
 
-  h1 {
-    font-size: var(--text-2xl);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
+  h1 { font-size: 2.5rem;  font-weight: 700; line-height: 1.05; letter-spacing: -0.035em; }
+  h2 { font-size: 2rem;    font-weight: 700; line-height: 1.08; letter-spacing: -0.025em; }
+  h3 { font-size: 1.5rem;  font-weight: 700; line-height: 1.15; letter-spacing: -0.020em; }
+  h4 { font-size: 1.25rem; font-weight: 700; line-height: 1.25; letter-spacing: -0.015em; }
+  label  { font-size: 0.9375rem; font-weight: 500; line-height: 1.5; }
+  button { font-size: 0.9375rem; font-weight: 600; line-height: 1; }
+  input  { font-size: 0.9375rem; font-weight: 400; line-height: 1.5; }
 
-  h2 {
-    font-size: var(--text-xl);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--app-scrollbar-thumb); border-radius: 4px; }
+}
 
-  h3 {
-    font-size: var(--text-lg);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
+/* ── Animations ───────────────────────────────────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-16px); }
+}
+@keyframes float-b {
+  0%, 100% { transform: translateY(0px) translateX(0); }
+  50%       { transform: translateY(10px) translateX(-8px); }
+}
+@keyframes grid-pan {
+  0%   { background-position: 0 0; }
+  100% { background-position: 72px 72px; }
+}
+@keyframes shimmer {
+  0%   { transform: translateX(-100%) skewX(-12deg); }
+  100% { transform: translateX(300%) skewX(-12deg); }
+}
+@keyframes gradientShift {
+  0%,100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+@keyframes pulse-ring {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50%       { opacity: 0; transform: scale(1.35); }
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.35; }
+}
 
-  h4 {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
-
-  label {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
-
-  button {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
-
-  input {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-normal);
-    line-height: 1.5;
-  }
+.animate-float   { animation: float   6s ease-in-out infinite; }
+.animate-float-b { animation: float-b 8s ease-in-out infinite; }
+.animate-grid-pan { animation: grid-pan 28s linear infinite; }
+.animate-shimmer {
+  position: absolute; inset: 0;
+  background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.22) 50%, transparent 65%);
+  animation: shimmer 1.8s ease-in-out infinite;
 }

@@ -21,7 +21,7 @@ export default function BlogPostPage() {
 
   useEffect(() => {
     if (!post) return;
-    const title = `${post.title} — IntelliXBOM Blog`;
+    const title = `${post.title} IntelliXBOM Blog`;
     document.title = title;
     setMeta('og:title', title);
     setMeta('og:description', post.excerpt);
@@ -31,7 +31,7 @@ export default function BlogPostPage() {
     setMetaName('twitter:description', post.excerpt);
     setMetaName('description', post.excerpt);
     return () => {
-      document.title = 'IntelliXBOM — Complete BOM Governance for India\'s Regulated Infrastructure';
+      document.title = 'IntelliXBOM Complete BOM Governance for India\'s Regulated Infrastructure';
     };
   }, [post]);
 
@@ -177,7 +177,7 @@ function CertInFieldsArticle() {
     <div className="space-y-8 pt-10">
       <ArticleParagraph>
         India's CERT-In SBOM Technical Guidelines v2.0 (July 2025) define <strong style={{ color: 'var(--app-text-primary)' }}>21 mandatory fields</strong> that
-        every BOM component must carry. These aren't suggestions — they're the minimum bar for compliance across
+        every BOM component must carry. These aren't suggestions they're the minimum bar for compliance across
         regulated sectors including banking, critical infrastructure, government IT, and capital markets.
       </ArticleParagraph>
 
@@ -189,7 +189,7 @@ function CertInFieldsArticle() {
 
       <ArticleCallout>
         Our analysis of 200+ vendor-supplied CycloneDX SBOMs found average compliance of 34% against
-        CERT-In's 21-field checklist. The gap is not a tool problem — it's a process problem.
+        CERT-In's 21-field checklist. The gap is not a tool problem it's a process problem.
       </ArticleCallout>
 
       <ArticleH2>The 21 Fields: What They Require and Where Teams Fail</ArticleH2>
@@ -244,14 +244,14 @@ function CertInFieldsArticle() {
 
       <ArticleParagraph>
         The result: a technically valid SBOM that passes format validation but fails a CERT-In field audit.
-        This is why teams hand over SBOMs to procurement with confidence — until a regulator actually checks.
+        This is why teams hand over SBOMs to procurement with confidence until a regulator actually checks.
       </ArticleParagraph>
 
       <ArticleH2>How IntelliXBOM Closes the Gap</ArticleH2>
 
       <div className="space-y-3 my-6">
         {[
-          { step: '1', title: 'Import any format', desc: 'Ingest CycloneDX 1.4/1.5 or SPDX 2.2/2.3 — IntelliXBOM parses and normalises both.' },
+          { step: '1', title: 'Import any format', desc: 'Ingest CycloneDX 1.4/1.5 or SPDX 2.2/2.3 IntelliXBOM parses and normalises both.' },
           { step: '2', title: 'Field-level validation', desc: 'Every component is checked against all 21 mandatory fields with explicit pass/fail/warn per field.' },
           { step: '3', title: 'Automatic enrichment', desc: 'CVE correlation, EOL lookups, and PURL normalisation are applied automatically from live feeds.' },
           { step: '4', title: 'Compliance ceiling report', desc: 'A single score showing your current compliance ceiling and the exact fields blocking 100%.' },
@@ -270,7 +270,7 @@ function CertInFieldsArticle() {
       </div>
 
       <ArticleParagraph>
-        The goal isn't to replace your existing SBOM tooling — it's to add the validation and enrichment
+        The goal isn't to replace your existing SBOM tooling it's to add the validation and enrichment
         layer that turns a technically valid BOM into a regulatorily compliant one.
       </ArticleParagraph>
 
@@ -293,7 +293,7 @@ function QuantumReadinessArticle() {
     <div className="space-y-8 pt-10">
       <ArticleParagraph>
         The cryptographic infrastructure protecting your organisation's data was built for a classical computing
-        world. Quantum computers — when they arrive at sufficient scale — will break RSA, ECDSA, and Diffie-Hellman
+        world. Quantum computers when they arrive at sufficient scale will break RSA, ECDSA, and Diffie-Hellman
         in hours, not years. The National Institute of Standards and Technology finalised its first three
         post-quantum cryptography (PQC) standards in August 2024. The migration clock is running.
       </ArticleParagraph>
@@ -368,19 +368,19 @@ function QuantumReadinessArticle() {
 
       <ArticleParagraph>
         NIST's PQC timeline projects widespread quantum threat capability between 2030 and 2035. That sounds
-        distant — until you account for the 3–5 year average migration time for critical infrastructure and the
+        distant until you account for the 3–5 year average migration time for critical infrastructure and the
         "harvest now, decrypt later" attacks already underway today.
       </ArticleParagraph>
 
       <ArticleCallout>
         Harvest now, decrypt later: adversaries are recording encrypted traffic today to decrypt it once
-        quantum computers are available. The threat is not future — the data exposure starts now.
+        quantum computers are available. The threat is not future the data exposure starts now.
       </ArticleCallout>
 
       <ArticleParagraph>
         IntelliXBOM's CBOM module generates a complete cryptographic inventory from your infrastructure,
         scores each asset for quantum vulnerability, and tracks your migration to NIST PQC algorithms over
-        time — integrated with your CI/CD pipeline so new cryptographic assets are discovered automatically.
+        time integrated with your CI/CD pipeline so new cryptographic assets are discovered automatically.
       </ArticleParagraph>
 
       <div className="rounded-2xl p-8 mt-12 text-center" style={{ background: 'rgba(139,92,246,0.08)', border: '1px solid rgba(139,92,246,0.25)' }}>
@@ -402,12 +402,12 @@ function HBOMArticle() {
     <div className="space-y-8 pt-10">
       <ArticleParagraph>
         Software supply chain security has dominated the conversation since the SolarWinds incident. But the
-        physical layer — the chips, firmware, and hardware components that software runs on — is equally
+        physical layer the chips, firmware, and hardware components that software runs on is equally
         exposed, and far less scrutinised.
       </ArticleParagraph>
 
       <ArticleParagraph>
-        For India's Public Sector Undertakings (PSUs) — NTPC, ONGC, ISRO, Indian Railways, state-owned banks —
+        For India's Public Sector Undertakings (PSUs) NTPC, ONGC, ISRO, Indian Railways, state-owned banks —
         hardware procurement spans thousands of vendors across multiple countries. The risk isn't hypothetical.
         State-sponsored hardware implants, counterfeit components, and firmware backdoors have been documented
         in military and industrial contexts globally.
@@ -415,7 +415,7 @@ function HBOMArticle() {
 
       <ArticleCallout>
         A Hardware Bill of Materials (HBOM) is the inventory layer that makes hardware supply chain risk
-        visible, auditable, and manageable — before deployment, not after incident.
+        visible, auditable, and manageable before deployment, not after incident.
       </ArticleCallout>
 
       <ArticleH2>What an HBOM Contains</ArticleH2>
@@ -478,7 +478,7 @@ function HBOMArticle() {
       <ArticleH2>Starting Your HBOM Programme</ArticleH2>
 
       <ArticleParagraph>
-        Most organisations try to build an HBOM from procurement records — and fail. Purchase orders don't
+        Most organisations try to build an HBOM from procurement records and fail. Purchase orders don't
         track firmware versions, lot numbers, or TPM states. A true HBOM requires either agent-based discovery
         (running on each host) or API integration with your hardware management layer (iDRAC, iLO, IPMI).
       </ArticleParagraph>
@@ -486,7 +486,7 @@ function HBOMArticle() {
       <ArticleParagraph>
         IntelliXBOM's HBOM module integrates with your BMC APIs and infrastructure management tools to
         automatically discover and inventory hardware components, correlate firmware versions against
-        vulnerability feeds, and generate NCIIPC-formatted compliance reports — without requiring agents
+        vulnerability feeds, and generate NCIIPC-formatted compliance reports without requiring agents
         on air-gapped systems.
       </ArticleParagraph>
 
@@ -515,7 +515,7 @@ function AIBOMArticle() {
       </ArticleParagraph>
 
       <ArticleParagraph>
-        The answer requires an <strong style={{ color: 'var(--app-text-primary)' }}>AI Bill of Materials (AIBOM)</strong> — a structured
+        The answer requires an <strong style={{ color: 'var(--app-text-primary)' }}>AI Bill of Materials (AIBOM)</strong> a structured
         inventory of every AI/ML model, training dataset, inference framework, and third-party AI service in
         your stack. Without it, you can't answer a regulator's questions, you can't assess risk, and you can't
         respond to an incident.
@@ -574,7 +574,7 @@ function AIBOMArticle() {
           { org: 'MeitY', detail: 'Draft AI Guidelines (2024) require documentation of AI model provenance, training data lineage, and bias assessment for software deployed in government contexts.' },
           { org: 'RBI', detail: 'Guidance on use of AI/ML in financial services requires explainability and auditability of models used in credit, fraud, and customer-facing decisions.' },
           { org: 'SEBI', detail: 'Algorithmic trading regulations require complete documentation of algorithmic trading systems, which increasingly include ML components.' },
-          { org: 'CERT-In v2.0', detail: 'Explicitly extends BOM requirements to AI/ML systems — an AIBOM is not optional for regulated AI deployments.' },
+          { org: 'CERT-In v2.0', detail: 'Explicitly extends BOM requirements to AI/ML systems an AIBOM is not optional for regulated AI deployments.' },
         ].map(item => (
           <div key={item.org} className="flex gap-4 p-4 rounded-lg" style={{ background: 'var(--app-card)', border: '1px solid var(--app-border)' }}>
             <div className="text-sm font-bold text-[#F59E0B] whitespace-nowrap w-16 flex-shrink-0">{item.org}</div>
@@ -588,12 +588,12 @@ function AIBOMArticle() {
       <ArticleParagraph>
         The hardest AIBOM challenge is third-party AI. When a bank uses a vendor's fraud detection API,
         it rarely knows what model is behind it, what data it was trained on, or what biases it may carry.
-        Yet regulators hold the bank — not the vendor — accountable for discriminatory or erroneous decisions.
+        Yet regulators hold the bank not the vendor accountable for discriminatory or erroneous decisions.
       </ArticleParagraph>
 
       <ArticleParagraph>
         IntelliXBOM's vendor AIBOM collection workflow automates the process of requesting, receiving, and
-        validating AIBOMs from your AI vendors — the same way it handles software SBOMs. Procurement teams
+        validating AIBOMs from your AI vendors the same way it handles software SBOMs. Procurement teams
         can enforce AIBOM submission as a contract condition, with automated validation at every model update.
       </ArticleParagraph>
 
@@ -647,7 +647,7 @@ function RBIArticle() {
           },
           {
             req: 'Validate vendor-supplied SBOMs',
-            detail: 'Receiving an SBOM is not the same as validating it. Banks must verify field completeness, format compliance, and component accuracy — not just store the file.',
+            detail: 'Receiving an SBOM is not the same as validating it. Banks must verify field completeness, format compliance, and component accuracy not just store the file.',
             urgency: 'MANDATORY'
           },
           {
@@ -657,12 +657,12 @@ function RBIArticle() {
           },
           {
             req: 'Board-level reporting on supply chain risk',
-            detail: 'RBI expects supply chain security metrics to be reportable to the Board Risk Committee — not just the CISO. This requires dashboards that translate technical compliance into risk language.',
+            detail: 'RBI expects supply chain security metrics to be reportable to the Board Risk Committee not just the CISO. This requires dashboards that translate technical compliance into risk language.',
             urgency: 'REPORTING'
           },
           {
             req: 'Incident response for supply chain events',
-            detail: 'Banks must have documented procedures for responding to software supply chain incidents — including Log4Shell-class events where a single component affects thousands of applications.',
+            detail: 'Banks must have documented procedures for responding to software supply chain incidents including Log4Shell-class events where a single component affects thousands of applications.',
             urgency: 'PROCESS'
           },
         ].map((item, i) => (
@@ -711,7 +711,7 @@ function RBIArticle() {
       </div>
 
       <ArticleParagraph>
-        Steps 1–2 are typically complete for most banks — IT asset inventories exist. The gap is always
+        Steps 1–2 are typically complete for most banks IT asset inventories exist. The gap is always
         steps 3–8: the processes and tooling to make SBOM collection, validation, and monitoring systematic
         rather than one-time manual exercises.
       </ArticleParagraph>

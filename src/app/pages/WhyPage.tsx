@@ -10,12 +10,12 @@ const problems = [
 ];
 
 const differentiators = [
-  { icon: Zap, color: '#4361EE', title: 'Field-by-Field Validation', description: 'Not just format checking — we validate every one of CERT-In\'s 21 mandatory fields for content completeness and accuracy, component by component.' },
+  { icon: Zap, color: '#4361EE', title: 'Field-by-Field Validation', description: 'Not just format checking we validate every one of CERT-In\'s 21 mandatory fields for content completeness and accuracy, component by component.' },
   { icon: Shield, color: '#00D4AA', title: 'Continuous, Not Point-in-Time', description: 'Integrated into your CI/CD pipeline. Every build triggers a fresh compliance check so you catch regressions before they reach production or procurement.' },
   { icon: BarChart3, color: '#8B5CF6', title: 'Vendor Scorecards', description: 'Automated compliance scoring for every vendor SBOM. Know which suppliers consistently deliver quality BOMs vs. those who need improvement.' },
   { icon: Lock, color: '#F59E0B', title: 'Air-Gap Ready', description: 'Fully deployable in air-gapped environments. No data leaves your network. Critical for defence, government, and classified infrastructure.' },
   { icon: CheckCircle2, color: '#22C55E', title: 'Regulator-Ready Reports', description: 'One-click audit exports formatted exactly as CERT-In, RBI, SEBI, and NCIIPC require. Walk into any audit confident and prepared.' },
-  { icon: ArrowRight, color: '#4361EE', title: 'Five BOM Types. One Platform.', description: 'SBOM, CBOM, QBOM, AIBOM, HBOM — governed, validated, and cross-correlated in a single platform. No more tool sprawl.' }
+  { icon: ArrowRight, color: '#4361EE', title: 'Five BOM Types. One Platform.', description: 'SBOM, CBOM, QBOM, AIBOM, HBOM governed, validated, and cross-correlated in a single platform. No more tool sprawl.' }
 ];
 
 const comparisonRows = [
@@ -53,7 +53,7 @@ export default function WhyPage() {
           </h1>
           <p className="text-xl leading-[1.75] max-w-[600px] mx-auto mb-10" style={{ color: 'var(--app-text-muted)' }}>
             Most teams have SBOMs. Almost none of them meet India's CERT-In mandatory field requirements.
-            IntelliXBOM closes that gap — automatically, at every release.
+            IntelliXBOM closes that gap automatically, at every release.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <button

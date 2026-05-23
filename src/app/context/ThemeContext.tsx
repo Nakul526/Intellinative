@@ -1,6 +1,7 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect } from 'react';
 
-type Theme = 'dark' | 'light';
+/* Light-only brand theme toggle removed per brand guidelines v1.1 */
+type Theme = 'light';
 
 interface ThemeContextType {
   theme: Theme;
@@ -9,36 +10,20 @@ interface ThemeContextType {
 }
 
 const ThemeContext = createContext<ThemeContextType>({
-  theme: 'dark',
+  theme: 'light',
   toggleTheme: () => {},
-  isDark: true,
+  isDark: false,
 });
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>(() => {
-    try {
-      return (localStorage.getItem('ixbom-theme') as Theme) ?? 'dark';
-    } catch {
-      return 'dark';
-    }
-  });
-
   useEffect(() => {
-    const html = document.documentElement;
-    if (theme === 'dark') {
-      html.classList.add('dark');
-    } else {
-      html.classList.remove('dark');
-    }
-    try {
-      localStorage.setItem('ixbom-theme', theme);
-    } catch {}
-  }, [theme]);
-
-  const toggleTheme = () => setTheme(t => (t === 'dark' ? 'light' : 'dark'));
+    // Always enforce light theme
+    document.documentElement.classList.remove('dark');
+    try { localStorage.setItem('ixbom-theme', 'light'); } catch {}
+  }, []);
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, isDark: theme === 'dark' }}>
+    <ThemeContext.Provider value={{ theme: 'light', toggleTheme: () => {}, isDark: false }}>
       {children}
     </ThemeContext.Provider>
   );

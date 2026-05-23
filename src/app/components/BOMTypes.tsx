@@ -4,183 +4,256 @@ import { CheckCircle2 } from 'lucide-react';
 
 type BOMType = 'SBOM' | 'CBOM' | 'QBOM' | 'AIBOM' | 'HBOM';
 
+/* Brand module colors from guidelines v1.1 */
 const bomData = {
   SBOM: {
-    color: '#4361EE',
+    color: '#00B1DC',
+    bg: '#E6F7FC',
+    border: 'rgba(0,177,220,0.3)',
     category: 'SOFTWARE BILL OF MATERIALS',
     title: 'Complete Software Transparency',
-    description: 'Track every package, dependency, and library in your software supply chain. Auto-verify against CERT-In mandatory fields with real-time CVE monitoring.',
+    description: 'Real-time visibility into every software component, dependency, and library across your entire application estate from containers to cloud. Auto-verify against CERT-In mandatory fields.',
     features: [
-      'Automatic dependency graph generation',
+      'Direct & transitive dependency mapping',
       'CERT-In 21-field compliance validation',
       'Real-time CVE & license risk alerts',
-      'CycloneDX & SPDX format support'
+      'CycloneDX 1.5 & SPDX 2.3 format support',
+      'Container images & OS package scanning',
     ],
-    tags: ['NPM', 'Maven', 'PyPI', 'Go Modules'],
-    code: { components: 247, vulnerabilities: 12, licenseTypes: 8, certInStatus: 'COMPLIANT' }
+    tags: ['NPM', 'Maven', 'PyPI', 'Go Modules', 'Docker'],
+    code: {
+      bomFormat: 'CycloneDX',
+      specVersion: '1.5',
+      certInStatus: 'PASS ✓',
+      components: [
+        { name: 'spring-boot-starter', version: '3.2.1', risk: 'CRITICAL' },
+        { name: 'log4j-core', version: '2.20.0', risk: 'NONE' },
+        { name: 'openssl', version: '3.0.8', risk: 'HIGH' },
+      ],
+      totalComponents: 247,
+      criticalVulns: 3,
+    },
   },
   CBOM: {
-    color: '#00D4AA',
+    color: '#5B6CFF',
+    bg: '#EEEFFE',
+    border: 'rgba(91,108,255,0.3)',
     category: 'CRYPTOGRAPHIC BILL OF MATERIALS',
-    title: 'Crypto Asset Visibility',
-    description: 'Inventory every cryptographic asset, certificate, and key across your infrastructure. Detect weak algorithms and expiring certificates before they fail.',
+    title: 'Cryptographic Asset Visibility',
+    description: 'Inventory every cipher suite, certificate, and key across your infrastructure. Detect weak algorithms and expiring certificates before auditors or attackers do.',
     features: [
-      'Certificate expiry monitoring',
-      'Weak algorithm detection (MD5, SHA1)',
+      'TLS 1.0/1.1 & deprecated cipher detection',
+      'Certificate expiry monitoring (30/7-day alerts)',
+      'Weak algorithm flagging: MD5, SHA-1, 1024-bit RSA',
       'Key rotation compliance tracking',
-      'Post-quantum readiness assessment'
+      'Post-quantum readiness assessment',
     ],
-    tags: ['TLS 1.3', 'RSA', 'ECC', 'Certificates'],
-    code: { tlsVersions: ['1.2', '1.3'], certificates: { expiring: 3, weakKey: 1 }, algorithms: ['RSA-2048', 'ECDSA-P256'], certInStatus: 'ACTION REQUIRED' }
+    tags: ['TLS 1.3', 'RSA-4096', 'ECDSA', 'X.509', 'PKCS#11'],
+    code: {
+      cryptoAssets: {
+        tlsActive: ['TLS 1.3', 'TLS 1.2'],
+        deprecated: ['TLS 1.0', 'TLS 1.1'],
+        certificates: { total: 12, expiringSoon: 3, expired: 0 },
+        weakAlgorithms: ['MD5', 'SHA-1'],
+      },
+      status: 'ACTION REQUIRED',
+    },
   },
   QBOM: {
     color: '#8B5CF6',
+    bg: '#F3EEFE',
+    border: 'rgba(139,92,246,0.3)',
     category: 'QUANTUM BILL OF MATERIALS',
-    title: 'Quantum-Safe Migration',
-    description: 'Identify quantum-vulnerable cryptography in your systems and track migration to post-quantum algorithms. Stay ahead of Y2Q.',
+    title: 'Quantum-Safe Migration Tracking',
+    description: 'Identify quantum-vulnerable cryptography in your systems and track migration to NIST PQC standards. The Q-Day deadline is ~8 years migration planning starts today.',
     features: [
-      'Quantum vulnerability scanning',
-      'NIST PQC algorithm mapping',
-      'Migration priority scoring',
-      'Hybrid crypto deployment tracking'
+      'RSA-2048 / ECDSA vulnerability identification',
+      'NIST PQC algorithm readiness mapping',
+      'Migration priority scoring per asset',
+      'Hybrid classical + PQC deployment tracking',
+      'Y2Q timeline exposure reporting',
     ],
-    tags: ['CRYSTALS-Kyber', 'Dilithium', 'SPHINCS+'],
-    code: { quantumVulnerable: ['RSA-2048', 'ECDSA-P256'], quantumSafe: ['CRYSTALS-Kyber', 'Dilithium'], migrationScore: 42, hybridDeployment: true }
+    tags: ['CRYSTALS-Kyber', 'CRYSTALS-Dilithium', 'SPHINCS+', 'FALCON'],
+    code: {
+      quantumRisk: {
+        vulnerable: { 'RSA-2048': 'CRITICAL', 'ECDSA-P256': 'HIGH' },
+        safe: { 'CRYSTALS-Kyber': 'NIST PQC', 'Dilithium3': 'NIST PQC' },
+      },
+      migrationScore: 42,
+      yToQ: '~8 years',
+      hybridReady: false,
+    },
   },
   AIBOM: {
-    color: '#F59E0B',
+    color: '#C8941F',
+    bg: '#FBF5E5',
+    border: 'rgba(200,148,31,0.3)',
     category: 'AI BILL OF MATERIALS',
-    title: 'AI Model Governance',
-    description: 'Track AI/ML models, training datasets, and inference pipelines. Ensure compliance with emerging AI regulations and detect bias risks.',
+    title: 'AI Model & Dataset Governance',
+    description: 'Track AI/ML models, training datasets, and inference pipelines across your estate. Ensure compliance with emerging AI regulations and surface bias risks before they become headlines.',
     features: [
-      'Model lineage & versioning',
-      'Training data provenance tracking',
-      'Bias & fairness scoring',
-      'Responsible AI compliance reporting'
+      'Model lineage, versioning & provenance',
+      'Training dataset PII & bias scanning',
+      'Inference pipeline dependency tracking',
+      'MeitY AI governance compliance checks',
+      'Responsible AI fairness scoring',
     ],
-    tags: ['TensorFlow', 'PyTorch', 'ONNX', 'Hugging Face'],
-    code: { model: 'gpt-4-turbo-fine-tuned', framework: 'OpenAI API', trainingData: { records: 125000, piiPresent: false }, biasScore: 0.23, govStatus: 'UNDER REVIEW' }
+    tags: ['TensorFlow', 'PyTorch', 'XGBoost', 'ONNX', 'Hugging Face'],
+    code: {
+      model: {
+        name: 'fraud-detection-v2',
+        type: 'XGBoost Classifier',
+        version: '2.1.4',
+      },
+      dataset: { records: 2400000, piiPresent: false, verified: true },
+      biasScore: 0.08,
+      govStatus: 'COMPLIANT',
+    },
   },
   HBOM: {
-    color: '#EF4444',
+    color: '#4A5570',
+    bg: '#EBEDF2',
+    border: 'rgba(74,85,112,0.3)',
     category: 'HARDWARE BILL OF MATERIALS',
     title: 'Hardware Supply Chain Security',
-    description: 'Inventory physical components, firmware versions, and TPM modules. Track hardware supply chain risks and enforce firmware update policies.',
+    description: 'Inventory physical nodes, firmware versions, and TPM modules. Detect counterfeit CPUs, outdated BIOS, and untracked HSMs before NCIIPC auditors find them first.',
     features: [
-      'Firmware version tracking',
-      'TPM & secure boot verification',
+      'CPU, NIC & HSM inventory with provenance',
+      'Firmware & BIOS version compliance checks',
+      'TPM 2.0 & Secure Boot verification',
       'Hardware supply chain risk scoring',
-      'BIOS/UEFI update compliance'
+      'NCIIPC audit ready evidence export',
     ],
-    tags: ['Intel', 'AMD', 'ARM', 'TPM 2.0'],
-    code: { server: 'Dell PowerEdge R750', cpu: 'Intel Xeon Gold 6338', firmware: { bios: '2.15.1', updateRequired: true }, tpm: '2.0', supplyChainRisk: 'MEDIUM' }
-  }
+    tags: ['Intel', 'AMD', 'ARM', 'TPM 2.0', 'UEFI'],
+    code: {
+      node: 'PROD-DB-NODE-07',
+      cpu: { model: 'Intel Xeon Gold 6338', verified: true },
+      firmware: { bios: '2.15.1', updateRequired: true },
+      tpm: '2.0',
+      secureBootEnabled: true,
+      supplyChainRisk: 'MEDIUM',
+    },
+  },
 };
 
 export default function BOMTypes() {
   const [activeTab, setActiveTab] = useState<BOMType>('SBOM');
+  const active = bomData[activeTab];
 
   return (
-    <section id="bom-types" className="py-12 md:py-16 px-6" style={{ background: 'var(--app-bg)' }}>
+    <section id="bom-types" className="py-16 md:py-24 px-6" style={{ background: 'var(--p0)' }}>
       <div className="max-w-[1440px] mx-auto">
+
         {/* Header */}
-        <div className="text-center mb-8">
-          <p className="text-[11px] uppercase tracking-[0.1em] font-medium mb-3" style={{ color: 'var(--app-text-dimmer)' }}>
-            FIVE BOM TYPES. ONE PLATFORM.
+        <div className="mb-10">
+          <p
+            className="text-[11px] uppercase tracking-[0.1em] font-semibold mb-3"
+            style={{ color: 'var(--ink-500)', fontFamily: 'var(--f-m)' }}
+          >
+            Five BOM Types · One Platform
           </p>
-          <h2 className="text-4xl md:text-[44px] font-bold tracking-[-0.02em] mb-4" style={{ color: 'var(--app-text-primary)' }}>
-            Complete Visibility Across Every Layer
+          <h2
+            className="text-4xl md:text-[48px] font-bold mb-4"
+            style={{ color: 'var(--ink-950)', letterSpacing: '-0.025em', lineHeight: '1.05' }}
+          >
+            Five BOM types.{' '}
+            <span style={{ color: 'var(--c5)' }}>One unified platform.</span>
           </h2>
-          <p className="text-lg max-w-[560px] mx-auto" style={{ color: 'var(--app-text-muted)' }}>
-            From software packages to quantum cryptography — governed, validated, and compliant.
+          <p className="text-lg max-w-[560px]" style={{ color: 'var(--ink-600)' }}>
+            From software packages to quantum cryptography and physical hardware fully governed, continuously validated, and regulator ready.
           </p>
         </div>
 
-        {/* Tab Row */}
-        <div className="flex flex-wrap justify-center gap-2 mb-10">
-          {(Object.keys(bomData) as BOMType[]).map((type) => (
-            <button
-              key={type}
-              onClick={() => setActiveTab(type)}
-              className="flex items-center gap-2 px-6 py-2.5 rounded-full transition-all duration-200 font-semibold"
-              style={
-                activeTab === type
-                  ? {
-                      background: `rgba(${hexToRgb(bomData[type].color)}, 0.15)`,
-                      border: `1px solid rgba(${hexToRgb(bomData[type].color)}, 0.5)`,
-                      boxShadow: `0 0 16px rgba(${hexToRgb(bomData[type].color)}, 0.25)`,
-                      color: bomData[type].color
-                    }
-                  : {
-                      color: 'var(--app-text-muted)',
-                      background: 'var(--app-elevated)',
-                      border: '1px solid var(--app-border)'
-                    }
-              }
-            >
-              <div className="w-2 h-2 rounded-full" style={{ backgroundColor: bomData[type].color }} />
-              {type}
-            </button>
-          ))}
+        {/* Tab Row module-colored chips */}
+        <div className="flex flex-wrap gap-2 mb-10">
+          {(Object.keys(bomData) as BOMType[]).map(type => {
+            const cfg = bomData[type];
+            const isActive = activeTab === type;
+            return (
+              <button
+                key={type}
+                onClick={() => setActiveTab(type)}
+                className="flex items-center gap-2 px-5 py-2 rounded-lg font-semibold text-sm transition-all duration-200"
+                style={
+                  isActive
+                    ? { background: cfg.bg, border: `1px solid ${cfg.border}`, color: cfg.color, boxShadow: `0 2px 10px ${cfg.border}` }
+                    : { background: 'var(--p1)', border: '1px solid var(--p3)', color: 'var(--ink-600)' }
+                }
+              >
+                <div
+                  className="w-2 h-2 rounded-full flex-shrink-0"
+                  style={{ background: isActive ? cfg.color : 'var(--ink-500)' }}
+                />
+                {type}
+              </button>
+            );
+          })}
         </div>
 
         {/* Tab Content */}
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
-            initial={{ opacity: 0, x: 20 }}
+            initial={{ opacity: 0, x: 16 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
+            exit={{ opacity: 0, x: -16 }}
             transition={{ duration: 0.2 }}
             className="grid md:grid-cols-2 gap-10 items-center"
           >
-            {/* Left: Text Content */}
+            {/* Left: Text */}
             <div>
               <div
-                className="inline-block px-3 py-1 rounded-full text-[10px] font-semibold mb-3"
+                className="inline-block px-2.5 py-1 rounded text-[10px] font-bold mb-4"
                 style={{
-                  background: `rgba(${hexToRgb(bomData[activeTab].color)}, 0.15)`,
-                  color: bomData[activeTab].color
+                  background: active.bg,
+                  color: active.color,
+                  fontFamily: 'var(--f-m)',
+                  letterSpacing: '0.06em',
+                  border: `1px solid ${active.border}`,
                 }}
               >
                 {activeTab}
               </div>
 
-              <h3 className="text-3xl md:text-4xl font-bold mb-2" style={{ color: 'var(--app-text-primary)' }}>
-                {bomData[activeTab].title}
+              <h3
+                className="text-3xl md:text-4xl font-bold mb-2"
+                style={{ color: 'var(--ink-950)', letterSpacing: '-0.025em' }}
+              >
+                {active.title}
               </h3>
 
               <p
-                className="text-[11px] uppercase tracking-[0.08em] font-medium mb-4"
-                style={{ color: bomData[activeTab].color }}
+                className="text-[11px] uppercase tracking-[0.08em] font-semibold mb-4"
+                style={{ color: active.color, fontFamily: 'var(--f-m)' }}
               >
-                {bomData[activeTab].category}
+                {active.category}
               </p>
 
-              <p className="text-lg leading-[1.75] mb-6" style={{ color: 'var(--app-text-muted)' }}>
-                {bomData[activeTab].description}
+              <p className="text-[16px] leading-[1.75] mb-6" style={{ color: 'var(--ink-600)' }}>
+                {active.description}
               </p>
 
               <div className="space-y-3 mb-6">
-                {bomData[activeTab].features.map((feature, i) => (
+                {active.features.map((feature, i) => (
                   <div key={i} className="flex items-start gap-2.5">
                     <CheckCircle2
                       className="w-4 h-4 mt-0.5 flex-shrink-0"
-                      style={{ color: bomData[activeTab].color }}
+                      style={{ color: active.color }}
                     />
-                    <span className="text-[15px]" style={{ color: 'var(--app-text-primary)' }}>{feature}</span>
+                    <span className="text-[14px]" style={{ color: 'var(--ink-700)' }}>{feature}</span>
                   </div>
                 ))}
               </div>
 
               <div className="flex flex-wrap gap-2 mb-5">
-                {bomData[activeTab].tags.map((tag, i) => (
+                {active.tags.map((tag, i) => (
                   <span
                     key={i}
-                    className="px-3 py-1 rounded-full text-[11px] font-medium"
+                    className="px-2.5 py-1 rounded text-[11px] font-medium"
                     style={{
-                      background: `rgba(${hexToRgb(bomData[activeTab].color)}, 0.1)`,
-                      color: bomData[activeTab].color
+                      background: active.bg,
+                      color: active.color,
+                      fontFamily: 'var(--f-m)',
                     }}
                   >
                     {tag}
@@ -189,33 +262,41 @@ export default function BOMTypes() {
               </div>
 
               <a
-                href={`#explore-${activeTab.toLowerCase()}`}
+                href={`/bom-types#${activeTab.toLowerCase()}`}
                 className="inline-flex items-center gap-1 text-sm font-semibold transition-colors"
-                style={{ color: bomData[activeTab].color }}
+                style={{ color: active.color }}
+                onMouseEnter={e => ((e.currentTarget as HTMLElement).style.opacity = '0.75')}
+                onMouseLeave={e => ((e.currentTarget as HTMLElement).style.opacity = '1')}
               >
-                Explore {activeTab} →
+                Explore {activeTab} in full →
               </a>
             </div>
 
-            {/* Right: Terminal Card — always dark */}
+            {/* Right: Code block */}
             <div>
-              <TerminalCard type={activeTab} data={bomData[activeTab].code} color={bomData[activeTab].color} />
+              <TerminalCard type={activeTab} data={active.code} color={active.color} />
             </div>
           </motion.div>
         </AnimatePresence>
 
-        {/* Comparison Teaser */}
+        {/* Comparison teaser */}
         <div
-          className="mt-8 p-4 md:p-6 rounded-xl flex flex-col md:flex-row items-center justify-between gap-4"
+          className="mt-10 p-5 md:p-6 rounded-xl flex flex-col md:flex-row items-center justify-between gap-4"
           style={{
-            background: 'rgba(67,97,238,0.07)',
-            border: '1px solid rgba(67,97,238,0.2)'
+            background: 'var(--c1)',
+            border: '1px solid var(--c2)',
           }}
         >
-          <p className="text-sm md:text-base" style={{ color: 'var(--app-text-primary)' }}>
+          <p className="text-sm md:text-[15px]" style={{ color: 'var(--ink-700)' }}>
             Need to compare BOM types for your compliance team?
           </p>
-          <a href="#comparison" className="text-sm font-semibold text-[#4361EE] hover:text-[#5371FF] transition-colors whitespace-nowrap">
+          <a
+            href="/compare"
+            className="text-sm font-semibold whitespace-nowrap transition-colors"
+            style={{ color: 'var(--c5)' }}
+            onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = 'var(--c6)')}
+            onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = 'var(--c5)')}
+          >
             View Full Comparison →
           </a>
         </div>
@@ -224,29 +305,38 @@ export default function BOMTypes() {
   );
 }
 
-function TerminalCard({ type, data, color }: { type: BOMType; data: any; color: string }) {
+function TerminalCard({ type, data, color }: { type: BOMType; data: object; color: string }) {
   return (
     <div
       className="rounded-xl overflow-hidden"
-      style={{ background: '#0D1117', border: '1px solid rgba(255,255,255,0.08)' }}
+      style={{
+        background: '#060B14',
+        border: '1px solid rgba(255,255,255,0.08)',
+        boxShadow: 'var(--sh-md)',
+      }}
     >
-      <div className="h-7 bg-[#141A26] flex items-center justify-between px-3">
-        <div className="flex items-center gap-1">
-          <div className="w-2.5 h-2.5 rounded-full bg-[#EF4444]" />
+      {/* Title bar */}
+      <div
+        className="h-9 flex items-center justify-between px-4"
+        style={{ background: '#0E1A2E', borderBottom: '1px solid rgba(255,255,255,0.07)' }}
+      >
+        <div className="flex items-center gap-1.5">
+          <div className="w-2.5 h-2.5 rounded-full bg-[#E53935]" />
           <div className="w-2.5 h-2.5 rounded-full bg-[#F59E0B]" />
-          <div className="w-2.5 h-2.5 rounded-full bg-[#22C55E]" />
+          <div className="w-2.5 h-2.5 rounded-full bg-[#10B981]" />
         </div>
-        <div className="font-mono text-[11px] text-[#4B5563]">
+        <div style={{ fontFamily: 'var(--f-m)', fontSize: 11, color: '#6B7589' }}>
           ixbom://{type.toLowerCase()}/inventory
         </div>
       </div>
 
-      <div className="p-5 font-mono text-xs md:text-[13px] leading-relaxed">
-        <pre className="text-[#94A3B8]">
+      {/* Code body */}
+      <div className="p-5" style={{ fontFamily: 'var(--f-m)', fontSize: 13, lineHeight: 1.7 }}>
+        <pre style={{ color: '#C5CCD8' }}>
           {JSON.stringify(data, null, 2)
             .split('\n')
             .map((line, i) => (
-              <div key={i} dangerouslySetInnerHTML={{ __html: syntaxHighlight(line, color) }} />
+              <div key={i} dangerouslySetInnerHTML={{ __html: syntaxHighlight(line) }} />
             ))}
         </pre>
       </div>
@@ -254,18 +344,16 @@ function TerminalCard({ type, data, color }: { type: BOMType; data: any; color: 
   );
 }
 
-function syntaxHighlight(line: string, accentColor: string): string {
-  line = line.replace(/"([^"]+)":/g, '<span style="color: #94A3B8">"$1":</span>');
-  line = line.replace(/: "([^"]+)"/g, ': <span style="color: #00D4AA">"$1"</span>');
-  line = line.replace(/: (\d+\.?\d*)/g, ': <span style="color: #F59E0B">$1</span>');
-  line = line.replace(/: true/g, ': <span style="color: #22C55E">true</span>');
-  line = line.replace(/: false/g, ': <span style="color: #EF4444">false</span>');
+function syntaxHighlight(line: string): string {
+  // keys: navy 3
+  line = line.replace(/"([^"]+)":/g, '<span style="color:#8FDAED">"$1":</span>');
+  // string values: gold
+  line = line.replace(/: "([^"]+)"/g, ': <span style="color:#E8B259">"$1"</span>');
+  // numbers: indigo
+  line = line.replace(/: (\d+\.?\d*)/g, ': <span style="color:#8B9BFF">$1</span>');
+  // true: success green
+  line = line.replace(/: true/g, ': <span style="color:#10B981">true</span>');
+  // false: red
+  line = line.replace(/: false/g, ': <span style="color:#E53935">false</span>');
   return line;
-}
-
-function hexToRgb(hex: string): string {
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  return result
-    ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}`
-    : '67, 97, 238';
 }

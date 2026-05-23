@@ -8,7 +8,7 @@ const values = [
     icon: Shield,
     color: '#4361EE',
     title: 'Compliance First',
-    description: 'Every feature we ship is grounded in what India\'s regulators actually require — not generic SBOM best practices. We read every CERT-In circular so you don\'t have to.'
+    description: 'Every feature we ship is grounded in what India\'s regulators actually require not generic SBOM best practices. We read every CERT-In circular so you don\'t have to.'
   },
   {
     icon: Lock,
@@ -26,26 +26,26 @@ const values = [
     icon: Globe,
     color: '#F59E0B',
     title: 'India-Native',
-    description: 'Built for India\'s regulatory landscape — CERT-In, RBI, MeitY, NCIIPC, SEBI. Not adapted from a US or EU tool. Designed from the ground up for Indian infrastructure.'
+    description: 'Built for India\'s regulatory landscape CERT-In, RBI, MeitY, NCIIPC, SEBI. Not adapted from a US or EU tool. Designed from the ground up for Indian infrastructure.'
   },
   {
     icon: Users,
     color: '#EF4444',
     title: 'Vendor-Agnostic',
-    description: 'We validate SBOMs regardless of how they were generated. Syft, cdxgen, Trivy, CycloneDX Maven — all supported. Your tool choice, our compliance guarantee.'
+    description: 'We validate SBOMs regardless of how they were generated. Syft, cdxgen, Trivy, CycloneDX Maven all supported. Your tool choice, our compliance guarantee.'
   },
   {
     icon: Heart,
     color: '#00D4AA',
     title: 'Customer Obsessed',
-    description: 'Our customers walk into regulatory audits. The stakes are real. We treat every support request with the urgency of a compliance deadline — because it often is.'
+    description: 'Our customers walk into regulatory audits. The stakes are real. We treat every support request with the urgency of a compliance deadline because it often is.'
   }
 ];
 
 const milestones = [
   { year: '2023', event: 'Founded in Bengaluru after witnessing a major Indian PSU fail a CERT-In audit due to missing SBOM fields.' },
   { year: 'Q1 2024', event: 'First enterprise pilot with a Tier-1 Indian bank. Validated 40,000+ components against RBI Advisory requirements.' },
-  { year: 'Q3 2024', event: 'RBI Advisory 11/2024 issued — validated our approach. Onboarded 12 regulated entities in 60 days.' },
+  { year: 'Q3 2024', event: 'RBI Advisory 11/2024 issued validated our approach. Onboarded 12 regulated entities in 60 days.' },
   { year: 'Q1 2025', event: 'Launched CBOM and QBOM modules. First post-quantum readiness assessments for NCIIPC-designated critical infrastructure.' },
   { year: 'Q2 2025', event: 'AIBOM and HBOM added. Became the only Indian platform with all five BOM types in production.' },
   { year: '2026', event: 'CERT-In v2.0 effective. 160+ entities protected across banking, government, defence, and capital markets.' },
@@ -149,8 +149,8 @@ export default function AboutPage() {
                 NCIIPC demands hardware supply chain visibility. SEBI extends this to capital markets.
               </p>
               <p className="text-lg leading-[1.75]" style={{ color: 'var(--app-text-muted)' }}>
-                No generic SBOM tool was built for this. IntelliXBOM is purpose-built — field by field,
-                framework by framework — for the compliance reality of Indian regulated infrastructure.
+                No generic SBOM tool was built for this. IntelliXBOM is purpose-built field by field,
+                framework by framework for the compliance reality of Indian regulated infrastructure.
               </p>
             </div>
             <div className="space-y-3">
@@ -262,7 +262,7 @@ export default function AboutPage() {
             <p className="text-[11px] uppercase tracking-[0.1em] font-medium mb-3" style={{ color: 'var(--app-text-dimmer)' }}>THE TEAM</p>
             <h2 className="text-4xl font-bold mb-3" style={{ color: 'var(--app-text-primary)' }}>Compliance experts, not just engineers</h2>
             <p className="text-lg max-w-[500px] mx-auto" style={{ color: 'var(--app-text-muted)' }}>
-              Our team has lived inside India's regulatory ecosystem — as auditors, CISO advisors, and CERT-In advisory board members.
+              Our team has lived inside India's regulatory ecosystem as auditors, CISO advisors, and CERT-In advisory board members.
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -323,7 +323,7 @@ export default function AboutPage() {
           </h2>
           <p className="text-lg mb-10" style={{ color: 'var(--app-text-muted)' }}>
             See how IntelliXBOM has helped 160+ regulated entities across India achieve
-            and maintain CERT-In compliance — automatically.
+            and maintain CERT-In compliance automatically.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <button

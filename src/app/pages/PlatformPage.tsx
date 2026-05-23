@@ -61,7 +61,7 @@ export default function PlatformPage() {
         </div>
       </section>
 
-      {/* Dashboard Preview — always dark */}
+      {/* Dashboard Preview always dark */}
       <section className="px-6 pb-14">
         <div className="max-w-[1100px] mx-auto">
           <div className="relative">
@@ -198,7 +198,7 @@ export default function PlatformPage() {
         <div className="max-w-[640px] mx-auto text-center">
           <h2 className="text-4xl font-bold mb-4" style={{ color: 'var(--app-text-primary)' }}>See the platform in action</h2>
           <p className="text-lg mb-10" style={{ color: 'var(--app-text-muted)' }}>
-            Schedule a live demo tailored to your regulatory environment — CERT-In, RBI, MeitY, or SEBI.
+            Schedule a live demo tailored to your regulatory environment CERT-In, RBI, MeitY, or SEBI.
           </p>
           <button
             onClick={openDemoModal}

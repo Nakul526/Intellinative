@@ -109,15 +109,16 @@
 .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--app-scrollbar-thumb, rgba(255,255,255,0.08)); border-radius: 2px; }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: var(--app-scrollbar-thumb, rgba(255,255,255,0.14)); opacity: 0.7; }
 
-/* ── Global ───────────────────────────────────────────────── */
-html { scroll-behavior: smooth; color-scheme: dark; }
-html:not(.dark) { color-scheme: light; }
-::selection { background-color: rgba(67,97,238,0.3); color: white; }
+/* ── Global (light only) ─────────────────────────────────── */
+html { scroll-behavior: smooth; color-scheme: light; }
+::selection { background-color: rgba(0,177,220,0.25); color: #0E1A2E; }
 * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
-/* ── Light mode: force dark-bg panels to stay dark ───────── */
-html:not(.dark) .force-dark {
-  background: #0D1117 !important;
-  color: #FFFFFF;
+/* Pulse-dot animation (status indicators) */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.35; }
 }
-html:not(.dark) .force-dark * { color: inherit; }
+
+/* Tabular numerals globally for stat displays */
+.tabular-nums { font-variant-numeric: tabular-nums; }

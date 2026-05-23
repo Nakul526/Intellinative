@@ -1,7 +1,7 @@
-IntelliXBOM Redesign Prompt — Harness Reference
+IntelliXBOM Redesign Prompt Harness Reference
 Harness.io design DNA extracted → mapped to IntelliXBOM · dark-first · mesh gradient · tab switcher · logo ticker · dashboard preview
 Website Redesign · Harness.io Reference
-IntelliXBOM — Ultra-Detailed Design Prompt
+IntelliXBOM Ultra-Detailed Design Prompt
 Based on deep analysis of Harness.io. Pick a tab, copy the prompt, paste into v0.dev / Framer AI / Figma AI.
 Harness Colors
 Near-black base · blue/cyan gradient accents · pure white headlines
@@ -22,7 +22,7 @@ Blog Page
 Footer
 ⚡ Full Prompt
 Design System
-Colors, Typography, Spacing — paste into Figma local styles
+Colors, Typography, Spacing paste into Figma local styles
 /* ── COLORS ── */
 --color-bg-primary:     #05070F;   /* near-black base */
 --color-bg-surface:     #0D1117;   /* card surfaces */
@@ -94,7 +94,7 @@ Full-bleed sections: 100vw with bg color, content inside max-width
 Copy Global Tokens ↗
 Section 1 · Navigation
 Sticky frosted-glass navbar with BOM types mega-dropdown
-NAVBAR — sticky, top: 0, z-index: 100, height: 64px
+NAVBAR sticky, top: 0, z-index: 100, height: 64px
 
 Default state: background transparent
 On scroll >80px:
@@ -106,9 +106,9 @@ On scroll >80px:
 Inner: flex, align-center, space-between, max-width 1200px, auto margins
 
 ── LEFT: LOGO ──
-"Intelli" — Inter 600, #FFFFFF
-"✕" — Inter 700, #4361EE, text-shadow: 0 0 12px rgba(67,97,238,0.8)
-"BOM" — Inter 700, #FFFFFF
+"Intelli" Inter 600, #FFFFFF
+"✕" Inter 700, #4361EE, text-shadow: 0 0 12px rgba(67,97,238,0.8)
+"BOM" Inter 700, #FFFFFF
 
 ── CENTER: NAV LINKS ──
 "Why IxBOM" · "BOM Types ▾" · "Platform" · "Compliance" · "Blog"
@@ -122,16 +122,16 @@ BOM TYPES MEGA DROPDOWN:
   Border-radius: 0 0 16px 16px
   Padding: 32px 40px
   5-column grid, one per BOM type:
-    · SBOM  — icon #4361EE — "Software packages & dependencies"
-    · CBOM  — icon #00D4AA — "Cryptographic assets & certs"
-    · QBOM  — icon #8B5CF6 — "Quantum-vulnerable crypto"
-    · AIBOM — icon #F59E0B — "AI/ML models & training data"
-    · HBOM  — icon #EF4444 — "Hardware & firmware inventory"
+    · SBOM  icon #4361EE "Software packages & dependencies"
+    · CBOM  icon #00D4AA "Cryptographic assets & certs"
+    · QBOM  icon #8B5CF6 "Quantum-vulnerable crypto"
+    · AIBOM icon #F59E0B "AI/ML models & training data"
+    · HBOM  icon #EF4444 "Hardware & firmware inventory"
   Bottom: "View All BOM Types →" right-aligned link
 
 ── RIGHT ──
-"Sign In" — ghost 14px, #94A3B8, hover #FFFFFF
-"Request Demo →" — gradient button:
+"Sign In" ghost 14px, #94A3B8, hover #FFFFFF
+"Request Demo →" gradient button:
   background: linear-gradient(135deg, #4361EE, #3A0CA3)
   color: #FFFFFF, padding: 10px 20px, radius: 8px, font: 14px 600
   box-shadow: 0 0 20px rgba(67,97,238,0.4)
@@ -144,7 +144,7 @@ MOBILE (
   All links stacked, 48px tap targets
 Copy Navbar Prompt ↗
 Section 2 · Hero
-Full-bleed centered hero — Harness mesh gradient + animated grid + terminal product visual
+Full-bleed centered hero Harness mesh gradient + animated grid + terminal product visual
 HERO SECTION
 
 Background: Harness-style mesh gradient
@@ -173,11 +173,11 @@ Text: Inter 12px 500, color #94A3B8
 
 ── H1 HEADLINE ──
 72px, Inter 700, line-height 1.05, tracking -0.03em, center
-Line 1: "BOM Compliance." — color #FFFFFF
-Line 2: "Field by Field." — gradient text:
+Line 1: "BOM Compliance." color #FFFFFF
+Line 2: "Field by Field." gradient text:
   background: linear-gradient(90deg, #4361EE, #00D4AA)
   -webkit-background-clip: text; -webkit-text-fill-color: transparent
-Line 3: "Proven." — color #FFFFFF
+Line 3: "Proven." color #FFFFFF
 
 ── SUBHEADING ──
 20px, Inter 400, #94A3B8, max-width 620px, center, line-height 1.75
@@ -222,17 +222,17 @@ Card:
   overflow: hidden
 
 Top bar (32px height, bg #141A26):
-  Left: 3 dots — #EF4444, #F59E0B, #22C55E (12px circles, gap 6px)
-  Center: JetBrains Mono 12px, color #4B5563 — "ixbom://sbom/cert-in-validator · live"
-  Right: pill badge — "● LIVE", bg rgba(0,212,170,0.15), color #00D4AA, 10px
+  Left: 3 dots #EF4444, #F59E0B, #22C55E (12px circles, gap 6px)
+  Center: JetBrains Mono 12px, color #4B5563 "ixbom://sbom/cert-in-validator · live"
+  Right: pill badge "● LIVE", bg rgba(0,212,170,0.15), color #00D4AA, 10px
 
 Content area: two-column split, padding 24px
-  LEFT — CERT-In field list (scrollable, ~12 rows visible):
+  LEFT CERT-In field list (scrollable, ~12 rows visible):
     Each row: field name (mono 12px #94A3B8) + status badge
     Badges:  ✓ PASS (bg rgba(0,212,170,0.15), color #00D4AA)
              ✗ FAIL (bg rgba(239,68,68,0.15), color #EF4444)
              △ WARN (bg rgba(245,158,11,0.15), color #F59E0B)
-  RIGHT — Donut chart:
+  RIGHT Donut chart:
     SVG donut, 140px: ~33% green (#00D4AA), ~67% red (#EF4444)
     Center label: "~66.7%" 18px 700 white + "Non-Compliant" 10px muted
     Below chart: 3 mini stats in a row
@@ -241,7 +241,7 @@ Bottom strip (32px, bg #141A26, border-top rgba(255,255,255,0.06)):
   "10 components · 7 failing · Last scan: just now"  Inter 11px #4B5563
 Copy Hero Prompt ↗
 Section 3 · Social Proof
-Regulatory logo marquee + customer quote — Harness ticker style
+Regulatory logo marquee + customer quote Harness ticker style
 SOCIAL PROOF SECTION
 
 ── PART A: REGULATORY LOGO TICKER ──
@@ -293,16 +293,16 @@ Navigation: 3 dots below (8px circles)
   JS: click to switch quote (fade transition 300ms)
 Copy Social Proof Prompt ↗
 Section 4 · BOM Types
-Interactive 5-tab product switcher — Harness's signature pattern
+Interactive 5-tab product switcher Harness's signature pattern
 BOM TYPES SECTION
 
 bg: #05070F, padding 120px 0
 
 ── HEADER (centered) ──
-Eyebrow: "FIVE BOM TYPES. ONE PLATFORM." — 11px uppercase, #4B5563
-H2: "Complete Visibility Across Every Layer" — 44px 700 white, tracking -0.02em
+Eyebrow: "FIVE BOM TYPES. ONE PLATFORM." 11px uppercase, #4B5563
+H2: "Complete Visibility Across Every Layer" 44px 700 white, tracking -0.02em
 Sub: 18px #94A3B8, max-width 560px, center
-"From software packages to quantum cryptography — governed, validated, and compliant."
+"From software packages to quantum cryptography governed, validated, and compliant."
 
 ── TAB ROW ──
 flex, justify-center, gap 8px, margin-top 48px
@@ -325,7 +325,7 @@ margin-top: 56px
 Layout: flex, gap 64px, align-items center
 50% left / 50% right
 
-LEFT — Text:
+LEFT Text:
   BOM badge (10px pill, accent bg/color)
   H3: 36px 700 white, margin-top 12px
   Category: 11px uppercase, accent color, tracking 0.08em
@@ -335,7 +335,7 @@ LEFT — Text:
   Tags (margin-top 20px): pill row (11px, bg rgba(accent,0.1), color accent, radius 999px)
   CTA link: "Explore [BOM TYPE] →" 14px 600, accent color, arrow icon, margin-top 20px
 
-RIGHT — Terminal card:
+RIGHT Terminal card:
   bg: #0D1117, border: 1px solid rgba(255,255,255,0.08), radius 12px
   Top bar (28px, bg #141A26):
     dots + path in mono 11px: ixbom://[type]/inventory
@@ -358,7 +358,7 @@ TRANSITION (tab switch):
   Content: opacity 0→1, 200ms ease
   Terminal card: translateX(20px)→0, opacity 0→1, 200ms ease
 
-BELOW TABS — comparison teaser banner:
+BELOW TABS comparison teaser banner:
   bg: rgba(67,97,238,0.07), border: 1px solid rgba(67,97,238,0.2), radius 12px
   padding: 16px 24px, margin-top 48px, flex space-between
   Left text: "Need to compare BOM types for your compliance team?"
@@ -370,13 +370,13 @@ CAPABILITIES SECTION
 
 bg: #0D1117, padding 120px 0
 
-Eyebrow: "PLATFORM CAPABILITIES" — 11px uppercase, #4B5563
-H2: "Enterprise-Grade. Built for India." — 44px 700 white
+Eyebrow: "PLATFORM CAPABILITIES" 11px uppercase, #4B5563
+H2: "Enterprise-Grade. Built for India." 44px 700 white
 Sub: 18px #94A3B8, max-width 500px
 
 ── 6-CARD GRID (Harness grid-line style) ──
 Parent: display grid, grid-template-columns: repeat(3,1fr)
-Parent background: rgba(255,255,255,0.05) — this creates the border lines
+Parent background: rgba(255,255,255,0.05) this creates the border lines
 Gap: 1px (the parent bg shows through as 1px grid lines)
 Responsive: 2-col tablet, 1-col mobile
 
@@ -394,16 +394,16 @@ Each card:
     transition: 200ms ease
 
 6 cards:
-  1. Automatic BOM Generation    — accent #4361EE — icon: code-bracket
-  2. Continuous Field Validation  — accent #00D4AA — icon: shield-check
-  3. Vendor Compliance Scoring    — accent #8B5CF6 — icon: chart-bar
-  4. Air-Gapped Deployment        — accent #F59E0B — icon: server
-  5. Regulator-Ready Reports      — accent #EF4444 — icon: document-text
-  6. Project-Level BOM Controls   — accent #00D4AA — icon: adjustments
+  1. Automatic BOM Generation    accent #4361EE icon: code-bracket
+  2. Continuous Field Validation  accent #00D4AA icon: shield-check
+  3. Vendor Compliance Scoring    accent #8B5CF6 icon: chart-bar
+  4. Air-Gapped Deployment        accent #F59E0B icon: server
+  5. Regulator-Ready Reports      accent #EF4444 icon: document-text
+  6. Project-Level BOM Controls   accent #00D4AA icon: adjustments
 
 ── DASHBOARD PREVIEW ──
 bg: #05070F, padding 120px 0
-H2 centered: "See Everything. Miss Nothing." — 44px 700 white
+H2 centered: "See Everything. Miss Nothing." 44px 700 white
 Sub centered: 18px #94A3B8, max-width 520px
 "A unified command center for BOM governance, real-time risk scoring, and one-click audit exports."
 
@@ -431,13 +431,13 @@ Dashboard card:
 Copy Capabilities Prompt ↗
 Section 6 · Compliance + Stats + CTA
 Light section break with compliance meters, proof numbers, and conversion CTA
-COMPLIANCE SECTION — LIGHT (visual break from dark)
+COMPLIANCE SECTION LIGHT (visual break from dark)
 
 bg: #F7F8FC, padding 120px 0
-All text: dark mode — headlines #0F172A, body #374151
+All text: dark mode headlines #0F172A, body #374151
 
-Eyebrow: "COMPLIANCE BUILT-IN. NOT BOLTED-ON." — 11px uppercase, #9CA3AF
-H2: "Every Regulation. Every Requirement." — 44px 700 #0F172A
+Eyebrow: "COMPLIANCE BUILT-IN. NOT BOLTED-ON." 11px uppercase, #9CA3AF
+H2: "Every Regulation. Every Requirement." 44px 700 #0F172A
 Sub: 18px #374151, max-width 520px
 
 ── 3 COMPLIANCE METER CARDS ──
@@ -459,12 +459,12 @@ Each card:
   3 bullet requirements (margin-top 20px):
     Each: 12px #374151, left dot accent color
   
-  Bottom badge: "Actively monitored" — bg #DCFCE7, color #166534, 10px pill
+  Bottom badge: "Actively monitored" bg #DCFCE7, color #166534, 10px pill
 
 3 frameworks:
-  · CERT-In SBOM Technical Guidelines v2.0 — meter color #22C55E
-  · RBI Advisory 11/2024 — meter color #4361EE
-  · MeitY 2025 Software Security Guidelines — meter color #8B5CF6
+  · CERT-In SBOM Technical Guidelines v2.0 meter color #22C55E
+  · RBI Advisory 11/2024 meter color #4361EE
+  · MeitY 2025 Software Security Guidelines meter color #8B5CF6
 
 ── PROOF STATS ROW ──
 4-column grid, margin-top 80px, gap 0
@@ -472,10 +472,10 @@ Each stat column: centered, padding 0 40px, border-right 1px solid #E5E7EB (last
   Number: 56px 700 #4361EE
   Label: 14px #6B7280, margin-top 4px
 
-"162"   — Regulated entities protected
-"55"    — PSU clients onboarded
-"21K+"  — BOM fields validated daily
-"99%"   — Audit pass rate post-IntelliXBOM
+"162"   Regulated entities protected
+"55"    PSU clients onboarded
+"21K+"  BOM fields validated daily
+"99%"   Audit pass rate post-IntelliXBOM
 
 ── FINAL CTA SECTION ──
 bg: #05070F, full-bleed, padding 120px 0
@@ -483,30 +483,30 @@ Centered, max-width 700px
 
 Background: radial-gradient(ellipse 80% 80% at 50% 50%, rgba(67,97,238,0.18), transparent)
 
-H2: "Ready to Achieve Complete Digital Trust?" — 44px 700 white
+H2: "Ready to Achieve Complete Digital Trust?" 44px 700 white
 Sub: 18px #94A3B8
 "Start with a free CERT-In compliance audit of your vendor's SBOM.
 Results in 60 seconds."
 
 CTA row (centered, gap 12px, margin-top 40px):
-  Primary: "Get Free Compliance Audit →" — gradient blue + glow
-  Secondary: "Talk to an Expert" — white ghost border
+  Primary: "Get Free Compliance Audit →" gradient blue + glow
+  Secondary: "Talk to an Expert" white ghost border
 
 Trust line (margin-top 20px):
   Inter 13px #4B5563, flex center gap 16px
   "✓ No credit card" · "✓ Instant validation" · "✓ CERT-In report in 60s"
 Copy Compliance Prompt ↗
 Page 2 · Blog
-Journal page — featured + grid + newsletter — editorial layout
-BLOG PAGE — "BOM Governance & Digital Trust"
+Journal page featured + grid + newsletter editorial layout
+BLOG PAGE "BOM Governance & Digital Trust"
 
 ── BLOG HERO ──
 bg: same mesh gradient as homepage, height 320px
 flex column, justify-center, align-center
 padding-top: 64px (navbar)
 
-Eyebrow: "JOURNAL" — 11px uppercase #4361EE, letter-spacing 0.12em
-H1: "BOM Governance & Digital Trust" — 52px 700 white, tracking -0.02em
+Eyebrow: "JOURNAL" 11px uppercase #4361EE, letter-spacing 0.12em
+H1: "BOM Governance & Digital Trust" 52px 700 white, tracking -0.02em
 Sub: 18px #94A3B8, max-width 500px, center
 "Engineering notes, compliance patterns, and platform updates —
 SBOM through HBOM, built for regulated teams."
@@ -530,7 +530,7 @@ FEATURED POST CARD:
   Layout: flex row (text 55% left, image 45% right)
 
   LEFT (padding 40px):
-    Category badge: "COMPLIANCE" — 10px, bg #EEF2FF, color #4361EE, radius 999px, padding 4px 12px
+    Category badge: "COMPLIANCE" 10px, bg #EEF2FF, color #4361EE, radius 999px, padding 4px 12px
     H2: 30px 700 #0F172A, line-height 1.25, margin-top 12px
       "Don't Trust the SBOM Your Vendor Gave You"
     Excerpt: 16px #374151, 3 lines, line-height 1.7, margin-top 12px
@@ -572,14 +572,14 @@ Dark card inside light bg section:
   flex row: text left + form right, align-center, gap 40px
 
   Left:
-    H3: "Stay ahead of India's compliance landscape." — 22px 600 white
-    Sub: "Monthly BOM governance insights for regulated teams." — 14px #94A3B8
+    H3: "Stay ahead of India's compliance landscape." 22px 600 white
+    Sub: "Monthly BOM governance insights for regulated teams." 14px #94A3B8
 
   Right:
     flex row, gap 8px
     Input: height 44px, bg rgba(255,255,255,0.05), border 1px rgba(255,255,255,0.1)
       radius 8px, color white, placeholder #4B5563, padding 0 16px, min-width 280px
-    Button: "Subscribe →" — gradient blue, height 44px, padding 0 20px
+    Button: "Subscribe →" gradient blue, height 44px, padding 0 20px
       radius 8px, Inter 14px 600, white
 Copy Blog Page Prompt ↗
 Section · Footer
@@ -600,13 +600,13 @@ This creates the Harness-style large ghost text behind footer content
 display grid, grid-template-columns: 2fr 1fr 1fr 1fr 1fr
 gap: 40px, relative z-index 1
 
-Column 1 — Brand:
+Column 1 Brand:
   Logo ("Intelli✕BOM" same navbar style, smaller: 20px)
   Tagline (14px #94A3B8, mt 8px): "Complete Digital Trust for India's Regulated Infrastructure"
   Social icons (mt 20px, gap 12px, color #4B5563, hover #FFFFFF):
     LinkedIn · GitHub · Twitter/X
 
-Columns 2–5 — Links:
+Columns 2–5 Links:
   Column header: 11px uppercase, letter-spacing 0.08em, color #4B5563, mb 16px
   Links: 14px Inter 400, #94A3B8, hover #FFFFFF, mb 10px, display block
 
@@ -627,9 +627,9 @@ Right: flex, gap 16px
   "Privacy Policy" · "Terms of Service" · "Security"
   14px #4B5563, links hover #94A3B8
 Copy Footer Prompt ↗
-Complete Prompt — All Sections
+Complete Prompt All Sections
 ⚡ Paste this entire block into v0.dev, Framer AI, or Figma AI for a complete build
-Design a complete website for IntelliXBOM — India's premier B2B SaaS platform for BOM (Bill of Materials) compliance: SBOM, CBOM, QBOM, AIBOM, and HBOM, targeting CERT-In, RBI, SEBI, NCIIPC, and MeitY regulated entities.
+Design a complete website for IntelliXBOM India's premier B2B SaaS platform for BOM (Bill of Materials) compliance: SBOM, CBOM, QBOM, AIBOM, and HBOM, targeting CERT-In, RBI, SEBI, NCIIPC, and MeitY regulated entities.
 
 REFERENCE SITE: harness.io
 Match Harness's exact visual DNA: near-black dark base, centered hero with top-glow mesh gradient, animated background grid, blue/cyan gradient headline text, 5-product tab switcher with terminal cards, horizontal logo marquee, full-bleed floating dashboard preview, grid-line capability section, light compliance section as contrast break, and ghost wordmark in footer.
@@ -657,18 +657,18 @@ HOMEPAGE
 [HERO] 100vh min-height. Mesh gradient bg + animated CSS grid overlay (1px rgba(255,255,255,0.03), 60px cells, 20s pan animation). CENTERED single column, max-width 860px.
   Eyebrow pill: pulsing green dot + "India's BOM Compliance & Digital Trust Platform" (blue border pill)
   H1 (72px 700): Line 1 "BOM Compliance." white | Line 2 "Field by Field." gradient text (blue→teal CSS gradient-clip) | Line 3 "Proven." white
-  Sub (20px muted): "Verify every SBOM, CBOM, QBOM, AIBOM, and HBOM your vendors deliver — against CERT-In's 21 mandatory fields, automatically, at every software update."
+  Sub (20px muted): "Verify every SBOM, CBOM, QBOM, AIBOM, and HBOM your vendors deliver against CERT-In's 21 mandatory fields, automatically, at every software update."
   CTA row: "Get a Free Demo →" (gradient blue, 0 0 32px rgba(67,97,238,0.45) glow) + "Explore Platform" (ghost white border)
   Trust stats row: "5 Sectors" · "21 Fields" · "100% Traceability" (divided by 1px lines)
   Product terminal card (960px, dark, huge shadow+blue glow): top bar with dots+live path, left=CERT-In 21 field audit list with PASS/FAIL/WARN badges, right=donut chart (~67% fail), bottom strip with scan summary. Entry animation: typewriter line reveal.
 
-[SOCIAL PROOF] bg #0D1117. Marquee of regulatory logos (CERT-In/RBI/SEBI/NCIIPC/MeitY/NIC/PSU — grayscale, hover color, 30s loop, pauses on hover). Below: single customer quote (centered, large opening quote mark rgba(67,97,238,0.2), attribution row with avatar).
+[SOCIAL PROOF] bg #0D1117. Marquee of regulatory logos (CERT-In/RBI/SEBI/NCIIPC/MeitY/NIC/PSU grayscale, hover color, 30s loop, pauses on hover). Below: single customer quote (centered, large opening quote mark rgba(67,97,238,0.2), attribution row with avatar).
 
-[BOM TYPES] bg #05070F. Centered H2 "Complete Visibility Across Every Layer." 5 pill tabs (SBOM/CBOM/QBOM/AIBOM/HBOM — active tab gets accent color glow border). Tab content 50/50: left=badge+H3+desc+4 features+tags+CTA link; right=dark terminal card with syntax-highlighted JSON. Crossfade+slide transition. Each BOM accent: SBOM=#4361EE, CBOM=#00D4AA, QBOM=#8B5CF6, AIBOM=#F59E0B, HBOM=#EF4444. Comparison teaser banner below.
+[BOM TYPES] bg #05070F. Centered H2 "Complete Visibility Across Every Layer." 5 pill tabs (SBOM/CBOM/QBOM/AIBOM/HBOM active tab gets accent color glow border). Tab content 50/50: left=badge+H3+desc+4 features+tags+CTA link; right=dark terminal card with syntax-highlighted JSON. Crossfade+slide transition. Each BOM accent: SBOM=#4361EE, CBOM=#00D4AA, QBOM=#8B5CF6, AIBOM=#F59E0B, HBOM=#EF4444. Comparison teaser banner below.
 
 [CAPABILITIES] bg #0D1117. 3×2 card grid with 1px grid-line borders (parent bg rgba(255,255,255,0.05), gap:1px). Cards: icon in colored rounded square + title + desc. Hover: bg elevates + accent top border appears. 6 caps: Auto BOM Generation / Continuous Validation / Vendor Scoring / Air-Gapped Deploy / Regulator Reports / Project Controls.
 
-[DASHBOARD] bg #05070F. "See Everything. Miss Nothing." Large dark dashboard mockup 1100px — radius 16px, massive shadow, blue underglow radial gradient. 3 white floating annotation callouts with dashed SVG connectors.
+[DASHBOARD] bg #05070F. "See Everything. Miss Nothing." Large dark dashboard mockup 1100px radius 16px, massive shadow, blue underglow radial gradient. 3 white floating annotation callouts with dashed SVG connectors.
 
 [COMPLIANCE] bg #F7F8FC LIGHT. 3 circular meter cards (CERT-In/RBI/MeitY, SVG arc progress rings, centered percentage, 3 bullet requirements each). 4-col stat row: 162 entities / 55 PSUs / 21K+ fields/day / 99% audit pass.
 
@@ -680,7 +680,7 @@ HOMEPAGE
 BLOG PAGE
 ═══════════════════════════════
 
-[BLOG HERO] 320px, same mesh gradient. "BOM Governance & Digital Trust" H1 52px white. Tag filter pills (All/CERT-In/SBOM/Compliance/Supply Chain/Quantum/CycloneDX — active=solid blue, inactive=ghost dark).
+[BLOG HERO] 320px, same mesh gradient. "BOM Governance & Digital Trust" H1 52px white. Tag filter pills (All/CERT-In/SBOM/Compliance/Supply Chain/Quantum/CycloneDX active=solid blue, inactive=ghost dark).
 
 [BLOG GRID] bg #F7F8FC. Featured card: full width, 2-col (text 55% left + dark thumbnail 45% right), radius 16px. 3-col grid below: white cards, thumbnail top, badge+title+excerpt+author meta+tag pills. All cards: hover lift+shadow.
 

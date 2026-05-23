@@ -24,7 +24,7 @@ export const blogPosts = [
     category: 'GUIDE',
     categoryColor: '#00D4AA',
     title: "Understanding CERT-In's 21 Mandatory SBOM Fields",
-    excerpt: "A field-by-field breakdown of what India's CERT-In v2.0 actually requires in an SBOM — and why most auto-generated BOMs fall short.",
+    excerpt: "A field-by-field breakdown of what India's CERT-In v2.0 actually requires in an SBOM and why most auto-generated BOMs fall short.",
     author: 'IntelliXBOM',
     date: 'Mar 28, 2026',
     readTime: '9 min read',
@@ -56,7 +56,7 @@ export const blogPosts = [
     category: 'HARDWARE',
     categoryColor: '#EF4444',
     title: 'Hardware Supply Chain Risk: Why HBOM Matters for Indian PSUs',
-    excerpt: 'State-sponsored hardware tampering is a growing threat. An HBOM gives you visibility into every chip, firmware version, and vendor — before deployment.',
+    excerpt: 'State-sponsored hardware tampering is a growing threat. An HBOM gives you visibility into every chip, firmware version, and vendor before deployment.',
     author: 'IntelliXBOM',
     date: 'Feb 22, 2026',
     readTime: '8 min read',
@@ -316,7 +316,7 @@ export default function BlogPage() {
               </span>
             </h1>
             <p className="text-lg max-w-[520px] leading-relaxed" style={{ color: 'var(--app-text-muted)' }}>
-              Engineering notes, compliance patterns, and platform updates — SBOM through HBOM, built for regulated teams.
+              Engineering notes, compliance patterns, and platform updates SBOM through HBOM, built for regulated teams.
             </p>
           </motion.div>
         </div>

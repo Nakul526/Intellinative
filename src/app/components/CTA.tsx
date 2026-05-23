@@ -1,142 +1,132 @@
 import { motion } from 'motion/react';
-import { ArrowRight, CheckCircle2, Shield, Zap } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Shield, Zap, Mail } from 'lucide-react';
 import { openDemoModal } from './DemoModal';
 
 export default function CTA() {
   return (
     <section
-      className="relative py-14 md:py-20 px-6 overflow-hidden"
-      style={{ background: 'var(--app-bg-alt)' }}
+      className="relative py-16 md:py-24 px-6 overflow-hidden"
+      style={{ background: 'var(--p1)', borderTop: '1px solid var(--p3)' }}
     >
-      {/* Animated background blobs */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {/* Subtle cyan glow */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div
-          className="absolute rounded-full animate-float"
+          className="absolute rounded-full"
           style={{
-            width: 700, height: 700,
-            background: 'radial-gradient(circle, rgba(67,97,238,0.18) 0%, transparent 65%)',
+            width: 600, height: 600,
+            background: 'radial-gradient(circle, rgba(0,177,220,0.08) 0%, transparent 65%)',
             top: '50%', left: '50%', transform: 'translate(-50%, -55%)',
-            filter: 'blur(2px)'
-          }}
-        />
-        <div
-          className="absolute rounded-full animate-float-b"
-          style={{
-            width: 400, height: 400,
-            background: 'radial-gradient(circle, rgba(0,212,170,0.12) 0%, transparent 65%)',
-            top: '10%', right: '-60px'
-          }}
-        />
-        <div
-          className="absolute rounded-full animate-float-c"
-          style={{
-            width: 350, height: 350,
-            background: 'radial-gradient(circle, rgba(139,92,246,0.1) 0%, transparent 65%)',
-            bottom: '5%', left: '-40px'
-          }}
-        />
-        <div
-          className="absolute inset-0 opacity-[0.022] animate-grid-pan"
-          style={{
-            backgroundImage: `linear-gradient(var(--app-grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--app-grid-line) 1px, transparent 1px)`,
-            backgroundSize: '60px 60px'
           }}
         />
       </div>
 
-      <div className="relative z-10 max-w-[760px] mx-auto text-center">
+      <div className="relative z-10 max-w-[780px] mx-auto text-center">
         <motion.div
           initial={{ opacity: 0, y: 32 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         >
-          {/* Badge */}
+          {/* Eyebrow */}
           <div
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-7"
-            style={{ background: 'rgba(67,97,238,0.08)', border: '1px solid rgba(67,97,238,0.25)' }}
+            style={{ background: 'rgba(0,177,220,0.08)', border: '1px solid rgba(0,177,220,0.25)' }}
           >
-            <Zap className="w-3.5 h-3.5 text-[#4361EE]" />
-            <span className="text-[11px] uppercase tracking-[0.14em] text-[#4361EE] font-bold select-none">
-              Get started in 60 seconds
+            <Zap className="w-3.5 h-3.5" style={{ color: 'var(--c5)' }} />
+            <span
+              className="text-[11px] uppercase tracking-[0.1em] font-bold select-none"
+              style={{ color: 'var(--c6)', fontFamily: 'var(--f-m)' }}
+            >
+              Get started today
             </span>
           </div>
 
           {/* Headline */}
-          <h2 className="text-4xl md:text-[60px] font-black leading-tight tracking-tight mb-5" style={{ color: 'var(--app-text-primary)' }}>
-            Ready to Achieve
-            <span
-              className="block mt-1"
-              style={{
-                background: 'linear-gradient(135deg, #4361EE 0%, #00D4AA 50%, #8B5CF6 100%)',
-                backgroundSize: '200% 100%',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-                animation: 'gradientShift 5s ease infinite'
-              }}
-            >
-              Complete Digital Trust?
-            </span>
+          <h2
+            className="text-4xl md:text-[52px] font-bold leading-tight mb-5"
+            style={{ color: 'var(--ink-950)', letterSpacing: '-0.035em', fontFamily: 'var(--f-d)' }}
+          >
+            Ready to achieve{' '}
+            <span style={{ color: 'var(--c5)' }}>complete digital trust?</span>
           </h2>
 
-          <p className="text-lg mb-10 max-w-[500px] mx-auto leading-relaxed" style={{ color: 'var(--app-text-dim)' }}>
-            Start with a free CERT-In compliance audit of your vendor's SBOM.
-            Results in 60 seconds.
+          <p
+            className="text-[16px] mb-10 max-w-[500px] mx-auto leading-relaxed"
+            style={{ color: 'var(--ink-500)' }}
+          >
+            Start with a free CERT-In compliance audit of your vendor's SBOM results in 60 seconds.
+            Or talk to our team about a full deployment.
           </p>
 
           {/* Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
             <motion.button
-              whileHover={{ scale: 1.03 }}
+              whileHover={{ scale: 1.03, translateY: -1 }}
               whileTap={{ scale: 0.97 }}
               onClick={openDemoModal}
-              className="group relative flex items-center gap-2 px-9 py-4 text-base font-black text-white rounded-2xl overflow-hidden"
+              className="group flex items-center justify-center gap-2 px-8 py-4 text-[15px] font-semibold text-white rounded-xl"
               style={{
-                background: 'linear-gradient(135deg, #4361EE 0%, #3A0CA3 100%)',
-                boxShadow: '0 0 32px rgba(67,97,238,0.45)'
+                background: 'var(--c5)',
+                boxShadow: '0 2px 20px rgba(0,177,220,0.35)',
               }}
-              onMouseEnter={e => ((e.currentTarget as HTMLElement).style.boxShadow = '0 0 52px rgba(67,97,238,0.7)')}
-              onMouseLeave={e => ((e.currentTarget as HTMLElement).style.boxShadow = '0 0 32px rgba(67,97,238,0.45)')}
+              onMouseEnter={e => ((e.currentTarget as HTMLElement).style.boxShadow = '0 4px 32px rgba(0,177,220,0.5)')}
+              onMouseLeave={e => ((e.currentTarget as HTMLElement).style.boxShadow = '0 2px 20px rgba(0,177,220,0.35)')}
             >
-              <span className="relative z-10">Get Free Compliance Audit</span>
-              <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform duration-200" />
-              <div className="absolute inset-0 animate-shimmer opacity-0 group-hover:opacity-100 transition-opacity" />
+              Get Free Compliance Audit
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
             </motion.button>
 
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={openDemoModal}
-              className="flex items-center gap-2 px-9 py-4 text-base font-semibold rounded-2xl transition-all duration-200"
-              style={{ color: 'var(--app-text-muted)', border: '1px solid var(--app-border)' }}
+              className="flex items-center justify-center gap-2 px-8 py-4 text-[15px] font-medium rounded-xl transition-all duration-200"
+              style={{
+                color: 'var(--ink-950)',
+                border: '1px solid var(--p3)',
+                background: 'var(--p0)',
+              }}
               onMouseEnter={e => {
-                (e.currentTarget as HTMLElement).style.borderColor = 'var(--app-border-dim)';
-                (e.currentTarget as HTMLElement).style.background = 'var(--app-elevated)';
-                (e.currentTarget as HTMLElement).style.color = 'var(--app-text-primary)';
+                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(0,177,220,0.4)';
+                (e.currentTarget as HTMLElement).style.color = 'var(--c5)';
               }}
               onMouseLeave={e => {
-                (e.currentTarget as HTMLElement).style.borderColor = 'var(--app-border)';
-                (e.currentTarget as HTMLElement).style.background = 'transparent';
-                (e.currentTarget as HTMLElement).style.color = 'var(--app-text-muted)';
+                (e.currentTarget as HTMLElement).style.borderColor = 'var(--p3)';
+                (e.currentTarget as HTMLElement).style.color = 'var(--ink-950)';
               }}
             >
-              Talk to an Expert
+              Contact Sales
             </motion.button>
           </div>
 
           {/* Trust pills */}
-          <div className="flex flex-wrap items-center justify-center gap-5">
+          <div className="flex flex-wrap items-center justify-center gap-6 mb-6">
             {[
               { Icon: CheckCircle2, text: 'No credit card' },
               { Icon: Shield,       text: 'Instant validation' },
               { Icon: Zap,          text: 'CERT-In report in 60s' },
             ].map(({ Icon, text }, i) => (
-              <div key={i} className="flex items-center gap-1.5 text-[13px]" style={{ color: 'var(--app-text-dimmer)' }}>
-                <Icon className="w-4 h-4 text-[#00D4AA]" />
+              <div key={i} className="flex items-center gap-1.5 text-[13px]"
+                style={{ color: 'var(--ink-500)' }}>
+                <Icon className="w-4 h-4" style={{ color: 'var(--c5)' }} />
                 {text}
               </div>
             ))}
+          </div>
+
+          {/* Email */}
+          <div className="flex items-center justify-center gap-2" style={{ color: 'var(--ink-400)' }}>
+            <Mail className="w-3.5 h-3.5" style={{ color: 'var(--c5)' }} />
+            <span className="text-[13px]">Enterprise enquiries: </span>
+            <a
+              href="mailto:sales@intellixbom.com"
+              className="text-[13px] font-medium transition-colors"
+              style={{ color: 'var(--c5)' }}
+              onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = 'var(--c6)')}
+              onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = 'var(--c5)')}
+            >
+              sales@intellixbom.com
+            </a>
           </div>
         </motion.div>
       </div>

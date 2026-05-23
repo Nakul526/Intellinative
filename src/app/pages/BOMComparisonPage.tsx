@@ -23,7 +23,7 @@ const bomTypes = [
     name: 'CBOM',
     fullName: 'Cryptographic Bill of Materials',
     color: '#00D4AA',
-    purpose: 'Inventory cryptographic assets — certificates, keys, algorithms, and protocols across your infrastructure.',
+    purpose: 'Inventory cryptographic assets certificates, keys, algorithms, and protocols across your infrastructure.',
     whoNeeds: 'Security teams, PKI owners, any organisation starting post-quantum migration.',
     updateTrigger: 'Certificate rotation, infrastructure changes',
     formats: 'CycloneDX 1.5+, JSON, custom',
@@ -142,7 +142,7 @@ export default function BOMComparisonPage() {
             </span>
           </h1>
           <p className="text-xl leading-[1.75] max-w-[600px] mx-auto mb-8" style={{ color: 'var(--app-text-muted)' }}>
-            SBOM, CBOM, QBOM, AIBOM, HBOM — each serves a distinct regulatory and operational purpose.
+            SBOM, CBOM, QBOM, AIBOM, HBOM each serves a distinct regulatory and operational purpose.
             Here's how they compare across coverage, compliance mandates, and capabilities.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-2">

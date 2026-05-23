@@ -204,7 +204,7 @@ export default function BOMTypesPage() {
                   ))}
                 </div>
 
-                {/* Terminal — always dark */}
+                {/* Terminal always dark */}
                 <div
                   className="rounded-xl overflow-hidden"
                   style={{ background: '#080C14', border: '1px solid rgba(255,255,255,0.07)' }}
