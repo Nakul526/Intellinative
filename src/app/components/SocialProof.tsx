@@ -21,7 +21,7 @@ export default function SocialProof() {
   return (
     <section
       className="py-10"
-      style={{ background: 'var(--p2)', borderTop: '1px solid var(--p3)', borderBottom: '1px solid var(--p3)' }}
+      style={{ background: 'var(--p1)', borderBottom: '1px solid var(--p3)' }}
     >
       {/* Label */}
       <motion.div

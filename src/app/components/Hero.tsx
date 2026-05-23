@@ -64,8 +64,8 @@ export default function Hero() {
 
   return (
     <section
-      className="relative min-h-screen flex items-center overflow-hidden"
-      style={{ background: 'var(--p1)', paddingTop: '4rem' }}
+      className="relative flex items-center overflow-hidden"
+      style={{ background: 'var(--p1)', paddingTop: '4rem', minHeight: 'calc(100vh - 4rem)', paddingBottom: '0' }}
     >
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -74,14 +74,14 @@ export default function Hero() {
         <div className="absolute inset-0 animate-grid-pan" style={{ backgroundImage: 'linear-gradient(var(--app-grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--app-grid-line) 1px, transparent 1px)', backgroundSize: '72px 72px', maskImage: 'radial-gradient(ellipse 75% 85% at 40% 50%, black 20%, transparent 75%)' }} />
       </div>
 
-      <div className="relative z-10 w-full max-w-[1440px] mx-auto px-6 lg:px-14 py-10">
+      <div className="relative z-10 w-full max-w-[1440px] mx-auto px-6 lg:px-14 pt-6 pb-2">
         <div className="grid lg:grid-cols-[1fr_500px] xl:grid-cols-[1fr_540px] gap-10 xl:gap-16 items-center">
 
           {/* ── LEFT ── */}
           <div ref={ref}>
             {/* Eyebrow */}
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55 }}
-              className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full mb-6"
+              className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full mb-4"
               style={{ background: 'var(--c1)', border: '1px solid var(--c2)' }}>
               <div className="w-1.5 h-1.5 rounded-full" style={{ background: 'var(--c5)', animation: 'pulse-dot 2s infinite' }} />
               <span className="text-[11px] font-semibold tracking-widest uppercase" style={{ color: 'var(--c6)', fontFamily: 'var(--f-m)' }}>
@@ -96,7 +96,7 @@ export default function Hero() {
                 initial={{ y: 70, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.72, delay: 0.10, ease: [0.16, 1, 0.3, 1] }}
                 className="font-bold leading-[1.0] tracking-[-0.04em]"
-                style={{ color: 'var(--ink-950)', fontFamily: 'var(--f-d)', fontSize: 'clamp(40px, 6vw, 72px)' }}
+                style={{ color: 'var(--ink-950)', fontFamily: 'var(--f-d)', fontSize: 'clamp(30px, 4.2vw, 52px)' }}
               >
                 A Digital Trust Platform
               </motion.h1>
@@ -106,17 +106,17 @@ export default function Hero() {
                 initial={{ y: 70, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.72, delay: 0.16, ease: [0.16, 1, 0.3, 1] }}
                 className="font-bold leading-[1.0] tracking-[-0.04em]"
-                style={{ color: 'var(--ink-950)', fontFamily: 'var(--f-d)', fontSize: 'clamp(40px, 6vw, 72px)' }}
+                style={{ color: 'var(--ink-950)', fontFamily: 'var(--f-d)', fontSize: 'clamp(30px, 4.2vw, 52px)' }}
               >
                 for Continuous
               </motion.div>
             </div>
-            <div className="overflow-hidden mb-4">
+            <div className="overflow-hidden mb-3">
               <motion.div
                 initial={{ y: 70, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.72, delay: 0.22, ease: [0.16, 1, 0.3, 1] }}
                 className="font-bold leading-[1.0] tracking-[-0.04em]"
-                style={{ color: 'var(--c5)', fontFamily: 'var(--f-d)', fontSize: 'clamp(40px, 6vw, 72px)' }}
+                style={{ color: 'var(--c5)', fontFamily: 'var(--f-d)', fontSize: 'clamp(30px, 4.2vw, 52px)' }}
               >
                 SBOM Based Compliance
               </motion.div>
@@ -126,7 +126,7 @@ export default function Hero() {
             <motion.p
               initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.32 }}
-              className="text-[17px] leading-[1.75] max-w-[520px] mb-8"
+              className="text-[15px] leading-[1.65] max-w-[480px] mb-6"
               style={{ color: 'var(--ink-600)' }}>
               Complete BOM governance across software, hardware, quantum, and
               cryptography with compliance evidence and CERT-In alignment for
@@ -137,7 +137,7 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, delay: 0.42 }}
-              className="flex flex-col sm:flex-row items-stretch gap-3 mb-10">
+              className="flex flex-col sm:flex-row items-stretch gap-3 mb-5">
               <motion.button
                 whileHover={{ scale: 1.03, translateY: -1 }} whileTap={{ scale: 0.97 }}
                 onClick={openDemoModal}
@@ -164,7 +164,7 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0 }} animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.54 }}
-              className="flex flex-wrap gap-2 mb-6">
+              className="flex flex-wrap gap-2 mb-4">
               {['CERT-In v2.0', 'RBI Advisory 11/2024', 'MeitY SBOM Guidelines', '100% Self-Hosted'].map(badge => (
                 <div key={badge} className="flex items-center gap-1.5 px-2.5 py-1 rounded text-[10px] font-semibold"
                   style={{ background: 'var(--gold-1)', border: '1px solid rgba(200,148,31,0.3)', color: 'var(--gold-7)', fontFamily: 'var(--f-m)' }}>
@@ -185,7 +185,7 @@ export default function Hero() {
                 <div key={i}
                   className={i === 0 ? 'pr-8' : i === 2 ? 'pl-8' : 'px-8'}
                   style={i > 0 ? { borderLeft: '1px solid var(--p3)' } : {}}>
-                  <div className="text-[28px] font-bold leading-none mb-1 tabular-nums"
+                  <div className="text-[24px] font-bold leading-none mb-0.5 tabular-nums"
                     style={{ color: 'var(--ink-950)', letterSpacing: '-0.04em' }}>
                     {s.value}<span style={{ color: 'var(--c5)' }}>{s.unit}</span>
                   </div>
