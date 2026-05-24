@@ -1,18 +1,8 @@
 import { Link } from 'react-router';
-import { Code, Shield, BarChart3, Server, FileText, Settings, GitBranch, Bell, Search, Lock } from 'lucide-react';
+import { Shield, Settings, Lock } from 'lucide-react';
 import { openDemoModal } from '../components/DemoModal';
+import platformImage from '../../assets/platform.png';
 
-const features = [
-  { icon: Code, color: '#4361EE', title: 'Automatic BOM Generation', description: 'Generate comprehensive BOMs automatically from your build pipeline, repositories, and infrastructure. Supports CycloneDX and SPDX formats out of the box.', detail: 'Integrates with GitHub, GitLab, Jenkins, and all major CI/CD platforms.' },
-  { icon: Shield, color: '#00D4AA', title: 'Continuous Field Validation', description: 'Real-time validation against CERT-In 21 mandatory fields with instant alerts on non-compliance or missing data at every release.', detail: 'Zero-latency validation on every push. No batch processing delays.' },
-  { icon: BarChart3, color: '#8B5CF6', title: 'Vendor Compliance Scoring', description: 'Automated scoring system for vendor-supplied BOMs with executive dashboards showing compliance trends and risks over time.', detail: 'Track vendor improvement/degradation across sprints and quarters.' },
-  { icon: Server, color: '#F59E0B', title: 'Air-Gapped Deployment', description: 'Deploy IntelliXBOM in fully air-gapped environments with on-premise validation. Zero external dependencies for classified infrastructure.', detail: 'Supports dark-site deployments with offline CVE and policy databases.' },
-  { icon: FileText, color: '#EF4444', title: 'Regulator-Ready Reports', description: 'One-click audit exports in formats required by CERT-In, RBI, SEBI, and other Indian regulatory authorities. Walk into any audit prepared.', detail: 'Pre-built report templates for CERT-In v2.0, RBI 11/2024, and MeitY 2025.' },
-  { icon: Settings, color: '#00D4AA', title: 'Project-Level BOM Controls', description: 'Granular policies per project, team, or vendor with custom validation rules and approval workflows for non-compliant components.', detail: 'Role-based access, approval gates, and Jira/GitHub Issues integration.' },
-  { icon: GitBranch, color: '#4361EE', title: 'CI/CD Pipeline Integration', description: 'Native plugins for GitHub Actions, GitLab CI, Jenkins, and ArgoCD. Block non-compliant releases at the gate before they reach production.', detail: 'Policy-as-code: define compliance thresholds in your repository.' },
-  { icon: Bell, color: '#F59E0B', title: 'Real-Time Alerts & Notifications', description: 'Instant Slack, Teams, PagerDuty, and email alerts when compliance drops below thresholds or new vulnerabilities are discovered in your BOM.', detail: 'Configurable alert rules with escalation paths and on-call routing.' },
-  { icon: Search, color: '#8B5CF6', title: 'BOM Search & Query', description: 'Query across your entire BOM inventory with powerful search. Find every component using a specific library version across all your projects instantly.', detail: 'Search by CVE, license, component, version, or any custom field.' },
-];
 
 const integrations = [
   { name: 'GitHub', category: 'SCM' }, { name: 'GitLab', category: 'SCM' },
@@ -40,7 +30,7 @@ export default function PlatformPage() {
             </span>
           </h1>
           <p className="text-xl leading-[1.75] max-w-[600px] mx-auto mb-10" style={{ color: 'var(--app-text-muted)' }}>
-            A unified BOM governance platform designed for regulated infrastructure—security,
+            A unified BOM governance platform designed for regulated infrastructuresecurity,
             compliance, and digital sovereignty at the core.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -116,33 +106,62 @@ export default function PlatformPage() {
         </div>
       </section>
 
-      {/* Features Grid */}
-      <section className="py-14 px-6" style={{ background: 'var(--app-bg-alt)', borderTop: '1px solid var(--app-border-subtle)' }}>
-        <div className="max-w-[1440px] mx-auto">
-          <div className="mb-10">
-            <p className="text-[11px] uppercase tracking-[0.1em] font-medium mb-3" style={{ color: 'var(--app-text-dimmer)' }}>CAPABILITIES</p>
-            <h2 className="text-4xl font-bold mb-4" style={{ color: 'var(--app-text-primary)' }}>Everything you need for BOM governance</h2>
-            <p className="text-lg max-w-[500px]" style={{ color: 'var(--app-text-muted)' }}>
-              From automatic generation to regulator-ready reporting—comprehensive tools for every stage of your BOM lifecycle.
-            </p>
+      {/* Platform screenshot in monitor */}
+      <section className="py-16 px-6" style={{ background: 'var(--app-bg-alt)', borderTop: '1px solid var(--app-border-subtle)' }}>
+        <div className="max-w-[1200px] mx-auto">
+          {/* Badge */}
+          <div className="mb-10 flex justify-center">
+            <span
+              className="inline-block px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-[0.1em]"
+              style={{
+                background: 'rgba(0,177,220,0.1)',
+                color: 'var(--c5)',
+                border: '1px solid rgba(0,177,220,0.25)',
+                fontFamily: 'var(--f-m)',
+              }}
+            >
+              Platform
+            </span>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {features.map((feature, i) => (
-              <div
-                key={i}
-                className="rounded-xl p-7 group transition-all duration-200"
-                style={{ background: 'var(--app-card)', border: '1px solid var(--app-border)' }}
-                onMouseEnter={e => ((e.currentTarget as HTMLElement).style.borderColor = 'var(--app-border-dim)')}
-                onMouseLeave={e => ((e.currentTarget as HTMLElement).style.borderColor = 'var(--app-border)')}
-              >
-                <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-5" style={{ background: `${feature.color}15` }}>
-                  <feature.icon className="w-5 h-5" style={{ color: feature.color }} />
-                </div>
-                <h3 className="text-base font-semibold mb-2" style={{ color: 'var(--app-text-primary)' }}>{feature.title}</h3>
-                <p className="text-sm leading-[1.7] mb-3" style={{ color: 'var(--app-text-muted)' }}>{feature.description}</p>
-                <p className="text-xs leading-[1.6]" style={{ color: 'var(--app-text-dimmer)' }}>{feature.detail}</p>
+
+          {/* Monitor / browser frame */}
+          <div
+            className="rounded-2xl overflow-hidden"
+            style={{
+              background: '#0E1A2E',
+              border: '1px solid #1A2030',
+              boxShadow: '0 40px 120px rgba(0,0,0,0.45), 0 0 60px rgba(0,177,220,0.06)',
+            }}
+          >
+            {/* Browser chrome */}
+            <div
+              className="flex items-center gap-2 px-4 py-3"
+              style={{ background: '#060B14', borderBottom: '1px solid #1A2030' }}
+            >
+              <div className="flex items-center gap-1.5">
+                <div className="w-3 h-3 rounded-full" style={{ background: '#E53935' }} />
+                <div className="w-3 h-3 rounded-full" style={{ background: '#F59E0B' }} />
+                <div className="w-3 h-3 rounded-full" style={{ background: '#10B981' }} />
               </div>
-            ))}
+              <div
+                className="flex-1 mx-4 px-3 flex items-center"
+                style={{ background: '#0E1A2E', border: '1px solid #1A2030', borderRadius: 6, height: 26 }}
+              >
+                <span style={{ fontSize: 11, color: '#4B5570', fontFamily: 'var(--f-m)' }}>
+                  app.intellixbom.com/dashboard
+                </span>
+              </div>
+            </div>
+
+            {/* Screenshot */}
+            <div style={{ lineHeight: 0 }}>
+              <img
+                src={platformImage}
+                alt="IntelliXBOM Platform Dashboard"
+                className="w-full"
+                style={{ display: 'block' }}
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -193,20 +212,63 @@ export default function PlatformPage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-14 px-6" style={{ background: `radial-gradient(ellipse 80% 80% at 50% 50%, rgba(67,97,238,0.12), transparent), var(--app-bg)` }}>
-        <div className="max-w-[640px] mx-auto text-center">
-          <h2 className="text-4xl font-bold mb-4" style={{ color: 'var(--app-text-primary)' }}>See the platform in action</h2>
-          <p className="text-lg mb-10" style={{ color: 'var(--app-text-muted)' }}>
-            Schedule a live demo tailored to your regulatory environment CERT-In, RBI, MeitY, or SEBI.
-          </p>
-          <button
-            onClick={openDemoModal}
-            className="px-7 py-3.5 text-base font-semibold text-white rounded-lg transition-all hover:-translate-y-0.5"
-            style={{ background: 'linear-gradient(135deg, #4361EE 0%, #3A0CA3 100%)', boxShadow: '0 0 32px rgba(67,97,238,0.45)' }}
-          >
-            Request Demo →
-          </button>
+      {/* Bottom CTA  dark theme */}
+      <section className="py-20 px-6" style={{ background: '#060B14', borderTop: '1px solid #1A2030' }}>
+        <div className="max-w-[900px] mx-auto">
+          {/* Headline block */}
+          <div className="text-center mb-14">
+            <p
+              className="text-[11px] uppercase tracking-[0.12em] font-semibold mb-4"
+              style={{ color: '#3DC7F6', fontFamily: 'var(--f-m)' }}
+            >
+              Platform
+            </p>
+            <h2
+              className="text-4xl md:text-[52px] font-bold mb-5 leading-[1.05]"
+              style={{ color: '#FFFFFF', letterSpacing: '-0.025em' }}
+            >
+              See everything.<br />Miss nothing.
+            </h2>
+            <p className="text-lg max-w-[520px] mx-auto mb-10 leading-[1.75]" style={{ color: '#C5CCD8' }}>
+              IntelliXBOM gives your security, compliance, and engineering teams a single unified view across every BOM type  live, validated, and regulator-ready.
+            </p>
+            <button
+              onClick={openDemoModal}
+              className="px-7 py-3.5 text-base font-semibold rounded-lg transition-all hover:-translate-y-0.5"
+              style={{
+                background: '#3DC7F6',
+                color: '#060B14',
+                boxShadow: '0 0 28px rgba(61,199,246,0.35)',
+              }}
+            >
+              Request Demo →
+            </button>
+          </div>
+
+          {/* Dark stat cards row */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { value: '5', label: 'BOM Types', sub: 'SBOM · CBOM · QBOM · AIBOM · HBOM' },
+              { value: '21', label: 'CERT-In Fields', sub: 'Auto-validated on every push' },
+              { value: '10+', label: 'Regulators', sub: 'CERT-In · RBI · SEBI · MeitY' },
+              { value: '100%', label: 'On-Premise', sub: 'Air-gap & data sovereignty ready' },
+            ].map((s, i) => (
+              <div
+                key={i}
+                className="rounded-xl p-5"
+                style={{ background: '#0E1A2E', border: '1px solid #1A2030' }}
+              >
+                <div
+                  className="text-3xl font-bold mb-1"
+                  style={{ color: '#3DC7F6', letterSpacing: '-0.03em' }}
+                >
+                  {s.value}
+                </div>
+                <div className="text-sm font-semibold mb-1" style={{ color: '#FFFFFF' }}>{s.label}</div>
+                <div className="text-[11px] leading-[1.5]" style={{ color: '#4B5570', fontFamily: 'var(--f-m)' }}>{s.sub}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </main>

@@ -181,7 +181,7 @@ Line 3: "Proven." color #FFFFFF
 
 ── SUBHEADING ──
 20px, Inter 400, #94A3B8, max-width 620px, center, line-height 1.75
-"Verify every SBOM, CBOM, QBOM, AIBOM, and HBOM your vendors deliver —
+"Verify every SBOM, CBOM, QBOM, AIBOM, and HBOM your vendors deliver 
 against CERT-In's 21 mandatory fields, automatically, at every software update."
 
 ── CTA ROW ──
@@ -508,7 +508,7 @@ padding-top: 64px (navbar)
 Eyebrow: "JOURNAL" 11px uppercase #4361EE, letter-spacing 0.12em
 H1: "BOM Governance & Digital Trust" 52px 700 white, tracking -0.02em
 Sub: 18px #94A3B8, max-width 500px, center
-"Engineering notes, compliance patterns, and platform updates —
+"Engineering notes, compliance patterns, and platform updates 
 SBOM through HBOM, built for regulated teams."
 
 TAG FILTER PILLS (margin-top 32px):

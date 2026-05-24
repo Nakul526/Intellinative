@@ -1,12 +1,11 @@
 /**
- * BomDependencyGraph — Graph View + Tree View tabs
+ * BomDependencyGraph  Graph View + Tree View tabs
  */
 
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
-  ArrowLeft, Search, X, ChevronRight, Shield,
-  AlertTriangle, Info, CheckCircle2, ChevronDown,
+  ArrowLeft, Search, X, ChevronRight, Shield, ChevronDown,
 } from 'lucide-react';
 
 /* ─── Types ───────────────────────────────────────────────────── */
@@ -97,16 +96,16 @@ const TREE_DATA: TreeNode = {
   ],
 };
 
-/* ─── Bubble layout — spread out positions ─────────────────────── */
+/* ─── Bubble layout  spread out positions ─────────────────────── */
 interface BubbleLayout { id: Severity; cx: number; cy: number; r: number }
 const BUBBLES: BubbleLayout[] = [
-  { id: 'CRITICAL', cx: 160, cy: 110, r: 52  },
-  { id: 'NONE',     cx: 130, cy: 320, r: 100 },
-  { id: 'HIGH',     cx: 360, cy: 320, r: 55  },
-  { id: 'MEDIUM',   cx: 440, cy: 175, r: 72  },
-  { id: 'LOW',      cx: 385, cy: 445, r: 40  },
+  { id: 'CRITICAL', cx: 158, cy: 140, r: 44  },
+  { id: 'NONE',     cx: 122, cy: 348, r: 68  },
+  { id: 'MEDIUM',   cx: 412, cy: 145, r: 54  },
+  { id: 'HIGH',     cx: 435, cy: 340, r: 44  },
+  { id: 'LOW',      cx: 282, cy: 448, r: 33  },
 ];
-const HUB = { cx: 268, cy: 240, r: 38 };
+const HUB = { cx: 285, cy: 265, r: 48 };
 
 const TAG_STYLE: Record<string, { bg: string; color: string }> = {
   ROOT:     { bg: '#E6F7FC', color: '#007AA6' },
@@ -115,12 +114,6 @@ const TAG_STYLE: Record<string, { bg: string; color: string }> = {
   TARGET:   { bg: '#E6F7FC', color: '#007AA6' },
 };
 
-function SevIcon({ sev }: { sev: Severity }) {
-  const Icon = sev === 'CRITICAL' || sev === 'HIGH' ? AlertTriangle
-             : sev === 'MEDIUM' || sev === 'LOW'   ? Info
-             : CheckCircle2;
-  return <Icon className="w-3 h-3" style={{ color: SEVERITY_CONFIG[sev].color }} />;
-}
 
 /* ─── Main export ─────────────────────────────────────────────── */
 export default function BomDependencyGraph() {
@@ -147,19 +140,19 @@ export default function BomDependencyGraph() {
 
   return (
     <div className="rounded-2xl overflow-hidden"
-      style={{ border: '1px solid var(--p3)', boxShadow: 'var(--sh-md)', background: 'var(--p0)' }}>
+      style={{ border: '1px solid #1A2030', boxShadow: 'var(--sh-md)', background: '#0E1A2E' }}>
 
       {/* ── Header ── */}
       <div className="flex items-center justify-between px-5 py-3.5"
-        style={{ borderBottom: '1px solid var(--p3)', background: 'var(--p1)' }}>
+        style={{ borderBottom: '1px solid #1A2030', background: '#060B14' }}>
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-lg flex items-center justify-center"
-            style={{ background: 'var(--c1)', border: '1px solid var(--c2)' }}>
-            <Shield className="w-4 h-4" style={{ color: 'var(--c5)' }} />
+            style={{ background: 'rgba(61,199,246,0.1)', border: '1px solid rgba(61,199,246,0.2)' }}>
+            <Shield className="w-4 h-4" style={{ color: '#3DC7F6' }} />
           </div>
           <div>
-            <div className="text-sm font-semibold" style={{ color: 'var(--ink-950)' }}>Dependency Graph</div>
-            <div className="text-[11px]" style={{ color: 'var(--ink-500)', fontFamily: 'var(--f-m)' }}>
+            <div className="text-sm font-semibold" style={{ color: '#FFFFFF' }}>Dependency Graph</div>
+            <div className="text-[11px]" style={{ color: '#C5CCD8', fontFamily: 'var(--f-m)' }}>
               {PROJECT} · {TOTAL.toLocaleString()} components · 0 vulnerable
             </div>
           </div>
@@ -170,8 +163,8 @@ export default function BomDependencyGraph() {
             return (
               <div key={s} className="flex items-center gap-1.5">
                 <div className="w-2 h-2 rounded-full" style={{ background: cfg.color }} />
-                <span className="text-[11px] font-medium" style={{ color: 'var(--ink-500)', fontFamily: 'var(--f-m)' }}>
-                  {cfg.count} {s}
+                <span className="text-[11px] font-medium" style={{ color: '#C5CCD8', fontFamily: 'var(--f-m)' }}>
+                  {s} {cfg.count}
                 </span>
               </div>
             );
@@ -181,7 +174,7 @@ export default function BomDependencyGraph() {
 
       {/* ── Tabs ── */}
       <div className="flex items-center gap-0 px-5 pt-3 pb-0"
-        style={{ borderBottom: '1px solid var(--p3)' }}>
+        style={{ borderBottom: '1px solid #1A2030' }}>
         {[
           { key: 'graph', label: 'Graph View', icon: (
             <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -227,20 +220,41 @@ export default function BomDependencyGraph() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.18 }}
             className="flex"
-            style={{ minHeight: 480 }}
+            style={{ height: 440 }}
           >
-            {/* Left: bubble chart */}
-            <div className="flex-1 relative" style={{ background: '#F8FAFB', minWidth: 0 }}>
+            {/* Left: bubble chart — 70% */}
+            <div className="relative" style={{ width: '70%', background: '#060B14', minWidth: 0 }}>
               <BubbleChart activeSev={activeSev} onClickBubble={openCluster} />
-              <div className="absolute bottom-3 left-1/2 -translate-x-1/2 text-[11px] text-center"
-                style={{ color: 'var(--ink-500)' }}>
-                Click a severity cluster to inspect its components
-              </div>
+
+              {/* Interaction hint  only shown when nothing is selected */}
+              {!activeSev && (
+                <div className="absolute bottom-4 left-4 flex items-center gap-2 px-3 py-1.5 rounded-full"
+                  style={{
+                    background: 'rgba(0,177,220,0.08)',
+                    border: '1px solid rgba(0,177,220,0.22)',
+                    pointerEvents: 'none',
+                    whiteSpace: 'nowrap',
+                  }}>
+                  {/* Pulsing dot */}
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-60"
+                      style={{ background: 'var(--c5)' }} />
+                    <span className="relative inline-flex rounded-full h-2 w-2"
+                      style={{ background: 'var(--c5)' }} />
+                  </span>
+                  {/* Cursor icon */}
+                  <svg width="11" height="13" viewBox="0 0 11 13" fill="none" style={{ flexShrink: 0 }}>
+                    <path d="M1 1l8.5 5.5-4 1L4 11 1 1z" fill="var(--c5)" fillOpacity="0.85" stroke="var(--c5)" strokeWidth="0.5" strokeLinejoin="round"/>
+                  </svg>
+                  <span className="text-[11px] font-semibold" style={{ color: 'var(--c6)', fontFamily: 'var(--f-m)' }}>
+                    Click any bubble to explore
+                  </span>
+                </div>
+              )}
             </div>
 
-            {/* Right: overview / cluster / detail panel */}
-            <div className="flex-shrink-0"
-              style={{ width: 340, borderLeft: '1px solid var(--p3)', background: 'var(--p0)' }}>
+            {/* Right: overview / cluster / detail panel — 30% */}
+            <div style={{ width: '30%', borderLeft: '1px solid #1A2030', background: '#0E1A2E' }}>
               <AnimatePresence mode="wait">
                 {view === 'overview' && (
                   <motion.div key="ov" initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }}
@@ -275,6 +289,7 @@ export default function BomDependencyGraph() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.18 }}
+            style={{ height: 440, overflow: 'hidden' }}
           >
             <TreeViewPanel />
           </motion.div>
@@ -289,79 +304,148 @@ function BubbleChart({ activeSev, onClickBubble }: {
   activeSev: Severity | null; onClickBubble: (s: Severity) => void;
 }) {
   return (
-    <svg viewBox="0 0 570 510" className="w-full h-full" style={{ maxHeight: 450 }}>
-      {/* Hub lines */}
-      {BUBBLES.map(b => (
-        <line key={b.id}
-          x1={HUB.cx} y1={HUB.cy} x2={b.cx} y2={b.cy}
-          stroke={SEVERITY_CONFIG[b.id].color} strokeWidth={1}
-          strokeOpacity={activeSev && activeSev !== b.id ? 0.08 : 0.22}
-          strokeDasharray="4 3"
-        />
-      ))}
+    <svg viewBox="20 70 540 430" className="w-full h-full" style={{ maxHeight: 440 }}>
+      <defs>
+        {/* Hub radial gradient fill */}
+        <radialGradient id="hub-fill" cx="40%" cy="35%" r="65%">
+          <stop offset="0%"   stopColor="#1A3A5C" stopOpacity="1" />
+          <stop offset="100%" stopColor="#060B14" stopOpacity="1" />
+        </radialGradient>
+        {/* Hub outer glow */}
+        <radialGradient id="hub-halo" cx="50%" cy="50%" r="50%">
+          <stop offset="0%"   stopColor="#3DC7F6" stopOpacity="0.25" />
+          <stop offset="100%" stopColor="#3DC7F6" stopOpacity="0"   />
+        </radialGradient>
+        {/* Per-bubble dark fill gradients */}
+        {BUBBLES.map(b => (
+          <radialGradient key={b.id} id={`bg-${b.id}`} cx="38%" cy="32%" r="68%">
+            <stop offset="0%"   stopColor={SEVERITY_CONFIG[b.id].color} stopOpacity="0.28" />
+            <stop offset="100%" stopColor={SEVERITY_CONFIG[b.id].color} stopOpacity="0.06" />
+          </radialGradient>
+        ))}
+      </defs>
 
-      {/* Hub */}
-      <circle cx={HUB.cx} cy={HUB.cy} r={HUB.r}
-        fill="white" stroke="var(--c5)" strokeWidth={1.5}
-        style={{ filter: 'drop-shadow(0 2px 8px rgba(0,177,220,0.2))' }}
-      />
-      <circle cx={HUB.cx} cy={HUB.cy} r={HUB.r + 8}
-        fill="none" stroke="var(--c5)" strokeWidth={0.7} strokeOpacity={0.2}>
-        <animate attributeName="r" values={`${HUB.r + 8};${HUB.r + 18};${HUB.r + 8}`} dur="2.5s" repeatCount="indefinite" />
-        <animate attributeName="stroke-opacity" values="0.2;0;0.2" dur="2.5s" repeatCount="indefinite" />
-      </circle>
-      <text x={HUB.cx} y={HUB.cy - 6} textAnchor="middle" fontSize={9} fontWeight="700" fill="#0E1A2E" fontFamily="Inter">
-        {PROJECT.split('-').slice(0, 2).join('-')}
-      </text>
-      <text x={HUB.cx} y={HUB.cy + 8} textAnchor="middle" fontSize={7.5} fill="#6B7589" fontFamily="JetBrains Mono, monospace">
-        {TOTAL.toLocaleString()} comp.
-      </text>
+      {/* ── Connector lines  dashed, drawn FIRST (behind everything) ── */}
+      {BUBBLES.map(b => {
+        const dimmed = activeSev !== null && activeSev !== b.id;
+        return (
+          <line key={b.id}
+            x1={HUB.cx} y1={HUB.cy} x2={b.cx} y2={b.cy}
+            stroke={SEVERITY_CONFIG[b.id].color}
+            strokeWidth={dimmed ? 0.7 : 1.4}
+            strokeOpacity={dimmed ? 0.08 : 0.35}
+            strokeDasharray="5 6"
+          />
+        );
+      })}
 
-      {/* Severity bubbles */}
+      {/* ── Severity bubbles ── */}
       {BUBBLES.map(b => {
         const cfg = SEVERITY_CONFIG[b.id];
         const isActive = activeSev === b.id;
         const isDimmed = activeSev !== null && !isActive;
         return (
           <g key={b.id} style={{ cursor: 'pointer' }} onClick={() => onClickBubble(b.id)}>
+            {/* Active pulse ring */}
             {isActive && (
-              <circle cx={b.cx} cy={b.cy} r={b.r + 10}
-                fill="none" stroke={cfg.color} strokeWidth={1.5} strokeOpacity={0.4}>
-                <animate attributeName="r" values={`${b.r + 8};${b.r + 22};${b.r + 8}`} dur="1.6s" repeatCount="indefinite" />
-                <animate attributeName="stroke-opacity" values="0.5;0;0.5" dur="1.6s" repeatCount="indefinite" />
+              <circle cx={b.cx} cy={b.cy} r={b.r + 12}
+                fill="none" stroke={cfg.color} strokeWidth={1.2} strokeOpacity={0.4}>
+                <animate attributeName="r" values={`${b.r + 8};${b.r + 26};${b.r + 8}`} dur="1.8s" repeatCount="indefinite" />
+                <animate attributeName="stroke-opacity" values="0.45;0;0.45" dur="1.8s" repeatCount="indefinite" />
               </circle>
             )}
+            {/* Bubble body */}
             <circle cx={b.cx} cy={b.cy} r={b.r}
-              fill={cfg.bg} stroke={cfg.color}
-              strokeWidth={isActive ? 2 : 1.5}
-              strokeOpacity={isDimmed ? 0.25 : 0.7}
+              fill={`url(#bg-${b.id})`}
+              stroke={cfg.color}
+              strokeWidth={isActive ? 2.5 : 2}
+              strokeOpacity={isDimmed ? 0.18 : 0.75}
               fillOpacity={isDimmed ? 0.35 : 1}
-              style={{ transition: 'all 0.2s', filter: isActive ? `drop-shadow(0 4px 16px ${cfg.color}55)` : 'none' }}
+              style={{
+                transition: 'all 0.2s',
+                filter: isActive
+                  ? `drop-shadow(0 0 22px ${cfg.color}77) drop-shadow(0 0 8px ${cfg.color}55)`
+                  : isDimmed ? 'none'
+                  : `drop-shadow(0 2px 12px ${cfg.color}33)`,
+              }}
             />
-            <text x={b.cx} y={b.cy - b.r * 0.18}
+            {/* Label */}
+            <text x={b.cx} y={b.cy - 13}
               textAnchor="middle" dominantBaseline="middle"
-              fontSize={b.r * 0.22} fontWeight="600" fill={cfg.color}
+              fontSize={10} fontWeight="700" fill={cfg.color}
               fontFamily="JetBrains Mono, monospace"
-              fillOpacity={isDimmed ? 0.35 : 0.8}
-              style={{ letterSpacing: '0.04em' }}>
+              fillOpacity={isDimmed ? 0.25 : 0.9}
+              style={{ letterSpacing: '0.06em' }}>
               {cfg.label}
             </text>
-            <text x={b.cx} y={b.cy + b.r * 0.24}
+            {/* Count */}
+            <text x={b.cx} y={b.cy + 4}
               textAnchor="middle" dominantBaseline="middle"
-              fontSize={b.r * 0.42} fontWeight="700" fill={cfg.color}
-              fontFamily="Inter, system-ui" fillOpacity={isDimmed ? 0.35 : 1}
+              fontSize={20} fontWeight="800" fill={cfg.color}
+              fontFamily="Inter, system-ui"
+              fillOpacity={isDimmed ? 0.25 : 1}
               style={{ letterSpacing: '-0.04em' }}>
               {cfg.count >= 1000 ? `${(cfg.count / 1000).toFixed(1)}k` : cfg.count}
             </text>
-            <text x={b.cx} y={b.cy + b.r * 0.65}
+            {/* Percentage */}
+            <text x={b.cx} y={b.cy + 19}
               textAnchor="middle" dominantBaseline="middle"
-              fontSize={b.r * 0.18} fontWeight="500" fill={cfg.color}
-              fontFamily="Inter, system-ui" fillOpacity={isDimmed ? 0.25 : 0.55}>
+              fontSize={9.5} fontWeight="500" fill={cfg.color}
+              fontFamily="Inter, system-ui"
+              fillOpacity={isDimmed ? 0.18 : 0.55}>
               {cfg.pct}
             </text>
           </g>
         );
       })}
+
+      {/* ── Hub: prominent circle with BOM name ── drawn LAST (on top) ── */}
+      {/* Outer pulse halo */}
+      <circle cx={HUB.cx} cy={HUB.cy} r={HUB.r + 24}
+        fill="url(#hub-halo)" opacity={0.7}>
+        <animate attributeName="r" values={`${HUB.r + 18};${HUB.r + 36};${HUB.r + 18}`} dur="3s" repeatCount="indefinite" />
+        <animate attributeName="opacity" values="0.7;0.15;0.7" dur="3s" repeatCount="indefinite" />
+      </circle>
+      {/* Second ring */}
+      <circle cx={HUB.cx} cy={HUB.cy} r={HUB.r + 12}
+        fill="none" stroke="#3DC7F6" strokeWidth={1} strokeOpacity={0.2}>
+        <animate attributeName="r" values={`${HUB.r + 10};${HUB.r + 20};${HUB.r + 10}`} dur="3s" begin="0.6s" repeatCount="indefinite" />
+        <animate attributeName="stroke-opacity" values="0.25;0;0.25" dur="3s" begin="0.6s" repeatCount="indefinite" />
+      </circle>
+      {/* Hub body */}
+      <circle cx={HUB.cx} cy={HUB.cy} r={HUB.r}
+        fill="url(#hub-fill)"
+        stroke="#3DC7F6"
+        strokeWidth={2.5}
+        style={{ filter: 'drop-shadow(0 0 20px rgba(61,199,246,0.55)) drop-shadow(0 0 6px rgba(61,199,246,0.35))' }}
+      />
+      {/* Inner accent ring */}
+      <circle cx={HUB.cx} cy={HUB.cy} r={HUB.r - 10}
+        fill="none" stroke="rgba(61,199,246,0.18)" strokeWidth={1}
+      />
+      {/* Project name — line 1 */}
+      <text x={HUB.cx} y={HUB.cy - 9}
+        textAnchor="middle" dominantBaseline="middle"
+        fontSize={10} fontWeight="800" fill="#FFFFFF"
+        fontFamily="Inter, system-ui"
+        style={{ letterSpacing: '-0.01em' }}>
+        {PROJECT.slice(0, 7)}
+      </text>
+      {/* Project name — line 2 */}
+      <text x={HUB.cx} y={HUB.cy + 4}
+        textAnchor="middle" dominantBaseline="middle"
+        fontSize={10} fontWeight="800" fill="#FFFFFF"
+        fontFamily="Inter, system-ui"
+        style={{ letterSpacing: '-0.01em' }}>
+        {PROJECT.slice(7)}
+      </text>
+      {/* Component count */}
+      <text x={HUB.cx} y={HUB.cy + 18}
+        textAnchor="middle" dominantBaseline="middle"
+        fontSize={8} fontWeight="500" fill="#3DC7F6"
+        fontFamily="JetBrains Mono, monospace">
+        {TOTAL.toLocaleString()} comp.
+      </text>
     </svg>
   );
 }
@@ -380,7 +464,7 @@ function TreeViewPanel() {
     });
   }
 
-  function renderNode(node: TreeNode, depth: number, isLast: boolean, parentLines: boolean[]) {
+  function renderNode(node: TreeNode, depth: number, _isLast: boolean, parentLines: boolean[]) {
     const cfg = SEVERITY_CONFIG[node.severity];
     const hasChildren = (node.children?.length ?? 0) > 0;
     const isOpen = expanded.has(node.id);
@@ -397,7 +481,7 @@ function TreeViewPanel() {
             transition: 'background 0.15s, opacity 0.15s',
           }}
           onClick={() => { setSelectedId(node.id === selectedId ? null : node.id); }}
-          onMouseEnter={e => { if (!isSelected) (e.currentTarget as HTMLElement).style.background = 'var(--p1)'; }}
+          onMouseEnter={e => { if (!isSelected) (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.04)'; }}
           onMouseLeave={e => { if (!isSelected) (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
         >
           {/* Indent lines */}
@@ -405,7 +489,7 @@ function TreeViewPanel() {
             <div key={i} className="flex-shrink-0 flex justify-center" style={{ width: 24 }}>
               <div style={{
                 width: 1, height: '100%', minHeight: 36,
-                background: parentLines[i] ? 'var(--p3)' : 'transparent',
+                background: parentLines[i] ? '#1A2030' : 'transparent',
               }} />
             </div>
           ))}
@@ -413,7 +497,7 @@ function TreeViewPanel() {
           {/* Branch connector */}
           {depth > 0 && (
             <div className="flex-shrink-0 flex items-center" style={{ width: 24 }}>
-              <div style={{ width: 10, height: 1, background: 'var(--p3)' }} />
+              <div style={{ width: 10, height: 1, background: '#1A2030' }} />
             </div>
           )}
 
@@ -423,15 +507,15 @@ function TreeViewPanel() {
               <button
                 onClick={e => { e.stopPropagation(); toggle(node.id); }}
                 className="w-4 h-4 rounded flex items-center justify-center transition-colors"
-                style={{ background: isOpen ? 'var(--p2)' : 'transparent' }}
+                style={{ background: isOpen ? 'rgba(255,255,255,0.06)' : 'transparent' }}
               >
                 <ChevronDown
                   className="w-3 h-3 transition-transform duration-200"
-                  style={{ color: 'var(--ink-500)', transform: isOpen ? 'rotate(0deg)' : 'rotate(-90deg)' }}
+                  style={{ color: '#C5CCD8', transform: isOpen ? 'rotate(0deg)' : 'rotate(-90deg)' }}
                 />
               </button>
             ) : (
-              <div className="w-1.5 h-1.5 rounded-full" style={{ background: 'var(--p3)' }} />
+              <div className="w-1.5 h-1.5 rounded-full" style={{ background: '#1A2030' }} />
             )}
           </div>
 
@@ -442,7 +526,7 @@ function TreeViewPanel() {
           {/* Name */}
           <span className="text-[13px] flex-1 py-2.5 pr-2 truncate"
             style={{
-              color: isSelected ? cfg.color : 'var(--ink-950)',
+              color: isSelected ? cfg.color : '#FFFFFF',
               fontFamily: node.id === 'root' ? 'var(--f-d)' : 'var(--f-m)',
               fontWeight: node.id === 'root' ? 700 : 500,
             }}>
@@ -452,7 +536,7 @@ function TreeViewPanel() {
           {/* Version + severity badge */}
           <div className="flex items-center gap-2 pr-4 flex-shrink-0">
             {node.version && (
-              <span className="text-[10px]" style={{ color: 'var(--ink-400)', fontFamily: 'var(--f-m)' }}>
+              <span className="text-[10px]" style={{ color: '#4B5570', fontFamily: 'var(--f-m)' }}>
                 {node.version}
               </span>
             )}
@@ -481,14 +565,14 @@ function TreeViewPanel() {
   }
 
   return (
-    <div className="flex" style={{ minHeight: 480 }}>
-      {/* Tree */}
-      <div className="flex-1 flex flex-col" style={{ background: '#F8FAFB', minWidth: 0 }}>
+    <div className="flex" style={{ height: 440 }}>
+      {/* Tree — 70% */}
+      <div className="flex flex-col" style={{ width: '70%', height: '100%', background: '#060B14', minWidth: 0 }}>
         {/* Toolbar */}
         <div className="flex items-center gap-3 px-5 py-3"
-          style={{ borderBottom: '1px solid var(--p3)', background: 'var(--p0)' }}>
+          style={{ borderBottom: '1px solid #1A2030', background: '#060B14' }}>
           <span className="text-[11px] font-semibold uppercase tracking-[0.08em]"
-            style={{ color: 'var(--ink-500)', fontFamily: 'var(--f-m)' }}>
+            style={{ color: '#C5CCD8', fontFamily: 'var(--f-m)' }}>
             Filter:
           </span>
           {(['ALL', 'CRITICAL', 'HIGH', 'MEDIUM', 'LOW'] as const).map(s => {
@@ -501,8 +585,8 @@ function TreeViewPanel() {
                 className="text-[10px] font-bold px-2 py-0.5 rounded transition-all"
                 style={{
                   background: active ? bg : 'transparent',
-                  color: active ? color : 'var(--ink-500)',
-                  border: `1px solid ${active ? color : 'var(--p3)'}`,
+                  color: active ? color : '#C5CCD8',
+                  border: `1px solid ${active ? color : '#1A2030'}`,
                   fontFamily: 'var(--f-m)',
                 }}>
                 {s}
@@ -513,14 +597,14 @@ function TreeViewPanel() {
           <button
             onClick={() => setExpanded(new Set(['root', 't1', 't2', 't3', 't4', 't5', 't6']))}
             className="text-[11px] font-medium"
-            style={{ color: 'var(--c5)' }}>
+            style={{ color: '#3DC7F6' }}>
             Expand all
           </button>
-          <span style={{ color: 'var(--p3)' }}>·</span>
+          <span style={{ color: '#1A2030' }}>·</span>
           <button
             onClick={() => setExpanded(new Set(['root']))}
             className="text-[11px] font-medium"
-            style={{ color: 'var(--ink-500)' }}>
+            style={{ color: '#C5CCD8' }}>
             Collapse
           </button>
         </div>
@@ -531,14 +615,13 @@ function TreeViewPanel() {
         </div>
 
         <div className="px-5 py-2.5 text-[11px]"
-          style={{ borderTop: '1px solid var(--p3)', color: 'var(--ink-500)', background: 'var(--p0)' }}>
+          style={{ borderTop: '1px solid #1A2030', color: '#C5CCD8', background: '#060B14' }}>
           {TOTAL.toLocaleString()} total · Click a row to inspect · Click ▸ to expand
         </div>
       </div>
 
-      {/* Right: details panel */}
-      <div className="flex-shrink-0"
-        style={{ width: 300, borderLeft: '1px solid var(--p3)', background: 'var(--p0)' }}>
+      {/* Right: details panel — 30% */}
+      <div style={{ width: '30%', height: '100%', borderLeft: '1px solid #1A2030', background: '#0E1A2E' }}>
         <AnimatePresence mode="wait">
           {selectedId ? (
             (() => {
@@ -551,9 +634,9 @@ function TreeViewPanel() {
                   initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0 }} transition={{ duration: 0.15 }}
                   className="h-full flex flex-col">
-                  <div className="px-5 py-4" style={{ borderBottom: '1px solid var(--p3)', background: cfg.bg }}>
+                  <div className="px-5 py-4" style={{ borderBottom: '1px solid #1A2030', background: 'rgba(255,255,255,0.04)' }}>
                     <div className="text-[13px] font-bold break-all mb-1.5"
-                      style={{ color: 'var(--ink-950)', fontFamily: 'var(--f-m)' }}>
+                      style={{ color: '#FFFFFF', fontFamily: 'var(--f-m)' }}>
                       {node.name}
                     </div>
                     <span className="inline-flex items-center gap-1.5 text-[10px] font-bold px-2 py-0.5 rounded"
@@ -571,11 +654,11 @@ function TreeViewPanel() {
                     ].map(row => (
                       <div key={row.label}>
                         <div className="text-[9px] font-bold uppercase tracking-widest mb-0.5"
-                          style={{ color: 'var(--ink-400)', fontFamily: 'var(--f-m)' }}>
+                          style={{ color: '#4B5570', fontFamily: 'var(--f-m)' }}>
                           {row.label}
                         </div>
                         <div className="text-[13px] font-medium"
-                          style={{ color: row.label === 'SEVERITY' ? cfg.color : 'var(--ink-950)', fontFamily: 'var(--f-m)' }}>
+                          style={{ color: row.label === 'SEVERITY' ? cfg.color : '#FFFFFF', fontFamily: 'var(--f-m)' }}>
                           {row.value}
                         </div>
                       </div>
@@ -590,13 +673,13 @@ function TreeViewPanel() {
               exit={{ opacity: 0 }} transition={{ duration: 0.15 }}
               className="h-full flex flex-col items-center justify-center px-6 text-center">
               <div className="w-10 h-10 rounded-xl mb-3 flex items-center justify-center"
-                style={{ background: 'var(--p2)', border: '1px solid var(--p3)' }}>
-                <ChevronRight className="w-5 h-5" style={{ color: 'var(--ink-400)' }} />
+                style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid #1A2030' }}>
+                <ChevronRight className="w-5 h-5" style={{ color: '#4B5570' }} />
               </div>
-              <div className="text-[13px] font-semibold mb-1" style={{ color: 'var(--ink-950)' }}>
+              <div className="text-[13px] font-semibold mb-1" style={{ color: '#FFFFFF' }}>
                 Select a node
               </div>
-              <div className="text-[12px]" style={{ color: 'var(--ink-500)' }}>
+              <div className="text-[12px]" style={{ color: '#C5CCD8' }}>
                 Click any dependency in the tree to inspect its details.
               </div>
             </motion.div>
@@ -615,51 +698,73 @@ function flattenTree(node: TreeNode): TreeNode[] {
 function OverviewPanel({ onClickSeverity }: { onClickSeverity: (s: Severity) => void }) {
   return (
     <div className="flex flex-col h-full">
-      <div className="px-5 pt-5 pb-4" style={{ borderBottom: '1px solid var(--p3)' }}>
-        <div className="text-[15px] font-semibold mb-1" style={{ color: 'var(--ink-950)' }}>
-          Component Overview
+      {/* Header */}
+      <div className="px-5 pt-5 pb-3">
+        <div className="text-[16px] font-bold mb-1.5" style={{ color: '#FFFFFF' }}>
+          Component overview
         </div>
-        <div className="text-[12px]" style={{ color: 'var(--ink-500)' }}>
-          {TOTAL.toLocaleString()} components grouped by vulnerability severity. Select a cluster to explore.
+        <div className="text-[12px] leading-[1.6]" style={{ color: '#C5CCD8' }}>
+          <strong style={{ color: '#FFFFFF' }}>{TOTAL.toLocaleString()}</strong>{' '}
+          <em>components grouped by vulnerability severity. Select a cluster to explore.</em>
         </div>
       </div>
-      <div className="flex-1 overflow-y-auto py-3">
+
+      {/* Severity list */}
+      <div className="flex-1 overflow-y-auto py-1">
         {(['CRITICAL', 'HIGH', 'MEDIUM', 'LOW', 'NONE'] as Severity[]).map(sev => {
           const cfg = SEVERITY_CONFIG[sev];
           return (
             <motion.button key={sev} whileHover={{ x: 2 }} onClick={() => onClickSeverity(sev)}
-              className="w-full flex items-center justify-between px-5 py-3.5 text-left transition-colors"
-              style={{ borderBottom: '1px solid var(--p3)' }}
-              onMouseEnter={e => ((e.currentTarget as HTMLElement).style.background = cfg.bg)}
+              className="w-full flex items-center gap-3 px-5 py-2.5 text-left transition-colors"
+              onMouseEnter={e => ((e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.04)')}
               onMouseLeave={e => ((e.currentTarget as HTMLElement).style.background = 'transparent')}>
-              <div className="flex items-center gap-3">
-                <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: cfg.color }} />
-                <span className="text-sm font-semibold" style={{ color: 'var(--ink-950)', fontFamily: 'var(--f-m)' }}>
-                  {cfg.label}
-                </span>
-              </div>
-              <div className="flex items-center gap-3">
-                <span className="text-sm font-bold tabular-nums" style={{ color: cfg.color }}>
-                  {cfg.count >= 1000 ? `${(cfg.count / 1000).toFixed(1)}k` : cfg.count}
-                </span>
-                <span className="text-[11px]" style={{ color: 'var(--ink-500)' }}>{cfg.pct}</span>
-                <ChevronRight className="w-3.5 h-3.5" style={{ color: 'var(--ink-500)' }} />
-              </div>
+              <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: cfg.color }} />
+              <span className="flex-1 text-[13px] font-semibold tracking-wide"
+                style={{ color: '#FFFFFF', fontFamily: 'var(--f-m)', letterSpacing: '0.02em' }}>
+                {cfg.label}
+              </span>
+              <span className="text-[14px] font-bold tabular-nums"
+                style={{ color: cfg.color, minWidth: 36, textAlign: 'right', fontFamily: 'var(--f-d)' }}>
+                {cfg.count >= 1000 ? `${(cfg.count / 1000).toFixed(1)}K` : cfg.count}
+              </span>
+              <span className="text-[11px] tabular-nums"
+                style={{ color: '#4B5570', minWidth: 28, textAlign: 'right', fontFamily: 'var(--f-m)' }}>
+                {cfg.pct}
+              </span>
+              <ChevronRight className="w-3.5 h-3.5 flex-shrink-0" style={{ color: '#4B5570' }} />
             </motion.button>
           );
         })}
       </div>
-      <div className="px-5 py-4" style={{ borderTop: '1px solid var(--p3)', background: 'var(--p1)' }}>
-        <div className="text-[11px] font-semibold mb-2" style={{ color: 'var(--c6)' }}>How to explore</div>
-        <ul className="space-y-1">
-          {[
-            'Click a severity cluster to list its components',
-            'Click any component to view its dependency chain',
-            'Switch to Tree View for path-tracing and export',
-          ].map(tip => (
-            <li key={tip} className="text-[11px]" style={{ color: 'var(--ink-500)' }}>· {tip}</li>
-          ))}
-        </ul>
+
+      {/* HOW TO EXPLORE box */}
+      <div className="px-4 pb-4 pt-2">
+        <div className="rounded-xl p-4" style={{ background: '#060B14', border: '1px solid #1A2030' }}>
+          <div className="flex items-center gap-2 mb-3">
+            <div className="w-2 h-2 rounded-full" style={{ background: '#3DC7F6' }} />
+            <span className="text-[10px] font-bold uppercase tracking-[0.1em]"
+              style={{ color: '#3DC7F6', fontFamily: 'var(--f-m)' }}>
+              How to explore
+            </span>
+          </div>
+          <ol className="space-y-2">
+            {([
+              ['list its components',    'Click a severity cluster to ',         'list its components.'],
+              ['dependency chain',       'Click any component to view its ',     'dependency chain.'],
+              ['path-tracing',           'Switch to Tree View for ',             'path-tracing and export.'],
+            ] as [string, string, string][]).map(([key, pre, bold], i) => (
+              <li key={key} className="flex items-start gap-2.5">
+                <span className="w-4 h-4 rounded flex items-center justify-center text-[9px] font-bold flex-shrink-0 mt-0.5"
+                  style={{ background: 'rgba(61,199,246,0.1)', color: '#3DC7F6', fontFamily: 'var(--f-m)' }}>
+                  {i + 1}
+                </span>
+                <span className="text-[11px] leading-[1.5]" style={{ color: '#C5CCD8' }}>
+                  {pre}<strong style={{ color: '#FFFFFF' }}>{bold}</strong>
+                </span>
+              </li>
+            ))}
+          </ol>
+        </div>
       </div>
     </div>
   );
@@ -674,55 +779,55 @@ function ClusterPanel({ severity, components, allComponents, search, onSearch, o
   const cfg = SEVERITY_CONFIG[severity];
   return (
     <div className="flex flex-col h-full">
-      <div className="flex items-center gap-3 px-5 py-3.5" style={{ borderBottom: '1px solid var(--p3)' }}>
+      <div className="flex items-center gap-3 px-5 py-3.5" style={{ borderBottom: '1px solid #1A2030' }}>
         <button onClick={onBack} className="flex items-center gap-1.5 text-[12px] font-medium"
-          style={{ color: 'var(--ink-500)' }}
-          onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = 'var(--ink-950)')}
-          onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = 'var(--ink-500)')}>
+          style={{ color: '#C5CCD8' }}
+          onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = '#FFFFFF')}
+          onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = '#C5CCD8')}>
           <ArrowLeft className="w-3.5 h-3.5" /> Back
         </button>
       </div>
-      <div className="px-5 py-3" style={{ borderBottom: '1px solid var(--p3)', background: cfg.bg }}>
+      <div className="px-5 py-3" style={{ borderBottom: '1px solid #1A2030', background: 'rgba(255,255,255,0.04)' }}>
         <div className="flex items-center gap-2 mb-1">
           <div className="w-3 h-3 rounded-full" style={{ background: cfg.color }} />
           <span className="text-[15px] font-bold" style={{ color: cfg.color, fontFamily: 'var(--f-m)' }}>
             {cfg.label} {cfg.count}
           </span>
         </div>
-        <div className="text-[11px]" style={{ color: 'var(--ink-500)' }}>{cfg.pct} of {TOTAL.toLocaleString()} total</div>
+        <div className="text-[11px]" style={{ color: '#C5CCD8' }}>{cfg.pct} of {TOTAL.toLocaleString()} total</div>
       </div>
-      <div className="px-4 py-3" style={{ borderBottom: '1px solid var(--p3)' }}>
-        <div className="flex items-center gap-2 px-3 py-2 rounded-lg" style={{ background: 'var(--p2)', border: '1px solid var(--p3)' }}>
-          <Search className="w-3.5 h-3.5 flex-shrink-0" style={{ color: 'var(--ink-500)' }} />
+      <div className="px-4 py-3" style={{ borderBottom: '1px solid #1A2030' }}>
+        <div className="flex items-center gap-2 px-3 py-2 rounded-lg" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid #1A2030' }}>
+          <Search className="w-3.5 h-3.5 flex-shrink-0" style={{ color: '#4B5570' }} />
           <input ref={searchRef as React.RefObject<HTMLInputElement>} value={search}
             onChange={e => onSearch(e.target.value)} placeholder="Filter components…"
-            className="flex-1 text-[13px] outline-none bg-transparent" style={{ color: 'var(--ink-950)' }} />
-          {search && <button onClick={() => onSearch('')}><X className="w-3.5 h-3.5" style={{ color: 'var(--ink-500)' }} /></button>}
+            className="flex-1 text-[13px] outline-none bg-transparent" style={{ color: '#FFFFFF' }} />
+          {search && <button onClick={() => onSearch('')}><X className="w-3.5 h-3.5" style={{ color: '#4B5570' }} /></button>}
         </div>
       </div>
       <div className="flex-1 overflow-y-auto">
         {components.length === 0 ? (
-          <div className="px-5 py-8 text-center text-[13px]" style={{ color: 'var(--ink-500)' }}>
+          <div className="px-5 py-8 text-center text-[13px]" style={{ color: '#C5CCD8' }}>
             No components match &ldquo;{search}&rdquo;
           </div>
         ) : components.map(comp => (
           <motion.button key={comp.id} whileHover={{ x: 2 }} onClick={() => onClickComp(comp)}
             className="w-full flex items-center justify-between px-5 py-3 text-left transition-colors"
-            style={{ borderBottom: '1px solid var(--p3)' }}
-            onMouseEnter={e => ((e.currentTarget as HTMLElement).style.background = 'var(--p1)')}
+            style={{ borderBottom: '1px solid #1A2030' }}
+            onMouseEnter={e => ((e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.04)')}
             onMouseLeave={e => ((e.currentTarget as HTMLElement).style.background = 'transparent')}>
             <div className="flex items-center gap-2.5 min-w-0">
               <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: cfg.color }} />
               <div className="min-w-0">
-                <div className="text-[13px] font-medium truncate" style={{ color: 'var(--ink-950)', fontFamily: 'var(--f-m)' }}>{comp.name}</div>
-                <div className="text-[11px]" style={{ color: 'var(--ink-500)' }}>{comp.type}</div>
+                <div className="text-[13px] font-medium truncate" style={{ color: '#FFFFFF', fontFamily: 'var(--f-m)' }}>{comp.name}</div>
+                <div className="text-[11px]" style={{ color: '#C5CCD8' }}>{comp.type}</div>
               </div>
             </div>
-            <ChevronRight className="w-3.5 h-3.5 flex-shrink-0" style={{ color: 'var(--ink-500)' }} />
+            <ChevronRight className="w-3.5 h-3.5 flex-shrink-0" style={{ color: '#4B5570' }} />
           </motion.button>
         ))}
         {components.length < allComponents.length && (
-          <div className="px-5 py-3 text-[11px]" style={{ color: 'var(--ink-500)' }}>
+          <div className="px-5 py-3 text-[11px]" style={{ color: '#C5CCD8' }}>
             Showing {components.length} of {allComponents.length}
           </div>
         )}
@@ -736,25 +841,25 @@ function DetailPanel({ comp, onBack }: { comp: Component; onBack: () => void }) 
   const cfg = SEVERITY_CONFIG[comp.severity];
   return (
     <div className="flex flex-col h-full">
-      <div className="flex items-center justify-between px-5 py-3.5" style={{ borderBottom: '1px solid var(--p3)' }}>
+      <div className="flex items-center justify-between px-5 py-3.5" style={{ borderBottom: '1px solid #1A2030' }}>
         <button onClick={onBack} className="flex items-center gap-1.5 text-[12px] font-medium"
-          style={{ color: 'var(--ink-500)' }}
-          onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = 'var(--ink-950)')}
-          onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = 'var(--ink-500)')}>
+          style={{ color: '#C5CCD8' }}
+          onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = '#FFFFFF')}
+          onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = '#C5CCD8')}>
           <ArrowLeft className="w-3.5 h-3.5" /> Back
         </button>
-        <button onClick={onBack}><X className="w-4 h-4" style={{ color: 'var(--ink-500)' }} /></button>
+        <button onClick={onBack}><X className="w-4 h-4" style={{ color: '#4B5570' }} /></button>
       </div>
       <div className="px-5 py-4 flex-1 overflow-y-auto">
         <div className="text-[14px] font-semibold mb-2 break-all"
-          style={{ color: 'var(--ink-950)', fontFamily: 'var(--f-m)' }}>{comp.name}</div>
+          style={{ color: '#FFFFFF', fontFamily: 'var(--f-m)' }}>{comp.name}</div>
         <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-semibold mb-6"
           style={{ background: cfg.bg, color: cfg.color, fontFamily: 'var(--f-m)' }}>
           <div className="w-2 h-2 rounded-full" style={{ background: cfg.color }} />
           {comp.severity}
         </div>
         <div className="text-[11px] font-semibold uppercase tracking-widest mb-3"
-          style={{ color: 'var(--ink-500)', fontFamily: 'var(--f-m)' }}>Dependency Path from Root</div>
+          style={{ color: '#C5CCD8', fontFamily: 'var(--f-m)' }}>Dependency Path from Root</div>
         <div className="space-y-2">
           {DEPENDENCY_PATH.map((node, i) => {
             const isTarget = i === DEPENDENCY_PATH.length - 1;
@@ -763,12 +868,12 @@ function DetailPanel({ comp, onBack }: { comp: Component; onBack: () => void }) 
             return (
               <div key={i}>
                 <div className="flex items-center justify-between px-3 py-2.5 rounded-lg"
-                  style={{ background: isTarget ? cfg.bg : 'var(--p1)', border: `1px solid ${isTarget ? cfg.border : 'var(--p3)'}` }}>
+                  style={{ background: isTarget ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.03)', border: `1px solid ${isTarget ? cfg.border : '#1A2030'}` }}>
                   <div className="flex items-center gap-2 min-w-0">
                     <div className="w-2 h-2 rounded-full flex-shrink-0"
-                      style={{ background: nodeCfg ? nodeCfg.color : 'var(--c5)' }} />
+                      style={{ background: nodeCfg ? nodeCfg.color : '#3DC7F6' }} />
                     <span className="text-[12px] font-medium truncate"
-                      style={{ color: 'var(--ink-950)', fontFamily: 'var(--f-m)' }}>{node.name}</span>
+                      style={{ color: '#FFFFFF', fontFamily: 'var(--f-m)' }}>{node.name}</span>
                   </div>
                   {tagCfg && node.tag && (
                     <span className="px-1.5 py-0.5 rounded text-[9px] font-bold uppercase ml-2 flex-shrink-0"
@@ -777,7 +882,7 @@ function DetailPanel({ comp, onBack }: { comp: Component; onBack: () => void }) 
                 </div>
                 {i < DEPENDENCY_PATH.length - 1 && (
                   <div className="flex justify-start pl-4 py-0.5">
-                    <span style={{ color: 'var(--ink-500)', fontSize: 16 }}>↓</span>
+                    <span style={{ color: '#4B5570', fontSize: 16 }}>↓</span>
                   </div>
                 )}
               </div>
@@ -785,22 +890,22 @@ function DetailPanel({ comp, onBack }: { comp: Component; onBack: () => void }) 
           })}
         </div>
         <div className="mt-4 px-3 py-2 rounded-lg text-[12px]"
-          style={{ background: 'var(--p1)', border: '1px solid var(--p3)', color: 'var(--ink-500)' }}>
-          Path depth: <strong style={{ color: 'var(--ink-950)', fontFamily: 'var(--f-m)' }}>
+          style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid #1A2030', color: '#C5CCD8' }}>
+          Path depth: <strong style={{ color: '#FFFFFF', fontFamily: 'var(--f-m)' }}>
             {DEPENDENCY_PATH.length - 1} hops
           </strong> from root
         </div>
         <div className="mt-5">
           <div className="text-[11px] font-semibold uppercase tracking-widest mb-2"
-            style={{ color: 'var(--ink-500)', fontFamily: 'var(--f-m)' }}>Details</div>
+            style={{ color: '#C5CCD8', fontFamily: 'var(--f-m)' }}>Details</div>
           <table className="w-full text-[12px]">
             <tbody>
               <tr>
-                <td className="py-1.5 pr-3" style={{ color: 'var(--ink-500)', fontFamily: 'var(--f-m)', textTransform: 'uppercase', fontSize: 10 }}>TYPE</td>
-                <td className="py-1.5 font-medium" style={{ color: 'var(--ink-950)' }}>{comp.type}</td>
+                <td className="py-1.5 pr-3" style={{ color: '#4B5570', fontFamily: 'var(--f-m)', textTransform: 'uppercase', fontSize: 10 }}>TYPE</td>
+                <td className="py-1.5 font-medium" style={{ color: '#FFFFFF' }}>{comp.type}</td>
               </tr>
               <tr>
-                <td className="py-1.5 pr-3" style={{ color: 'var(--ink-500)', fontFamily: 'var(--f-m)', textTransform: 'uppercase', fontSize: 10 }}>SEVERITY</td>
+                <td className="py-1.5 pr-3" style={{ color: '#4B5570', fontFamily: 'var(--f-m)', textTransform: 'uppercase', fontSize: 10 }}>SEVERITY</td>
                 <td className="py-1.5"><span className="font-semibold" style={{ color: cfg.color, fontFamily: 'var(--f-m)' }}>{comp.severity}</span></td>
               </tr>
             </tbody>

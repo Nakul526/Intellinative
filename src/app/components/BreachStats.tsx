@@ -1,5 +1,5 @@
 /**
- * BreachStats — light theme
+ * BreachStats  light theme
  * Two-part section placed after Challenge:
  *  1. Editorial split headline "black box" strikethrough + supporting text
  *  2. Light dual-panel Breach Math (78%) left | Regulatory Clock (4 mandates) right
@@ -38,8 +38,8 @@ const MANDATES = [
   },
   {
     num: '04',
-    name: 'CSCRF Annexure C — SEBI',
-    desc: 'Crypto + supply chain disclosures — phased rollout',
+    name: 'CSCRF Annexure C  SEBI',
+    desc: 'Crypto + supply chain disclosures  phased rollout',
     icon: TrendingUp,
     iconColor: '#C8941F',
     iconBg: 'rgba(200,148,31,0.12)',
@@ -66,19 +66,6 @@ export default function BreachStats() {
           animate={headerInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.65 }}
         >
-          {/* Eyebrow */}
-          <div
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-7"
-            style={{ background: 'rgba(229,57,53,0.08)', border: '1px solid rgba(229,57,53,0.22)' }}
-          >
-            <Activity className="w-3.5 h-3.5" style={{ color: '#EF5350' }} />
-            <span
-              className="text-[11px] uppercase tracking-[0.12em] font-bold"
-              style={{ color: '#EF5350', fontFamily: 'var(--f-m)' }}
-            >
-              The Breach
-            </span>
-          </div>
 
           {/* Full-width headline with strikethrough */}
           <h2
@@ -102,8 +89,9 @@ export default function BreachStats() {
                 color: 'var(--ink-950)',
               }}
             >
-              black box.
+              black box 
             </span>
+            <span style={{ color: 'var(--c5)', fontStyle: 'italic' }}> Regulated</span>
             <br className="hidden sm:block" />
             {' '}Regulated India needs{' '}
             <span style={{ color: 'var(--c5)', fontStyle: 'italic' }}>
@@ -131,14 +119,6 @@ export default function BreachStats() {
             <div className="absolute top-0 left-0 w-64 h-64 pointer-events-none"
               style={{ background: 'radial-gradient(circle, rgba(239,83,80,0.07), transparent 70%)' }} />
 
-            {/* Label */}
-            <div className="flex items-center gap-2 mb-8">
-              <div className="w-1.5 h-1.5 rounded-full" style={{ background: '#EF5350', animation: 'pulse-dot 2s infinite' }} />
-              <span className="text-[10px] uppercase tracking-[0.15em] font-bold"
-                style={{ color: 'rgba(239,83,80,0.8)', fontFamily: 'var(--f-m)' }}>
-                The Breach Math
-              </span>
-            </div>
 
             {/* Giant number */}
             <div className="flex items-end gap-0 mb-6 leading-none">
@@ -155,7 +135,7 @@ export default function BreachStats() {
                   lineHeight: 1,
                 }}
               >
-                78
+                78%
               </motion.span>
               <motion.span
                 initial={{ opacity: 0, y: 16 }}
@@ -170,7 +150,7 @@ export default function BreachStats() {
                   lineHeight: 1,
                 }}
               >
-                %
+                
               </motion.span>
             </div>
 
@@ -209,7 +189,7 @@ export default function BreachStats() {
                 <p className="text-[13px] leading-[1.65]" style={{ color: 'var(--ink-500)' }}>
                   Quantum computers will break RSA-2048 and ECDSA in as few as{' '}
                   <span className="font-bold" style={{ color: 'var(--ink-950)' }}>8 years.</span>{' '}
-                  Without a QBOM today, you cannot map — let alone migrate — vulnerable
+                  Without a QBOM today, you cannot map  let alone migrate  vulnerable
                   crypto before the deadline.
                 </p>
               </div>
@@ -250,7 +230,7 @@ export default function BreachStats() {
               className="text-[18px] md:text-[20px] font-bold leading-[1.35] mb-7"
               style={{ color: 'var(--ink-950)', letterSpacing: '-0.02em' }}
             >
-              3 Indian mandates already require SBOM / CBOM
+              4 Indian mandates already require SBOM / CBOM
               evidence with more landing in 2026.
             </h3>
 

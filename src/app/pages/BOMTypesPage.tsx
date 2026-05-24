@@ -100,7 +100,7 @@ export default function BOMTypesPage() {
             </span>
           </h1>
           <p className="text-xl leading-[1.75] max-w-[580px] mx-auto" style={{ color: 'var(--app-text-muted)' }}>
-            From software packages to quantum cryptography, AI models to hardware firmware—governed, validated, and compliant.
+            From software packages to quantum cryptography, AI models to hardware firmwaregoverned, validated, and compliant.
           </p>
         </div>
       </section>
@@ -299,7 +299,7 @@ export default function BOMTypesPage() {
                         <td key={j} className="px-4 py-4 text-center">
                           {v
                             ? <CheckCircle2 className="w-4 h-4 mx-auto" style={{ color: bomDetails[type].color }} />
-                            : <span className="text-lg" style={{ color: 'var(--app-text-dimmer)' }}>—</span>
+                            : <span className="text-lg" style={{ color: 'var(--app-text-dimmer)' }}></span>
                           }
                         </td>
                       );

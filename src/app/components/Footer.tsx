@@ -63,7 +63,7 @@ export default function Footer() {
             </Link>
             <p className="text-[13px] mb-6 max-w-[240px] leading-relaxed"
               style={{ color: 'var(--ink-500)' }}>
-              Complete Digital Trust for India's most regulated environments — field by field.
+              Complete Digital Trust for India's most regulated environments  field by field.
             </p>
 
             {/* Social icons */}

@@ -149,7 +149,7 @@ export default function CompliancePage() {
             </span>
           </h1>
           <p className="text-xl leading-[1.75] max-w-[600px] mx-auto mb-10" style={{ color: 'var(--app-text-muted)' }}>
-            Comprehensive, automated coverage of India's five major regulatory frameworks —
+            Comprehensive, automated coverage of India's five major regulatory frameworks 
             CERT-In, RBI, MeitY, NCIIPC, and SEBI with continuous monitoring and audit-ready reporting.
           </p>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-3 max-w-[600px] mx-auto">

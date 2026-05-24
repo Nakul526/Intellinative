@@ -8,7 +8,7 @@ export const blogPosts = [
     category: 'COMPLIANCE',
     categoryColor: '#4361EE',
     title: "Don't Trust the SBOM Your Vendor Gave You",
-    excerpt: "We built a tool to prove whether your CycloneDX SBOM meets CERT-In's 21 mandatory fields—field by field, with a clear compliance ceiling.",
+    excerpt: "We built a tool to prove whether your CycloneDX SBOM meets CERT-In's 21 mandatory fieldsfield by field, with a clear compliance ceiling.",
     author: 'IntelliXBOM',
     date: 'Apr 9, 2026',
     readTime: '6 min read',

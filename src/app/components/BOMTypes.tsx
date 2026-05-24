@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { CheckCircle2 } from 'lucide-react';
+import { CheckCircle2, ArrowRight, Shield, Zap } from 'lucide-react';
+import { openDemoModal } from './DemoModal';
 
 type BOMType = 'SBOM' | 'CBOM' | 'QBOM' | 'AIBOM' | 'HBOM';
 
@@ -153,7 +154,7 @@ export default function BOMTypes() {
             Five BOM Types · One Platform
           </p>
           <h2
-            className="text-4xl md:text-[48px] font-bold mb-4"
+            className="text-[36px] md:text-[52px] font-bold mb-4"
             style={{ color: 'var(--ink-950)', letterSpacing: '-0.025em', lineHeight: '1.05' }}
           >
             Five BOM types.{' '}
@@ -165,7 +166,7 @@ export default function BOMTypes() {
         </div>
 
         {/* Tab Row module-colored chips */}
-        <div className="flex flex-wrap gap-2 mb-10">
+        <div className="flex flex-wrap gap-3 mb-2">
           {(Object.keys(bomData) as BOMType[]).map(type => {
             const cfg = bomData[type];
             const isActive = activeTab === type;
@@ -173,15 +174,33 @@ export default function BOMTypes() {
               <button
                 key={type}
                 onClick={() => setActiveTab(type)}
-                className="flex items-center gap-2 px-5 py-2 rounded-lg font-semibold text-sm transition-all duration-200"
+                className="flex items-center gap-2.5 px-6 py-3 rounded-xl font-semibold text-[15px] transition-all duration-200 cursor-pointer"
                 style={
                   isActive
-                    ? { background: cfg.bg, border: `1px solid ${cfg.border}`, color: cfg.color, boxShadow: `0 2px 10px ${cfg.border}` }
+                    ? { background: cfg.bg, border: `1px solid ${cfg.border}`, color: cfg.color, boxShadow: `0 2px 14px ${cfg.border}` }
                     : { background: 'var(--p1)', border: '1px solid var(--p3)', color: 'var(--ink-600)' }
                 }
+                onMouseEnter={e => {
+                  if (!isActive) {
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.background = cfg.bg;
+                    el.style.borderColor = cfg.border;
+                    el.style.color = cfg.color;
+                    el.style.boxShadow = `0 2px 10px ${cfg.border}`;
+                  }
+                }}
+                onMouseLeave={e => {
+                  if (!isActive) {
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.background = 'var(--p1)';
+                    el.style.borderColor = 'var(--p3)';
+                    el.style.color = 'var(--ink-600)';
+                    el.style.boxShadow = 'none';
+                  }
+                }}
               >
                 <div
-                  className="w-2 h-2 rounded-full flex-shrink-0"
+                  className="w-2.5 h-2.5 rounded-full flex-shrink-0"
                   style={{ background: isActive ? cfg.color : 'var(--ink-500)' }}
                 />
                 {type}
@@ -189,6 +208,9 @@ export default function BOMTypes() {
             );
           })}
         </div>
+        <p className="text-[11px] mb-8" style={{ color: 'var(--ink-400)', fontFamily: 'var(--f-m)' }}>
+          ↑ Click each tab to explore
+        </p>
 
         {/* Tab Content */}
         <AnimatePresence mode="wait">
@@ -202,18 +224,7 @@ export default function BOMTypes() {
           >
             {/* Left: Text */}
             <div>
-              <div
-                className="inline-block px-2.5 py-1 rounded text-[10px] font-bold mb-4"
-                style={{
-                  background: active.bg,
-                  color: active.color,
-                  fontFamily: 'var(--f-m)',
-                  letterSpacing: '0.06em',
-                  border: `1px solid ${active.border}`,
-                }}
-              >
-                {activeTab}
-              </div>
+
 
               <h3
                 className="text-3xl md:text-4xl font-bold mb-2"
@@ -229,7 +240,7 @@ export default function BOMTypes() {
                 {active.category}
               </p>
 
-              <p className="text-[16px] leading-[1.75] mb-6" style={{ color: 'var(--ink-600)' }}>
+              <p className="text-[14px] leading-[1.75] mb-6" style={{ color: 'var(--ink-600)' }}>
                 {active.description}
               </p>
 
@@ -245,7 +256,7 @@ export default function BOMTypes() {
                 ))}
               </div>
 
-              <div className="flex flex-wrap gap-2 mb-5">
+              <div className="flex flex-wrap gap-2">
                 {active.tags.map((tag, i) => (
                   <span
                     key={i}
@@ -260,16 +271,6 @@ export default function BOMTypes() {
                   </span>
                 ))}
               </div>
-
-              <a
-                href={`/bom-types#${activeTab.toLowerCase()}`}
-                className="inline-flex items-center gap-1 text-sm font-semibold transition-colors"
-                style={{ color: active.color }}
-                onMouseEnter={e => ((e.currentTarget as HTMLElement).style.opacity = '0.75')}
-                onMouseLeave={e => ((e.currentTarget as HTMLElement).style.opacity = '1')}
-              >
-                Explore {activeTab} in full →
-              </a>
             </div>
 
             {/* Right: Code block */}
@@ -279,27 +280,68 @@ export default function BOMTypes() {
           </motion.div>
         </AnimatePresence>
 
-        {/* Comparison teaser */}
-        <div
-          className="mt-10 p-5 md:p-6 rounded-xl flex flex-col md:flex-row items-center justify-between gap-4"
+        {/* ── CTA Banner ── */}
+        <motion.div
+          onClick={openDemoModal}
+          whileHover={{ scale: 1.012, y: -2 }}
+          whileTap={{ scale: 0.99 }}
+          transition={{ type: 'spring', stiffness: 340, damping: 26 }}
+          className="mt-10 relative rounded-2xl overflow-hidden cursor-pointer select-none"
           style={{
-            background: 'var(--c1)',
-            border: '1px solid var(--c2)',
+            background: 'linear-gradient(120deg, #060B14 0%, #0D1F38 50%, #060B14 100%)',
+            border: '1px solid rgba(61,199,246,0.25)',
+            boxShadow: '0 0 48px rgba(61,199,246,0.08), 0 8px 32px rgba(0,0,0,0.2)',
           }}
         >
-          <p className="text-sm md:text-[15px]" style={{ color: 'var(--ink-700)' }}>
-            Need to compare BOM types for your compliance team?
-          </p>
-          <a
-            href="/compare"
-            className="text-sm font-semibold whitespace-nowrap transition-colors"
-            style={{ color: 'var(--c5)' }}
-            onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = 'var(--c6)')}
-            onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = 'var(--c5)')}
-          >
-            View Full Comparison →
-          </a>
-        </div>
+          {/* Ambient glow blobs */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden">
+            <div className="absolute rounded-full" style={{ width: 320, height: 320, background: 'radial-gradient(circle, rgba(61,199,246,0.10), transparent 65%)', top: -100, left: -60 }} />
+            <div className="absolute rounded-full" style={{ width: 280, height: 280, background: 'radial-gradient(circle, rgba(91,108,255,0.10), transparent 65%)', bottom: -80, right: 80 }} />
+          </div>
+
+          <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6 px-8 py-7">
+            {/* Left: text block */}
+            <div className="flex items-start gap-4">
+              {/* Icon */}
+              <div
+                className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5"
+                style={{ background: 'rgba(61,199,246,0.1)', border: '1px solid rgba(61,199,246,0.25)' }}
+              >
+                <Shield className="w-5 h-5" style={{ color: '#3DC7F6' }} />
+              </div>
+              <div>
+                <p
+                  className="text-[17px] md:text-[19px] font-bold mb-1 leading-snug"
+                  style={{ color: '#FFFFFF', letterSpacing: '-0.02em' }}
+                >
+                  Need to compare BOM types for your compliance team?
+                </p>
+                <p className="text-[13px]" style={{ color: 'rgba(197,204,216,0.75)' }}>
+                  Get a personalised walkthrough across SBOM, CBOM, QBOM, AIBOM &amp; HBOM — mapped to your regulatory environment.
+                </p>
+              </div>
+            </div>
+
+            {/* Right: CTA */}
+            <div className="flex items-center gap-3 flex-shrink-0">
+
+
+              <motion.button
+                whileHover={{ x: 3 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[14px] font-semibold"
+                style={{
+                  background: '#3DC7F6',
+                  color: '#060B14',
+                  boxShadow: '0 0 24px rgba(61,199,246,0.35)',
+                }}
+              >
+                Request a Demo
+                <ArrowRight className="w-4 h-4" />
+              </motion.button>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

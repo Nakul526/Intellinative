@@ -37,7 +37,7 @@ const regulations = [
   {
     key: 'MeitY',
     fullName: 'MeitY',
-    description: 'SBOM Guidelines — Oct 2025',
+    description: 'SBOM Guidelines  Oct 2025',
     sector: 'Government IT',
     percentage: 95,
     color: '#C8941F',
@@ -93,7 +93,7 @@ export default function Compliance() {
             className="text-lg max-w-[560px] leading-relaxed"
             style={{ color: 'var(--ink-600)' }}
           >
-            IntelliXBOM is architected around India's regulatory mandates — not adapted to them after the fact.
+            IntelliXBOM is architected around India's regulatory mandates  not adapted to them after the fact.
           </p>
         </motion.div>
 

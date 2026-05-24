@@ -90,7 +90,7 @@ export default function AboutPage() {
               </span>
             </h1>
             <p className="text-xl leading-[1.75] max-w-[640px] mx-auto mb-10" style={{ color: 'var(--app-text-muted)' }}>
-              IntelliXBOM was founded after watching India's regulated organisations fail audits not because they lacked SBOMs —
+              IntelliXBOM was founded after watching India's regulated organisations fail audits not because they lacked SBOMs 
               but because the SBOMs they had didn't meet CERT-In's 21 mandatory fields.
               We built the tool we wished existed.
             </p>

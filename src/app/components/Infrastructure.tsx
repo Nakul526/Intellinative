@@ -173,7 +173,7 @@ export default function Infrastructure() {
             className="text-lg max-w-[520px] leading-relaxed"
             style={{ color: 'var(--ink-600)' }}
           >
-            IntelliXBOM is engineered for India's most demanding regulated environments —
+            IntelliXBOM is engineered for India's most demanding regulated environments 
             air gapped deployments, HSM key storage, and zero external dependencies.
           </p>
         </motion.div>

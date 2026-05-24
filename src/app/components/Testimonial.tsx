@@ -1,5 +1,5 @@
 /**
- * Testimonial — horizontal layout: author left | quote right
+ * Testimonial  horizontal layout: author left | quote right
  */
 import { useRef } from 'react';
 import { motion, useInView } from 'motion/react';

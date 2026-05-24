@@ -85,12 +85,10 @@ export default function Navbar() {
 
   return (
     <nav
-      className="fixed top-0 left-0 right-0 z-50 h-16 transition-all duration-500"
+      className="w-full z-50 h-16 transition-all duration-300"
       style={{
-        background: isScrolled ? 'var(--app-navbar-bg)' : 'transparent',
-        backdropFilter: isScrolled ? 'blur(24px)' : 'none',
-        borderBottom: isScrolled ? '1px solid var(--app-navbar-border)' : '1px solid transparent',
-        boxShadow: isScrolled ? 'var(--app-navbar-shadow)' : 'none',
+        background: 'transparent',
+        borderBottom: '1px solid transparent',
       }}
     >
       {/* Scroll progress bar */}

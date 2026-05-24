@@ -1,62 +1,10 @@
-import { useState, useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { motion, useInView } from 'motion/react';
 import { Link } from 'react-router';
 import { ArrowRight, Shield, CheckCircle2 } from 'lucide-react';
 import { openDemoModal } from './DemoModal';
+import intelliXbomSymbol from '../../assets/IntelliXbom-Symbol.png';
 
-function useCounter(target: number, duration = 1400, start = false) {
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    if (!start) return;
-    let t0: number | null = null;
-    const step = (ts: number) => {
-      if (!t0) t0 = ts;
-      const p = Math.min((ts - t0) / duration, 1);
-      setCount(Math.round((1 - Math.pow(1 - p, 3)) * target));
-      if (p < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  }, [target, duration, start]);
-  return count;
-}
-
-/* ─── Live scan card data ────────────────────────────────────── */
-const SCAN_ROWS = [
-  { component: 'spring-boot-starter', version: '3.2.1', vulns: 0,  status: 'PASS',  statusColor: 'var(--sem-success)',  statusBg: 'var(--sem-success-bg)'  },
-  { component: 'log4j-core',          version: '2.14.0', vulns: 1,  status: 'CRIT',  statusColor: 'var(--sem-critical)', statusBg: 'var(--sem-critical-bg)' },
-  { component: 'openssl',             version: '3.0.8',  vulns: 0,  status: 'PASS',  statusColor: 'var(--sem-success)',  statusBg: 'var(--sem-success-bg)'  },
-  { component: 'CRYSTALS-Kyber',      version: 'NIST r3', vulns: 0, status: 'SAFE',  statusColor: 'var(--c6)',           statusBg: 'var(--c1)'              },
-];
-
-/* ─── BOM node positions for mini network ───────────────────── */
-const NODES = [
-  { id: 'hub',   x: 288, y: 228, r: 28, color: '#00B1DC', label: 'IntelliXBOM', sub: 'CERT-In', type: 'hub'    },
-  { id: 'sbom',  x: 110, y:  85, r: 22, color: '#00B1DC', label: 'SBOM',        sub: 'PASS',    type: 'bom'    },
-  { id: 'cbom',  x: 288, y:  40, r: 22, color: '#5B6CFF', label: 'CBOM',        sub: 'PASS',    type: 'bom'    },
-  { id: 'qbom',  x: 468, y:  85, r: 22, color: '#8B5CF6', label: 'QBOM',        sub: 'WARN',    type: 'bom'    },
-  { id: 'aibom', x: 510, y: 278, r: 22, color: '#C8941F', label: 'AIBOM',       sub: 'SCAN',    type: 'bom'    },
-  { id: 'hbom',  x:  68, y: 278, r: 22, color: '#4A5570', label: 'HBOM',        sub: 'PASS',    type: 'bom'    },
-  { id: 'va',    x:  36, y: 168, r:  9, color: '#9CA8BB', label: 'Vendor A',    sub: '',        type: 'vendor' },
-  { id: 'vb',    x: 180, y:  18, r:  9, color: '#9CA8BB', label: 'Vendor B',    sub: '',        type: 'vendor' },
-  { id: 'vc',    x: 414, y:  18, r:  9, color: '#9CA8BB', label: 'Vendor C',    sub: '',        type: 'vendor' },
-  { id: 'vd',    x: 548, y: 168, r:  9, color: '#9CA8BB', label: 'PSU',         sub: '',        type: 'vendor' },
-  { id: 've',    x: 130, y: 410, r:  9, color: '#9CA8BB', label: 'Bank',        sub: '',        type: 'vendor' },
-  { id: 'vf',    x: 448, y: 410, r:  9, color: '#9CA8BB', label: 'Gov IT',      sub: '',        type: 'vendor' },
-];
-const EDGES = [
-  { from: 'sbom',  to: 'hub',   dur: '2.4s', begin: '0s',   color: '#00B1DC', w: 1.4 },
-  { from: 'cbom',  to: 'hub',   dur: '2.8s', begin: '0.5s', color: '#5B6CFF', w: 1.4 },
-  { from: 'qbom',  to: 'hub',   dur: '2.2s', begin: '0.9s', color: '#8B5CF6', w: 1.4 },
-  { from: 'aibom', to: 'hub',   dur: '3.0s', begin: '0.3s', color: '#C8941F', w: 1.4 },
-  { from: 'hbom',  to: 'hub',   dur: '2.6s', begin: '0.7s', color: '#4A5570', w: 1.4 },
-  { from: 'va',    to: 'sbom',  dur: '3.4s', begin: '1.0s', color: '#C5CCD8', w: 0.7 },
-  { from: 'vb',    to: 'cbom',  dur: '3.2s', begin: '1.6s', color: '#C5CCD8', w: 0.7 },
-  { from: 'vc',    to: 'qbom',  dur: '3.8s', begin: '0.4s', color: '#C5CCD8', w: 0.7 },
-  { from: 'vd',    to: 'aibom', dur: '3.5s', begin: '0.8s', color: '#C5CCD8', w: 0.7 },
-  { from: 've',    to: 'hbom',  dur: '3.6s', begin: '1.3s', color: '#C5CCD8', w: 0.7 },
-  { from: 'vf',    to: 'aibom', dur: '3.3s', begin: '0.6s', color: '#C5CCD8', w: 0.7 },
-];
-function getNode(id: string) { return NODES.find(n => n.id === id)!; }
 
 export default function Hero() {
   const ref = useRef(null);
@@ -65,7 +13,7 @@ export default function Hero() {
   return (
     <section
       className="relative flex items-center overflow-hidden"
-      style={{ background: 'var(--p1)', paddingTop: '4rem', minHeight: 'calc(100vh - 4rem)', paddingBottom: '0' }}
+      style={{ background: 'var(--p1)', paddingTop: '3rem', minHeight: '92vh', paddingBottom: '0' }}
     >
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -75,7 +23,7 @@ export default function Hero() {
       </div>
 
       <div className="relative z-10 w-full max-w-[1440px] mx-auto px-6 lg:px-14 pt-6 pb-2">
-        <div className="grid lg:grid-cols-[1fr_500px] xl:grid-cols-[1fr_540px] gap-10 xl:gap-16 items-center">
+        <div className="grid lg:grid-cols-[1fr_600px] xl:grid-cols-[1fr_700px] gap-8 xl:gap-12 items-center">
 
           {/* ── LEFT ── */}
           <div ref={ref}>
@@ -91,11 +39,11 @@ export default function Hero() {
             </motion.div>
 
             {/* Headline */}
-            <div className="overflow-hidden mb-1">
+            <div className="overflow-hidden mb-1 pb-1">
               <motion.h1
                 initial={{ y: 70, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.72, delay: 0.10, ease: [0.16, 1, 0.3, 1] }}
-                className="font-bold leading-[1.0] tracking-[-0.04em]"
+                className="font-bold leading-[1.08] tracking-[-0.04em]"
                 style={{ color: 'var(--ink-950)', fontFamily: 'var(--f-d)', fontSize: 'clamp(30px, 4.2vw, 52px)' }}
               >
                 A Digital Trust Platform
@@ -139,36 +87,35 @@ export default function Hero() {
               transition={{ duration: 0.55, delay: 0.42 }}
               className="flex flex-col sm:flex-row items-stretch gap-3 mb-5">
               <motion.button
-                whileHover={{ scale: 1.03, translateY: -1 }} whileTap={{ scale: 0.97 }}
+                whileHover={{ y: -3, scale: 1.02 }} whileTap={{ scale: 0.97 }}
                 onClick={openDemoModal}
-                className="group flex items-center justify-center gap-2 px-7 py-3.5 text-[15px] font-semibold text-white rounded-lg overflow-hidden relative"
-                style={{ background: 'var(--c5)', boxShadow: '0 2px 12px rgba(0,177,220,0.38)' }}
-                onMouseEnter={e => ((e.currentTarget as HTMLElement).style.boxShadow = '0 4px 24px rgba(0,177,220,0.55)')}
-                onMouseLeave={e => ((e.currentTarget as HTMLElement).style.boxShadow = '0 2px 12px rgba(0,177,220,0.38)')}>
-                <span className="relative z-10">Request a Demo</span>
-                <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform duration-200" />
-                <div className="animate-shimmer opacity-0 group-hover:opacity-100 transition-opacity" />
+                className="flex items-center justify-center gap-2 px-7 py-3.5 text-[15px] font-semibold text-white rounded-lg"
+                style={{ background: 'var(--c5)', boxShadow: '0 2px 12px rgba(0,177,220,0.38)' }}>
+                Request a Demo
+                <ArrowRight className="w-4 h-4" />
               </motion.button>
 
-              <Link
-                to="/platform"
-                className="flex items-center justify-center gap-2 px-7 py-3.5 text-[15px] font-medium rounded-lg transition-all duration-200"
-                style={{ color: 'var(--ink-700)', border: '1px solid var(--p4)', background: 'transparent' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--c5)'; (e.currentTarget as HTMLElement).style.background = 'var(--c1)'; (e.currentTarget as HTMLElement).style.color = 'var(--c6)'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--p4)'; (e.currentTarget as HTMLElement).style.background = 'transparent'; (e.currentTarget as HTMLElement).style.color = 'var(--ink-700)'; }}>
-                Explore Platform
-              </Link>
+              <motion.div
+                whileHover={{ y: -3, scale: 1.02 }} whileTap={{ scale: 0.97 }}>
+                <Link
+                  to="/platform"
+                  className="flex items-center justify-center gap-2 px-7 py-3.5 text-[15px] font-semibold rounded-lg w-full"
+                  style={{ color: 'var(--ink-700)', border: '1px solid var(--p4)', background: 'transparent' }}>
+                  Explore Platform
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </motion.div>
             </motion.div>
 
             {/* Compliance badges row */}
             <motion.div
               initial={{ opacity: 0 }} animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.54 }}
-              className="flex flex-wrap gap-2 mb-4">
+              className="flex flex-wrap gap-2.5 mb-4">
               {['CERT-In v2.0', 'RBI Advisory 11/2024', 'MeitY SBOM Guidelines', '100% Self-Hosted'].map(badge => (
-                <div key={badge} className="flex items-center gap-1.5 px-2.5 py-1 rounded text-[10px] font-semibold"
+                <div key={badge} className="flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-[12px] font-semibold"
                   style={{ background: 'var(--gold-1)', border: '1px solid rgba(200,148,31,0.3)', color: 'var(--gold-7)', fontFamily: 'var(--f-m)' }}>
-                  <CheckCircle2 className="w-3 h-3" style={{ color: 'var(--gold-5)' }} />
+                  <CheckCircle2 className="w-3.5 h-3.5" style={{ color: 'var(--gold-5)' }} />
                   {badge}
                 </div>
               ))}
@@ -178,15 +125,14 @@ export default function Hero() {
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.60 }}
               className="flex items-stretch gap-0">
               {[
-                { value: '5',    label: 'BOM Types',          unit: '' },
-                { value: '100',  label: 'Self-Hosted',         unit: '%' },
-                { value: '3',    label: 'Indian frameworks',   unit: '' },
+                { value: '5',    label: 'BOM Types',         unit: '' },
+                { value: '100',  label: 'Self-Hosted',       unit: '%' },
+                { value: '3',    label: 'Indian frameworks', unit: '' },
               ].map((s, i) => (
-                <div key={i}
-                  className={i === 0 ? 'pr-8' : i === 2 ? 'pl-8' : 'px-8'}
+                <div key={i} className="flex flex-col items-center text-center px-8"
                   style={i > 0 ? { borderLeft: '1px solid var(--p3)' } : {}}>
                   <div className="text-[24px] font-bold leading-none mb-0.5 tabular-nums"
-                    style={{ color: 'var(--ink-950)', letterSpacing: '-0.04em' }}>
+                    style={{ color: 'var(--c5)', letterSpacing: '-0.04em' }}>
                     {s.value}<span style={{ color: 'var(--c5)' }}>{s.unit}</span>
                   </div>
                   <div className="text-[11px]" style={{ color: 'var(--ink-500)', fontFamily: 'var(--f-m)' }}>{s.label}</div>
@@ -195,12 +141,12 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* ── RIGHT: Network viz ── */}
+          {/* ── RIGHT: Pipeline viz ── */}
           <motion.div
             initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.9, delay: 0.42, ease: [0.16, 1, 0.3, 1] }}
-            className="relative hidden lg:block">
-            <NetworkViz scanRows={SCAN_ROWS} />
+            className="relative hidden lg:flex lg:items-center lg:justify-center self-stretch">
+            <PipelineViz />
           </motion.div>
         </div>
       </div>
@@ -208,71 +154,256 @@ export default function Hero() {
   );
 }
 
-function NetworkViz({ scanRows }: { scanRows: typeof SCAN_ROWS }) {
+/* ── Horizontal pipeline rows (left → right) ── */
+const ROWS = [
+  { id: 'r-sbom',  y: 46,  label: 'SBOM',  color: '#00B1DC', nodeX: 188, dur: '3.0s', pkts: ['0s',   '1.5s'        ] },
+  { id: 'r-cbom',  y: 104, label: 'CBOM',  color: '#5B6CFF', nodeX: 150, dur: '2.7s', pkts: ['0.4s', '1.9s'        ] },
+  { id: 'r-qbom',  y: 162, label: 'QBOM',  color: '#8B5CF6', nodeX: 222, dur: '2.3s', pkts: ['0.2s', '1.2s', '2.3s'] },
+  { id: 'r-aibom', y: 220, label: 'AIBOM', color: '#F97316', nodeX: 168, dur: '2.7s', pkts: ['0.7s', '2.1s'        ] },
+  { id: 'r-hbom',  y: 278, label: 'HBOM',  color: '#10B981', nodeX: 200, dur: '3.0s', pkts: ['0.9s', '2.3s'        ] },
+];
+const HLEFT  = 90;   // left rail x
+const HRIGHT = 408;  // elbow x before angling into hub
+const HUB    = { cx: 467, cy: 162, r: 44 };
+
+// Pre-computed hub-edge contact points from (HRIGHT, row.y) → hub circle
+// Formula: t = 1 - r/dist, edge = (HRIGHT + (cx-HRIGHT)*t, y + (cy-y)*t)
+const HUB_EDGES = [
+  { x: 447, y: 123 },  // SBOM  (y=46)
+  { x: 436, y: 131 },  // CBOM  (y=104)
+  { x: 423, y: 162 },  // QBOM  (y=162)  straight shot
+  { x: 436, y: 193 },  // AIBOM (y=220)
+  { x: 447, y: 201 },  // HBOM  (y=278)
+];
+
+function PipelineViz() {
+  const pvRef    = useRef(null);
+  const pvInView = useInView(pvRef, { once: true });
+
   return (
-    <div className="relative select-none">
-      <div className="absolute inset-0 rounded-3xl -z-10"
-        style={{ background: 'radial-gradient(ellipse 90% 70% at 50% 50%, rgba(0,177,220,0.09), transparent 65%)' }} />
+    <div ref={pvRef} className="relative select-none w-full">
+      {/* Ambient glow behind hub */}
+      <div className="absolute -inset-10 pointer-events-none"
+        style={{ background: 'radial-gradient(ellipse 60% 65% at 88% 50%, rgba(0,177,220,0.15), transparent 70%)', filter: 'blur(24px)' }} />
 
-      <svg viewBox="0 0 578 456" className="w-full" style={{ overflow: 'visible' }} aria-hidden="true">
-        <defs>
-          <filter id="glow-sm"><feGaussianBlur stdDeviation="2.5" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
-          <filter id="glow-lg"><feGaussianBlur stdDeviation="6" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
-          {NODES.filter(n => n.type !== 'vendor').map(n => (
-            <radialGradient key={n.id} id={`rg-${n.id}`} cx="35%" cy="30%">
-              <stop offset="0%" stopColor={n.color} stopOpacity="0.95" />
-              <stop offset="100%" stopColor={n.color} stopOpacity="0.45" />
-            </radialGradient>
+      <motion.div
+        initial={{ opacity: 0, x: 24 }}
+        animate={pvInView ? { opacity: 1, x: 0 } : {}}
+        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <svg viewBox="0 0 520 332" className="w-full h-full" style={{ overflow: 'visible', minHeight: 340 }} aria-hidden>
+          <defs>
+            {/* Glow filters */}
+            <filter id="pv-glow-hub" x="-55%" y="-55%" width="210%" height="210%">
+              <feGaussianBlur stdDeviation="8" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="pv-glow-node" x="-60%" y="-60%" width="220%" height="220%">
+              <feGaussianBlur stdDeviation="2.5" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            {/* userSpaceOnUse filter for QBOM horizontal line  avoids zero-height bounding box bug */}
+            <filter id="pv-glow-hline" filterUnits="userSpaceOnUse" x="80" y="154" width="353" height="16">
+              <feGaussianBlur stdDeviation="2.5" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+
+            {/* Per-row gradient: left transparent → right coloured */}
+            {ROWS.map((r, i) => (
+              <linearGradient key={`hg-${r.id}`} id={`hg-${r.id}`}
+                gradientUnits="userSpaceOnUse"
+                x1={HLEFT} y1="0"
+                x2={i === 2 ? HUB_EDGES[2].x : HRIGHT} y2="0">
+                <stop offset="0%"   stopColor={r.color} stopOpacity="0.08"/>
+                <stop offset="100%" stopColor={r.color} stopOpacity="0.55"/>
+              </linearGradient>
+            ))}
+
+            {/* Angled segment gradient: elbow → hub edge */}
+            {ROWS.map((r, i) => i !== 2 && (
+              <linearGradient key={`ag-${r.id}`} id={`ag-${r.id}`}
+                gradientUnits="userSpaceOnUse"
+                x1={HRIGHT} y1={r.y}
+                x2={HUB_EDGES[i].x} y2={HUB_EDGES[i].y}>
+                <stop offset="0%"   stopColor={r.color} stopOpacity="0.55"/>
+                <stop offset="100%" stopColor={r.color} stopOpacity="0.85"/>
+              </linearGradient>
+            ))}
+
+            {/* Hub image clip */}
+            <clipPath id="pv-hub-clip">
+              <circle cx={HUB.cx} cy={HUB.cy} r={HUB.r - 6}/>
+            </clipPath>
+          </defs>
+
+          {/* ════ LEFT VERTICAL RAIL ════ */}
+          <motion.path d={`M ${HLEFT} ${ROWS[0].y} L ${HLEFT} ${ROWS[4].y}`}
+            fill="none" stroke="var(--p3)" strokeWidth="1.5"
+            initial={{ pathLength: 0 }} animate={pvInView ? { pathLength: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.1, ease: 'easeOut' }}/>
+
+          {/* ════ 5 ROWS  draw-in loops continuously with 1 s gap ════ */}
+          {ROWS.map((r, i) => {
+            const e = HUB_EDGES[i];
+            const hx2 = i === 2 ? e.x : HRIGHT;
+            return (
+              <g key={`row-${r.id}`}>
+                {/* Static gray base track */}
+                <line x1={HLEFT} y1={r.y} x2={hx2} y2={r.y}
+                  stroke="var(--p3)" strokeWidth="1.5"/>
+                {/* Non-QBOM rows: angled segment + animated path (rendered here, below hub) */}
+                {i !== 2 && (
+                  <>
+                    <line x1={HRIGHT} y1={r.y} x2={e.x} y2={e.y}
+                      stroke="var(--p3)" strokeWidth="1.5"/>
+                    <motion.path
+                      d={`M ${HLEFT} ${r.y} L ${HRIGHT} ${r.y} L ${e.x} ${e.y}`}
+                      fill="none"
+                      stroke={r.color}
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      filter="url(#pv-glow-node)"
+                      initial={{ pathLength: 0, opacity: 0 }}
+                      animate={pvInView ? { pathLength: [0, 1], opacity: 0.55 } : {}}
+                      transition={{
+                        pathLength: {
+                          duration: 0.9,
+                          delay: 0.2 + i * 0.1,
+                          ease: 'easeOut',
+                          repeat: Infinity,
+                          repeatDelay: 1,
+                          repeatType: 'loop',
+                        },
+                        opacity: { duration: 0.3, delay: 0.2 + i * 0.1 },
+                      }}
+                    />
+                  </>
+                )}
+              </g>
+            );
+          })}
+
+          {/* ════ NODE CIRCLES  no pulse rings, clean dots ════ */}
+          {ROWS.map((r, i) => (
+            <motion.g key={`node-${r.id}`}
+              initial={{ opacity: 0 }}
+              animate={pvInView ? { opacity: 1 } : {}}
+              transition={{ duration: 0.35, delay: 0.5 + i * 0.09 }}>
+              <circle cx={r.nodeX} cy={r.y} r="10"
+                fill={`${r.color}14`} stroke={r.color} strokeWidth="1" strokeOpacity="0.6"
+                filter="url(#pv-glow-node)"/>
+              <circle cx={r.nodeX} cy={r.y} r="4.5" fill={r.color} fillOpacity="0.9"/>
+            </motion.g>
           ))}
-        </defs>
 
-        {EDGES.map((e, i) => {
-          const f = getNode(e.from), t = getNode(e.to);
-          return <line key={i} x1={f.x} y1={f.y} x2={t.x} y2={t.y} stroke={e.color} strokeWidth={e.w} strokeOpacity={0.2} />;
-        })}
-        {EDGES.map((e, i) => {
-          const f = getNode(e.from), t = getNode(e.to);
-          const pid = `p${i}`;
-          return (
-            <g key={`pkt-${i}`}>
-              <path id={pid} d={`M ${f.x} ${f.y} L ${t.x} ${t.y}`} fill="none" />
-              <circle r={e.w > 1 ? 3.5 : 2} fill={e.color} opacity={0.9} filter="url(#glow-sm)">
-                <animateMotion dur={e.dur} repeatCount="indefinite" begin={e.begin}><mpath href={`#${pid}`} /></animateMotion>
-              </circle>
-            </g>
-          );
-        })}
-        {NODES.map(n => (
-          <g key={n.id}>
-            {n.type !== 'vendor' && (
-              <>
-                <circle cx={n.x} cy={n.y} r={n.r + 4} fill="none" stroke={n.color} strokeWidth={1} strokeOpacity={0.35}>
-                  <animate attributeName="r" values={`${n.r+4};${n.r+14};${n.r+4}`} dur={n.type==='hub'?'2s':'2.8s'} repeatCount="indefinite" />
-                  <animate attributeName="stroke-opacity" values="0.35;0;0.35" dur={n.type==='hub'?'2s':'2.8s'} repeatCount="indefinite" />
-                </circle>
-                <circle cx={n.x} cy={n.y} r={n.r+7} fill={n.color} fillOpacity={0.06} stroke={n.color} strokeWidth={0.7} strokeOpacity={0.22} />
-              </>
-            )}
-            <circle cx={n.x} cy={n.y} r={n.r}
-              fill={n.type==='vendor'?'rgba(230,232,238,0.9)':`url(#rg-${n.id})`}
-              stroke={n.color} strokeWidth={n.type==='hub'?2:n.type==='bom'?1.5:0.8}
-              strokeOpacity={n.type==='vendor'?0.4:0.7}
-              filter={n.type==='hub'?'url(#glow-lg)':n.type==='bom'?'url(#glow-sm)':'none'} />
-            {n.type !== 'vendor' && (
-              <>
-                <text x={n.x} y={n.y-2} textAnchor="middle" dominantBaseline="middle" fontSize={n.type==='hub'?8.5:8} fontWeight="700" fill="white" fontFamily="Inter, system-ui" style={{letterSpacing:'-0.01em'}}>{n.label}</text>
-                <text x={n.x} y={n.y+9} textAnchor="middle" dominantBaseline="middle" fontSize={5.5} fontWeight="700" fill={n.color} fontFamily="Inter, system-ui" opacity={0.9}>{n.sub}</text>
-              </>
-            )}
-            {n.type === 'vendor' && (
-              <text x={n.x+(n.x>290?14:-14)} y={n.y} textAnchor={n.x>290?'start':'end'} dominantBaseline="middle" fontSize={7.5} fontWeight="500" fill="#6B7589" fontFamily="Inter, system-ui">{n.label}</text>
-            )}
-          </g>
-        ))}
-        <rect x={244} y={260} width={88} height={15} rx={4} fill="rgba(0,177,220,0.12)" stroke="rgba(0,177,220,0.4)" strokeWidth={0.8} />
-        <text x={288} y={268} textAnchor="middle" dominantBaseline="middle" fontSize={5.5} fontWeight="600" fill="#0092C4" fontFamily="Inter">CERT-In Verified ✓</text>
-      </svg>
+          {/* ════ BOM LABELS  left of left rail ════ */}
+          {ROWS.map((r, i) => {
+            const w = r.label.length > 4 ? 44 : 36;
+            const lx = HLEFT - w - 8;
+            return (
+              <motion.g key={`lbl-${r.id}`}
+                initial={{ opacity: 0, x: -6 }}
+                animate={pvInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.38, delay: 0.12 + i * 0.08 }}>
+                {/* Base pill */}
+                <rect x={lx} y={r.y - 9} width={w} height={17} rx="4"
+                  fill="white" stroke={`${r.color}60`} strokeWidth="0.9"
+                  style={{ filter: 'drop-shadow(0 1px 4px rgba(14,26,46,0.09))' }}/>
+                {/* Pulsing glow border  matches the line animation timing */}
+                <rect x={lx} y={r.y - 9} width={w} height={17} rx="4"
+                  fill="none" stroke={r.color} strokeWidth="1">
+                  <animate attributeName="stroke-opacity"
+                    values="0;0.55;0" keyTimes="0;0.3;1"
+                    dur={r.dur} begin={`${0.2 + i * 0.1}s`}
+                    repeatCount="indefinite"/>
+                </rect>
+                <text x={lx + w / 2} y={r.y} textAnchor="middle" dominantBaseline="middle"
+                  fontSize="8.5" fontWeight="700" fill={r.color} fontFamily="'JetBrains Mono', monospace">
+                  {r.label}
+                </text>
+              </motion.g>
+            );
+          })}
 
+
+          {/* ════ HUB  pulse rings ════ */}
+          <circle cx={HUB.cx} cy={HUB.cy} r={HUB.r + 18}
+            fill="none" stroke="rgba(0,177,220,0.08)" strokeWidth="1">
+            <animate attributeName="r" values={`${HUB.r+18};${HUB.r+34};${HUB.r+18}`} dur="3.5s" repeatCount="indefinite"/>
+            <animate attributeName="stroke-opacity" values="0.08;0;0.08" dur="3.5s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx={HUB.cx} cy={HUB.cy} r={HUB.r + 9}
+            fill="none" stroke="rgba(0,177,220,0.14)" strokeWidth="1">
+            <animate attributeName="r" values={`${HUB.r+9};${HUB.r+22};${HUB.r+9}`} dur="3.5s" begin="1.1s" repeatCount="indefinite"/>
+            <animate attributeName="stroke-opacity" values="0.14;0;0.14" dur="3.5s" begin="1.1s" repeatCount="indefinite"/>
+          </circle>
+
+          {/* ════ HUB  circle body ════ */}
+          <motion.circle cx={HUB.cx} cy={HUB.cy} r={HUB.r}
+            fill="rgba(0,177,220,0.06)" stroke="rgba(0,177,220,0.30)" strokeWidth="1.5"
+            filter="url(#pv-glow-hub)"
+            initial={{ opacity: 0 }} animate={pvInView ? { opacity: 1 } : {}}
+            transition={{ delay: 1.0, duration: 0.6 }}/>
+          <motion.circle cx={HUB.cx} cy={HUB.cy} r={HUB.r - 10}
+            fill="rgba(0,177,220,0.10)" stroke="rgba(0,177,220,0.25)" strokeWidth="1"
+            initial={{ opacity: 0 }} animate={pvInView ? { opacity: 1 } : {}}
+            transition={{ delay: 1.08, duration: 0.5 }}/>
+          <motion.circle cx={HUB.cx} cy={HUB.cy} r={HUB.r - 22}
+            fill="rgba(255,255,255,0.92)" stroke="rgba(0,177,220,0.20)" strokeWidth="0.5"
+            initial={{ opacity: 0 }} animate={pvInView ? { opacity: 1 } : {}}
+            transition={{ delay: 1.14, duration: 0.4 }}/>
+
+          {/* ════ HUB  IntelliXbom symbol image ════ */}
+          <motion.g
+            initial={{ opacity: 0 }}
+            animate={pvInView ? { opacity: 1 } : {}}
+            transition={{ delay: 1.22, duration: 0.5 }}>
+            <image
+              href={intelliXbomSymbol}
+              x={HUB.cx - 18} y={HUB.cy - 18}
+              width={36} height={36}
+              clipPath="url(#pv-hub-clip)"
+              preserveAspectRatio="xMidYMid meet"
+            />
+          </motion.g>
+
+          {/* ════ IntelliXBOM label + CERT-In badge below hub ════ */}
+          <motion.g initial={{ opacity: 0 }} animate={pvInView ? { opacity: 1 } : {}}
+            transition={{ delay: 1.3 }}>
+            <text x={HUB.cx} y={HUB.cy + HUB.r + 14} textAnchor="middle"
+              fontSize="9" fontWeight="500" fill="var(--ink-400)"
+              fontFamily="'JetBrains Mono', monospace">IntelliXBOM</text>
+            <rect x={HUB.cx - 34} y={HUB.cy + HUB.r + 22} width="68" height="16" rx="4"
+              fill="rgba(16,185,129,0.08)" stroke="rgba(16,185,129,0.30)" strokeWidth="0.8"/>
+            <text x={HUB.cx} y={HUB.cy + HUB.r + 30} textAnchor="middle" dominantBaseline="middle"
+              fontSize="7.5" fontWeight="700" fill="#10B981"
+              fontFamily="'JetBrains Mono', monospace">✓ CERT-In</text>
+          </motion.g>
+
+          {/* ════ QBOM animated path  rendered ABOVE hub, uses userSpaceOnUse filter ════ */}
+          <motion.path
+            d={`M ${HLEFT} ${ROWS[2].y} L ${HUB_EDGES[2].x} ${ROWS[2].y}`}
+            fill="none"
+            stroke={ROWS[2].color}
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            filter="url(#pv-glow-hline)"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={pvInView ? { pathLength: [0, 1], opacity: 0.55 } : {}}
+            transition={{
+              pathLength: {
+                duration: 0.9,
+                delay: 0.4,
+                ease: 'easeOut',
+                repeat: Infinity,
+                repeatDelay: 1,
+                repeatType: 'loop',
+              },
+              opacity: { duration: 0.3, delay: 0.4 },
+            }}
+          />
+        </svg>
+      </motion.div>
     </div>
   );
 }

@@ -1,6 +1,5 @@
 import Hero from '../components/Hero';
 import SocialProof from '../components/SocialProof';
-import Challenge from '../components/Challenge';
 import BreachStats from '../components/BreachStats';
 import BOMTypes from '../components/BOMTypes';
 import Capabilities from '../components/Capabilities';
@@ -22,12 +21,7 @@ export default function HomePage() {
         <SocialProof />
       </section>
 
-      {/* 3. Challenge light theme, right after logos */}
-      <section id="challenge">
-        <Challenge />
-      </section>
-
-      {/* 4. Breach Stats editorial headline + 78% + regulatory clock */}
+      {/* 3. Breach Stats editorial headline + 78% + regulatory clock */}
       <section id="breach-stats">
         <BreachStats />
       </section>

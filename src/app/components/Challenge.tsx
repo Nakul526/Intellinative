@@ -1,5 +1,5 @@
 /**
- * Challenge — light theme, matching reference screenshot exactly.
+ * Challenge  light theme, matching reference screenshot exactly.
  * Layout:
  *   1. Centered eyebrow pill + H2 + subtitle
  *   2. Two wide stat cards (78% donut | 3 building icon)
@@ -23,7 +23,7 @@ const CHALLENGES = [
     border: 'rgba(139,92,246,0.22)',
     tag: 'Q-Day',
     title: 'Quantum Threat',
-    body: 'Quantum computers will break RSA-2048 and ECDSA in as few as 8 years. Without a QBOM today, you cannot map — let alone migrate — vulnerable crypto before the deadline.',
+    body: 'Quantum computers will break RSA-2048 and ECDSA in as few as 8 years. Without a QBOM today, you cannot map  let alone migrate  vulnerable crypto before the deadline.',
   },
   {
     num: '02',
@@ -180,7 +180,7 @@ export default function Challenge() {
               </div>
               <p className="text-[13px] leading-[1.5]" style={{ color: 'var(--ink-500)' }}>
                 Indian regulatory mandates now require
-                <br />SBOM/CBOM compliance — in force today
+                <br />SBOM/CBOM compliance  in force today
               </p>
             </div>
           </div>
