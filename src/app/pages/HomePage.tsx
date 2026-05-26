@@ -9,7 +9,7 @@ import Dashboard from '../components/Dashboard';
 // import Testimonial from '../components/Testimonial';
 import CTA from '../components/CTA';
 
-const COLOR_A = 'var(--ink-700)'; // #2D3447
+const COLOR_A = '#2D3447'; // var(--ink-700) original
 const COLOR_B = '#0E1A2E';
 
 /* ── Temporary colour toggle — remove when done testing ── */
@@ -17,12 +17,15 @@ function DarkToggle() {
   const [isB, setIsB] = useState(false);
 
   useEffect(() => {
-    document.documentElement.style.setProperty('--dash-dark', isB ? COLOR_B : COLOR_A);
+    // Override --ink-700 globally so every usage on the page updates
+    document.documentElement.style.setProperty('--ink-700', isB ? COLOR_B : COLOR_A);
+    document.documentElement.style.setProperty('--n7',      isB ? COLOR_B : COLOR_A);
   }, [isB]);
 
-  // seed on mount
+  // seed on mount — ensure starting value is correct
   useEffect(() => {
-    document.documentElement.style.setProperty('--dash-dark', COLOR_A);
+    document.documentElement.style.setProperty('--ink-700', COLOR_A);
+    document.documentElement.style.setProperty('--n7',      COLOR_A);
   }, []);
 
   return (
@@ -48,8 +51,8 @@ function DarkToggle() {
       }}
     >
       {/* Colour swatch */}
-      <div style={{ width: 12, height: 12, borderRadius: 4, background: isB ? COLOR_B : 'var(--ink-700)', border: '1px solid var(--p3)', flexShrink: 0 }} />
-      <span>{isB ? '#0E1A2E' : 'ink-700'}</span>
+      <div style={{ width: 12, height: 12, borderRadius: 4, background: isB ? COLOR_B : COLOR_A, border: '1px solid var(--p3)', flexShrink: 0 }} />
+      <span>{isB ? '#0E1A2E' : '#2D3447'}</span>
       {/* Toggle */}
       <button
         onClick={() => setIsB(v => !v)}
