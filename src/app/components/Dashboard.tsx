@@ -1,15 +1,15 @@
-import { useRef, useEffect, useState } from 'react';
+﻿import { useRef, useEffect, useState } from 'react';
 import { motion, useInView } from 'motion/react';
 import BomDependencyGraph from './BomDependencyGraph';
 
 /* ── dark theme tokens ─────────────────────────────────────────── */
 const D = {
-  bg:      '#060B14',
-  surface: '#0E1A2E',
-  border:  '#1A2030',
+  bg:      'var(--dash-dark, var(--ink-700))',
+  surface: 'var(--dash-dark, var(--ink-700))',
+  border:  'var(--ink-800)',
   head:    '#FFFFFF',
   body:    '#C5CCD8',
-  dimmed:  '#4B5570',
+  dimmed:  '#c5ccd8',
   accent:  '#3DC7F6',
 };
 
@@ -50,8 +50,6 @@ function Sparkline({ points, color, width = 80, height = 28 }: {
   ]);
 
   const d = norm.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p[0].toFixed(1)} ${p[1].toFixed(1)}`).join(' ');
-
-  // Area fill path
   const areaD = `${d} L ${norm[norm.length - 1][0].toFixed(1)} ${height} L ${norm[0][0].toFixed(1)} ${height} Z`;
 
   return (
@@ -72,7 +70,7 @@ function Sparkline({ points, color, width = 80, height = 28 }: {
 const SPARKS = {
   cert:   [[0,82],[1,85],[2,83],[3,88],[4,90],[5,91],[6,93],[7,95],[8,96],[9,98]] as [number,number][],
   valid:  [[0,900],[1,980],[2,1010],[3,1050],[4,1090],[5,1140],[6,1180],[7,1210],[8,1230],[9,1247]] as [number,number][],
-  types:  [[0,5],[1,5],[2,5],[3,5],[4,5],[5,5],[6,5],[7,5],[8,5],[9,5]] as [number,number][],
+  types:  [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]] as [number,number][],
   crit:   [[0,9],[1,8],[2,7],[3,6],[4,7],[5,5],[6,5],[7,4],[8,3],[9,3]] as [number,number][],
 };
 
@@ -101,14 +99,6 @@ export default function Dashboard() {
       trend: { dir: '▲', text: '18 today', up: true },
     },
     {
-      label: 'BOM Types Covered',
-      value: 5,
-      unit: '',
-      color: '#8B5CF6',
-      spark: SPARKS.types,
-      tags: ['SBOM', 'CBOM', 'QBOM', 'AIBOM', 'HBOM'],
-    },
-    {
       label: 'Critical Items',
       value: 3,
       unit: '',
@@ -116,17 +106,25 @@ export default function Dashboard() {
       spark: SPARKS.crit,
       trend: { dir: '▼', text: '2 since last scan', up: false },
     },
+    {
+      label: 'BOM Types Covered',
+      value: 5,
+      unit: '',
+      color: '#8B5CF6',
+      spark: SPARKS.types,
+      tags: ['SBOM', 'CBOM', 'QBOM', 'AIBOM', 'HBOM'],
+    },
   ];
 
   return (
     <section
       className="relative py-16 md:py-24 px-6 overflow-hidden"
-      style={{ background: D.bg, borderTop: `1px solid ${D.border}` }}
+      style={{ background: 'var(--p0)', borderTop: '1px solid var(--p3)' }}
     >
       {/* Ambient glow */}
       <div
         className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[500px] pointer-events-none"
-        style={{ background: `radial-gradient(ellipse, rgba(61,199,246,0.07), transparent 70%)` }}
+        style={{ background: 'radial-gradient(ellipse, rgba(0,177,220,0.05), transparent 70%)' }}
       />
 
       <div className="relative max-w-[1440px] mx-auto">
@@ -139,129 +137,147 @@ export default function Dashboard() {
           transition={{ duration: 0.6 }}
           className="mb-10"
         >
-          {/* Headline  single-line large display */}
+          {/* Headline */}
           <h2
             className="text-[36px] md:text-[52px] font-black leading-[1.0] mb-5"
-            style={{ letterSpacing: '-0.03em', color: D.head }}
+            style={{ letterSpacing: '-0.03em', color: 'var(--ink-700)' }}
           >
             See everything.{' '}
-            <span style={{ color: D.accent }}>Miss nothing.</span>
+            <span style={{ color: '#00B1DC' }}>Miss nothing.</span>
           </h2>
 
-          {/* Subtitle with accent on key phrase */}
+          {/* Subtitle */}
           <div
-            className="flex items-start gap-2 max-w-[540px]"
-            style={{
-              borderLeft: `2px solid rgba(61,199,246,0.35)`,
-              paddingLeft: 12,
-            }}
+            className="flex items-start gap-2 max-w-[840px]"
+            style={{ borderLeft: '3px solid var(--c5)', paddingLeft: 12 }}
           >
-            <p
-              className="text-[14px] leading-[1.75]"
-              style={{ color: D.body }}
-            >
-              A unified command center for BOM governance {' '}
-              <em style={{ color: D.accent, fontStyle: 'italic' }}>
+            <p className="text-[14px] leading-[1.75]" style={{ color: 'var(--ink-600)' }}>
+              A unified command center for BOM governance{' '}
+              <em style={{ color: 'var(--c5)', fontStyle: 'italic' }}>
                 real-time risk scoring, dependency graph, and one-click audit exports.
               </em>
             </p>
           </div>
         </motion.div>
 
-        {/* ── Stat cards ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.15 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8"
-        >
-          {cards.map((card, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 12 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.4, delay: 0.2 + i * 0.07 }}
-              className="rounded-xl p-4 flex flex-col justify-between"
-              style={{
-                background: D.surface,
-                border: `1px solid ${D.border}`,
-                minHeight: 110,
-              }}
-            >
-              {/* Label */}
-              <div
-                className="text-[9px] uppercase tracking-[0.12em] font-semibold mb-2 select-none"
-                style={{ color: D.dimmed, fontFamily: 'var(--f-m)' }}
-              >
-                {card.label}
-              </div>
-
-              {/* Value row with sparkline */}
-              <div className="flex items-end justify-between gap-2">
-                <div
-                  className="text-[32px] font-bold tabular-nums leading-none"
-                  style={{ color: card.color, letterSpacing: '-0.04em', fontFamily: 'var(--f-d)' }}
-                >
-                  {typeof card.value === 'number' ? card.value.toLocaleString() : card.value}
-                  {card.unit && (
-                    <span className="text-[20px] ml-0.5">{card.unit}</span>
-                  )}
-                </div>
-                <div className="flex-shrink-0 opacity-80">
-                  <Sparkline points={card.spark} color={card.color} />
-                </div>
-              </div>
-
-              {/* Trend or tags */}
-              {'trend' in card && card.trend ? (
-                <div
-                  className="flex items-center gap-1 mt-2 text-[10px] font-medium"
-                  style={{
-                    color: card.trend.up ? '#10B981' : '#E53935',
-                    fontFamily: 'var(--f-m)',
-                  }}
-                >
-                  <span>{card.trend.dir}</span>
-                  <span style={{ color: D.dimmed }}>{card.trend.text}</span>
-                </div>
-              ) : 'tags' in card && card.tags ? (
-                <div className="flex flex-wrap gap-1 mt-2">
-                  {card.tags.map(t => (
-                    <span
-                      key={t}
-                      className="text-[8px] font-semibold px-1.5 py-0.5 rounded"
-                      style={{
-                        background: 'rgba(139,92,246,0.12)',
-                        color: '#8B5CF6',
-                        fontFamily: 'var(--f-m)',
-                      }}
-                    >
-                      {t}
-                    </span>
-                  ))}
-                </div>
-              ) : null}
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* ── Dependency Graph section ── */}
+        {/* ── Monitor frame wrapping stat cards + dependency graph ── */}
         <motion.div
           initial={{ opacity: 0, y: 32 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.75, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
+          className="rounded-2xl overflow-hidden"
+          style={{
+            background: 'var(--dash-dark, var(--ink-700))',
+            border: `1px solid ${D.border}`,
+            boxShadow: '0 48px 120px rgba(0,0,0,0.38), 0 0 80px rgba(61,199,246,0.06)',
+          }}
         >
-          {/* Row header */}
-          <div className="flex items-baseline justify-between mb-4">
-            <h3
-              className="text-xl font-bold"
-              style={{ color: D.head, letterSpacing: '-0.02em' }}
+          {/* ── Browser chrome bar ── */}
+          <div
+            className="flex items-center gap-2 px-4 py-3"
+            style={{ background: D.bg, borderBottom: `1px solid ${D.border}` }}
+          >
+            <div className="flex items-center gap-1.5">
+              <div className="w-3 h-3 rounded-full" style={{ background: '#E53935' }} />
+              <div className="w-3 h-3 rounded-full" style={{ background: '#F59E0B' }} />
+              <div className="w-3 h-3 rounded-full" style={{ background: '#10B981' }} />
+            </div>
+            <div
+              className="flex-1 mx-4 px-3 flex items-center"
+              style={{
+                background: 'var(--dash-dark, var(--ink-700))',
+                border: `1px solid ${D.border}`,
+                borderRadius: 6,
+                height: 26,
+              }}
             >
-              Dependency graph
-            </h3>
+              <span style={{ fontSize: 11, color: '#c5ccd8', fontFamily: 'var(--f-m)' }}>
+                app.intellixbom.com/dashboard
+              </span>
+            </div>
           </div>
 
-          <BomDependencyGraph />
+          {/* ── Content inside monitor ── */}
+          <div className="p-5">
+            {/* Stat cards */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
+              {cards.map((card, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={inView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.4, delay: 0.25 + i * 0.07 }}
+                  className="rounded-xl p-4 flex flex-col justify-between"
+                  style={{
+                    background: D.bg,
+                    border: `1px solid ${D.border}`,
+                    minHeight: 110,
+                  }}
+                >
+                  {/* Label */}
+                  <div
+                    className="text-[9px] uppercase tracking-[0.12em] font-semibold mb-2 select-none"
+                    style={{ color: D.dimmed, fontFamily: 'var(--f-m)' }}
+                  >
+                    {card.label}
+                  </div>
+
+                  {/* Value row with sparkline */}
+                  <div className="flex items-end justify-between gap-2">
+                    <div
+                      className="text-[32px] font-bold tabular-nums leading-none"
+                      style={{ color: card.color, letterSpacing: '-0.04em', fontFamily: 'var(--f-d)' }}
+                    >
+                      {typeof card.value === 'number' ? card.value.toLocaleString() : card.value}
+                      {card.unit && (
+                        <span className="text-[20px] ml-0.5">{card.unit}</span>
+                      )}
+                    </div>
+                    <div className="flex-shrink-0 opacity-80">
+                      <Sparkline points={card.spark} color={card.color} />
+                    </div>
+                  </div>
+
+                  {/* Trend or tags */}
+                  {'trend' in card && card.trend ? (
+                    <div
+                      className="flex items-center gap-1 mt-2 text-[10px] font-medium"
+                      style={{ color: card.trend.up ? '#10B981' : '#E53935', fontFamily: 'var(--f-m)' }}
+                    >
+                      <span>{card.trend.dir}</span>
+                      <span style={{ color: D.dimmed }}>{card.trend.text}</span>
+                    </div>
+                  ) : 'tags' in card && card.tags ? (
+                    <div className="flex flex-wrap gap-1 mt-2">
+                      {card.tags.map(t => (
+                        <span
+                          key={t}
+                          className="text-[12px] font-semibold px-1.5 py-0.5 rounded"
+                          style={{ background: 'rgba(139,92,246,0.12)', color: '#8B5CF6', fontFamily: 'var(--f-m)' }}
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  ) : null}
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Divider */}
+            <div className="mb-4" style={{ borderTop: `1px solid ${D.border}` }} />
+
+            {/* Dependency Graph */}
+            <div className="flex items-baseline justify-between mb-3">
+              <h3
+                className="text-[13px] font-semibold uppercase tracking-[0.08em]"
+                style={{ color: '#c5ccd8', fontFamily: 'var(--f-m)' }}
+              >
+                Dependency graph
+              </h3>
+            </div>
+            <BomDependencyGraph />
+          </div>
         </motion.div>
 
       </div>

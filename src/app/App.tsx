@@ -4,6 +4,7 @@ import { ThemeProvider } from './context/ThemeContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import DemoModal from './components/DemoModal';
+import CookieConsent from './components/CookieConsent';
 import HomePage from './pages/HomePage';
 import BlogPage from './pages/BlogPage';
 import BlogPostPage from './pages/BlogPostPage';
@@ -51,6 +52,7 @@ export default function App() {
       <BrowserRouter>
         <div className="min-h-screen antialiased" style={{ background: 'var(--app-bg)', color: 'var(--app-text-primary)' }}>
           <Navbar />
+          <div style={{ paddingTop: 64 }}>
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/why" element={<WhyPage />} />
@@ -62,8 +64,10 @@ export default function App() {
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/blog/:slug" element={<BlogPostPage />} />
           </Routes>
+          </div>
           <Footer />
           <DemoModal />
+          <CookieConsent />
           <ScrollToTopButton />
         </div>
       </BrowserRouter>

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * SocialProof  "Guidelines Supported"
  * Static 2-row grid, full width, larger chips.
  */
@@ -23,14 +23,21 @@ const ROW2 = [
 function LogoChip({ name, color }: { name: string; color: string }) {
   return (
     <div
-      className="flex items-center gap-3 px-6 py-3 rounded-xl select-none cursor-default flex-1 justify-center min-w-[120px]"
+      className="flex items-center gap-3 px-6 py-3 rounded-xl select-none cursor-default flex-1 justify-center min-w-[120px] transition-all duration-200"
       style={{
         background: 'var(--p0)',
         border: '1px solid var(--p3)',
         boxShadow: '0 1px 4px rgba(14,26,46,0.05)',
       }}
+      onMouseEnter={e => {
+        (e.currentTarget as HTMLElement).style.border = '1px solid var(--ink-700)';
+        (e.currentTarget as HTMLElement).style.boxShadow = '0 2px 10px rgba(45,52,71,0.15)';
+      }}
+      onMouseLeave={e => {
+        (e.currentTarget as HTMLElement).style.border = '1px solid var(--p3)';
+        (e.currentTarget as HTMLElement).style.boxShadow = '0 1px 4px rgba(14,26,46,0.05)';
+      }}
     >
-      <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: color }} />
       <span
         className="text-[14px] font-semibold whitespace-nowrap"
         style={{ color: 'var(--ink-700)', fontFamily: 'var(--f-m)' }}
@@ -57,7 +64,7 @@ export default function SocialProof() {
       >
         <span
           className="text-[20px] uppercase tracking-[0.20em] font-semibold select-none"
-          style={{ color: 'var(--ink-500)', fontFamily: 'var(--f-m)' }}
+          style={{ color: 'var(--ink-700)', fontFamily: 'var(--f-m)' }}
         >
           Guidelines Supported
         </span>

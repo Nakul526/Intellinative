@@ -1,4 +1,4 @@
-/**
+﻿/**
  * BreachStats  light theme
  * Two-part section placed after Challenge:
  *  1. Editorial split headline "black box" strikethrough + supporting text
@@ -7,6 +7,7 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'motion/react';
 import { Activity, Clock, ShieldCheck, Landmark, Building2, TrendingUp } from 'lucide-react';
+import intelliXbomDark from '../../assets/IntelliXbom-Dark.png';
 
 const MANDATES = [
   {
@@ -71,7 +72,7 @@ export default function BreachStats() {
           <h2
             className="font-bold leading-[1.08]"
             style={{
-              color: 'var(--ink-950)',
+              color: 'var(--ink-700)',
               letterSpacing: '-0.035em',
               fontSize: 'clamp(36px, 5.5vw, 72px)',
               fontFamily: 'var(--f-d)',
@@ -86,17 +87,25 @@ export default function BreachStats() {
                 textDecoration: 'line-through',
                 textDecorationColor: '#EF5350',
                 textDecorationThickness: '4px',
-                color: 'var(--ink-950)',
+                color: 'var(--ink-700)',
               }}
             >
-              black box 
+              black box
             </span>
-            <span style={{ color: 'var(--c5)', fontStyle: 'italic' }}> Regulated</span>
+            <span style={{ color: '#00B1DC', fontStyle: 'italic' }}> Regulated</span>
             <br className="hidden sm:block" />
-            {' '}Regulated India needs{' '}
-            <span style={{ color: 'var(--c5)', fontStyle: 'italic' }}>
-              IntelliXBOM.
-            </span>
+            {' '}India needs  
+            <img
+              src={intelliXbomDark}
+              alt="IntelliXBOM"
+              style={{
+                height: '1.5em',
+                width: 'auto',
+                display: 'inline-block',
+                verticalAlign: 'middle',
+                marginBottom: '0.3em',
+              }}
+            />
           </h2>
         </motion.div>
       </div>
@@ -114,14 +123,13 @@ export default function BreachStats() {
           style={{ '--tw-divide-opacity': 1, borderColor: 'var(--p3)' } as React.CSSProperties}>
 
           {/* ── LEFT: Breach Math ── */}
-          <div className="relative p-8 md:p-10 overflow-hidden">
+          <div className="relative p-8 md:p-10">
             {/* Subtle red glow */}
             <div className="absolute top-0 left-0 w-64 h-64 pointer-events-none"
               style={{ background: 'radial-gradient(circle, rgba(239,83,80,0.07), transparent 70%)' }} />
 
-
-            {/* Giant number */}
-            <div className="flex items-end gap-0 mb-6 leading-none">
+            {/* Giant number — 78%¹ */}
+            <div className="flex items-start gap-0 mb-6 leading-none">
               <motion.span
                 initial={{ opacity: 0, scale: 0.7 }}
                 animate={panelInView ? { opacity: 1, scale: 1 } : {}}
@@ -137,35 +145,33 @@ export default function BreachStats() {
               >
                 78%
               </motion.span>
-              <motion.span
-                initial={{ opacity: 0, y: 16 }}
-                animate={panelInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.5 }}
-                className="font-bold mb-3"
+              <sup
                 style={{
-                  fontSize: 'clamp(40px, 6vw, 60px)',
-                  color: '#EF5350',
-                  letterSpacing: '-0.03em',
-                  fontFamily: 'var(--f-d)',
-                  lineHeight: 1,
+                  fontSize: '1rem',
+                  color: 'var(--ink-400)',
+                  fontWeight: 600,
+                  marginTop: '0.6em',
+                  marginLeft: '3px',
+                  fontFamily: 'var(--f-m)',
                 }}
               >
-                
-              </motion.span>
+                1
+              </sup>
             </div>
 
             {/* Description */}
-            <p className="text-[14px] leading-[1.75] max-w-[320px]" style={{ color: 'var(--ink-500)' }}>
+            <p className="text-[14px] leading-[1.75] max-w-[480px]" style={{ color: 'var(--ink-500)' }}>
               of breaches exploit{' '}
               <span className="font-bold" style={{ color: 'var(--ink-950)' }}>known</span>{' '}
               vulnerabilities hiding inside untracked, transitively-pulled
-              software components.
+              {' '}software components.
             </p>
 
-            {/* Citation */}
-            <div className="mt-4 mb-6">
+            {/* Citation — ¹ Verizon DBIR 2025 Cohort */}
+            <div className="mt-4 mb-6 flex items-baseline gap-1">
+              <sup style={{ fontSize: '9px', color: 'var(--ink-400)', fontWeight: 600, fontFamily: 'var(--f-m)' }}>1</sup>
               <span
-                className="text-[10px] uppercase tracking-[0.1em]"
+                className="text-[11px] uppercase tracking-[0.08em]"
                 style={{ color: 'var(--ink-400)', fontFamily: 'var(--f-m)' }}
               >
                 Verizon DBIR 2025 Cohort
@@ -205,11 +211,6 @@ export default function BreachStats() {
             {/* Label row */}
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-2">
-                <Clock className="w-3.5 h-3.5" style={{ color: 'rgba(0,177,220,0.8)' }} />
-                <span className="text-[10px] uppercase tracking-[0.15em] font-bold"
-                  style={{ color: 'rgba(0,177,220,0.8)', fontFamily: 'var(--f-m)' }}>
-                  The Regulatory Clock
-                </span>
               </div>
               <div
                 className="px-2.5 py-1 rounded text-[10px] font-bold"

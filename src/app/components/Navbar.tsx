@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { openDemoModal } from './DemoModal';
+import intelliXbomDark from '../../assets/IntelliXbom-Dark.png';
 
 /* ── IntelliXBOM wordmark lockup (inline SVG X mark) ─────────── */
 function BrandLockup({ size = 20 }: { size?: number }) {
@@ -53,11 +54,11 @@ function BrandLockup({ size = 20 }: { size?: number }) {
 }
 
 const BOM_TYPES = [
-  { color: 'var(--m-sbom)', title: 'SBOM', desc: 'Software packages & dependencies', href: '/bom-types#sbom' },
-  { color: 'var(--m-cbom)', title: 'CBOM', desc: 'Cryptographic assets & certs',     href: '/bom-types#cbom' },
-  { color: 'var(--m-qbom)', title: 'QBOM', desc: 'Quantum-vulnerable crypto',         href: '/bom-types#qbom' },
-  { color: 'var(--m-aibom)', title: 'AIBOM', desc: 'AI/ML models & training data',   href: '/bom-types#aibom' },
-  { color: 'var(--m-hbom)', title: 'HBOM', desc: 'Hardware & firmware inventory',    href: '/bom-types#hbom' },
+  { color: 'var(--m-sbom)', title: 'SBOM', desc: 'Software packages & dependencies', href: '/#sbom' },
+  { color: 'var(--m-cbom)', title: 'CBOM', desc: 'Cryptographic assets & certs',     href: '/#cbom' },
+  { color: 'var(--m-qbom)', title: 'QBOM', desc: 'Quantum-vulnerable crypto',         href: '/#qbom' },
+  { color: 'var(--m-aibom)', title: 'AIBOM', desc: 'AI/ML models & training data',   href: '/#aibom' },
+  { color: 'var(--m-hbom)', title: 'HBOM', desc: 'Hardware & firmware inventory',    href: '/#hbom' },
 ];
 
 export default function Navbar() {
@@ -65,6 +66,8 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isBOMDropdownOpen, setIsBOMDropdownOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [visible, setVisible] = useState(true);
+  const lastScrollY = useRef(0);
   const location = useLocation();
 
   useEffect(() => {
@@ -73,9 +76,31 @@ export default function Navbar() {
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       setScrollProgress(docHeight > 0 ? (scrollTop / docHeight) * 100 : 0);
       setIsScrolled(scrollTop > 60);
+
+      if (scrollTop <= 60) {
+        setVisible(true);
+      } else if (scrollTop > lastScrollY.current + 6) {
+        // Scrolling down → hide
+        setVisible(false);
+      } else if (scrollTop < lastScrollY.current - 6) {
+        // Scrolling up → show
+        setVisible(true);
+      }
+      lastScrollY.current = scrollTop;
     };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      if (e.clientY <= 60) {
+        setVisible(true);
+      }
+    };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
   }, []);
 
   useEffect(() => { setIsMenuOpen(false); }, [location.pathname]);
@@ -84,11 +109,17 @@ export default function Navbar() {
     location.pathname === path || location.pathname.startsWith(path + '/');
 
   return (
-    <nav
-      className="w-full z-50 h-16 transition-all duration-300"
+    <motion.nav
+      className="fixed top-0 left-0 right-0 w-full z-50 h-16"
+      animate={{ y: visible ? 0 : -68 }}
+      transition={{ duration: 0.28, ease: [0.4, 0, 0.2, 1] }}
       style={{
-        background: 'transparent',
-        borderBottom: '1px solid transparent',
+        background: isScrolled
+          ? 'rgba(var(--app-bg-rgb, 255,255,255), 0.92)'
+          : 'transparent',
+        backdropFilter: isScrolled ? 'blur(20px)' : 'none',
+        WebkitBackdropFilter: isScrolled ? 'blur(20px)' : 'none',
+        borderBottom: isScrolled ? '1px solid var(--p3)' : '1px solid transparent',
       }}
     >
       {/* Scroll progress bar */}
@@ -100,16 +131,16 @@ export default function Navbar() {
       <div className="max-w-[1440px] mx-auto px-6 lg:px-10 h-full flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center flex-shrink-0">
-          <BrandLockup size={19} />
+          <img src={intelliXbomDark} alt="IntelliXBOM" style={{ height: 28, width: 'auto', display: 'block' }} />
         </Link>
 
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-7">
-          <NavLink to="/why"        label="Why IxBOM"  active={isActive('/why')} />
-          <NavLink to="/platform"   label="Platform"   active={isActive('/platform')} />
-          <NavLink to="/compliance" label="Compliance" active={isActive('/compliance')} />
-          <NavLink to="/about"      label="About"      active={isActive('/about')} />
-          <NavLink to="/blog"       label="Blog"       active={isActive('/blog')} />
+          <NavLink to="#" label="Why IntellixBOM"  active={false} />
+          <NavLink to="#" label="Platform"   active={false} />
+          <NavLink to="#" label="Compliance" active={false} />
+          <NavLink to="#" label="About"      active={false} />
+          <NavLink to="#" label="Blog"       active={false} />
 
           {/* BOM dropdown */}
           <div
@@ -189,7 +220,7 @@ export default function Navbar() {
                     style={{ borderTop: '1px solid var(--p3)' }}
                   >
                     <Link
-                      to="/compare"
+                      to="#"
                       className="text-xs font-medium transition-colors"
                       style={{ color: 'var(--ink-500)' }}
                       onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = 'var(--ink-700)')}
@@ -198,7 +229,7 @@ export default function Navbar() {
                       Compare all BOM types →
                     </Link>
                     <Link
-                      to="/bom-types"
+                      to="#"
                       className="text-xs font-semibold transition-colors"
                       style={{ color: 'var(--c5)' }}
                       onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = 'var(--c6)')}
@@ -223,20 +254,16 @@ export default function Navbar() {
           >
             Sign In
           </button>
-          <motion.button
-            whileHover={{ scale: 1.03, translateY: -1 }}
-            whileTap={{ scale: 0.97 }}
+          <button
             onClick={openDemoModal}
-            className="px-5 py-2.5 text-sm font-semibold text-white rounded-lg transition-shadow duration-200"
+            className="px-5 py-2.5 text-sm font-semibold text-white rounded-lg cursor-pointer"
             style={{
               background: 'var(--c5)',
               boxShadow: '0 2px 8px rgba(0,177,220,0.35)',
             }}
-            onMouseEnter={e => ((e.currentTarget as HTMLElement).style.boxShadow = '0 4px 20px rgba(0,177,220,0.5)')}
-            onMouseLeave={e => ((e.currentTarget as HTMLElement).style.boxShadow = '0 2px 8px rgba(0,177,220,0.35)')}
           >
             Request Demo →
-          </motion.button>
+          </button>
         </div>
 
         {/* Mobile hamburger */}
@@ -278,15 +305,15 @@ export default function Navbar() {
           >
             <div className="px-6 py-5 space-y-0.5">
               {[
-                { to: '/why',        label: 'Why IxBOM' },
-                { to: '/bom-types',  label: 'BOM Types' },
-                { to: '/platform',   label: 'Platform' },
-                { to: '/compliance', label: 'Compliance' },
-                { to: '/about',      label: 'About' },
-                { to: '/blog',       label: 'Blog' },
+                { to: '#', label: 'Why IxBOM' },
+                { to: '#', label: 'BOM Types' },
+                { to: '#', label: 'Platform' },
+                { to: '#', label: 'Compliance' },
+                { to: '#', label: 'About' },
+                { to: '#', label: 'Blog' },
               ].map((item, i) => (
                 <motion.div
-                  key={item.to}
+                  key={item.label}
                   initial={{ opacity: 0, x: -16 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.05 }}
@@ -316,7 +343,7 @@ export default function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
-    </nav>
+    </motion.nav>
   );
 }
 

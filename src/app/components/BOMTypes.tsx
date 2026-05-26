@@ -1,4 +1,5 @@
-import { useState } from 'react';
+﻿import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router';
 import { motion, AnimatePresence } from 'motion/react';
 import { CheckCircle2, ArrowRight, Shield, Zap } from 'lucide-react';
 import { openDemoModal } from './DemoModal';
@@ -27,12 +28,10 @@ const bomData = {
       specVersion: '1.5',
       certInStatus: 'PASS ✓',
       components: [
-        { name: 'spring-boot-starter', version: '3.2.1', risk: 'CRITICAL' },
         { name: 'log4j-core', version: '2.20.0', risk: 'NONE' },
         { name: 'openssl', version: '3.0.8', risk: 'HIGH' },
       ],
       totalComponents: 247,
-      criticalVulns: 3,
     },
   },
   CBOM: {
@@ -55,7 +54,6 @@ const bomData = {
         tlsActive: ['TLS 1.3', 'TLS 1.2'],
         deprecated: ['TLS 1.0', 'TLS 1.1'],
         certificates: { total: 12, expiringSoon: 3, expired: 0 },
-        weakAlgorithms: ['MD5', 'SHA-1'],
       },
       status: 'ACTION REQUIRED',
     },
@@ -137,13 +135,26 @@ const bomData = {
   },
 };
 
+const HASH_TO_TAB: Record<string, BOMType> = {
+  '#sbom': 'SBOM', '#cbom': 'CBOM', '#qbom': 'QBOM', '#aibom': 'AIBOM', '#hbom': 'HBOM',
+};
+
 export default function BOMTypes() {
+  const location = useLocation();
   const [activeTab, setActiveTab] = useState<BOMType>('SBOM');
   const active = bomData[activeTab];
 
+  useEffect(() => {
+    const tab = HASH_TO_TAB[location.hash.toLowerCase()];
+    if (tab) {
+      setActiveTab(tab);
+      document.getElementById('bom-types')?.scrollIntoView({ behavior: 'instant', block: 'start' });
+    }
+  }, [location.hash]);
+
   return (
-    <section id="bom-types" className="py-16 md:py-24 px-6" style={{ background: 'var(--p0)' }}>
-      <div className="max-w-[1440px] mx-auto">
+    <section id="bom-types" className="py-16 md:py-24" style={{ background: 'var(--p0)' }}>
+      <div className="max-w-[1440px] mx-auto px-6">
 
         {/* Header */}
         <div className="mb-10">
@@ -155,12 +166,12 @@ export default function BOMTypes() {
           </p>
           <h2
             className="text-[36px] md:text-[52px] font-bold mb-4"
-            style={{ color: 'var(--ink-950)', letterSpacing: '-0.025em', lineHeight: '1.05' }}
+            style={{ color: 'var(--ink-700)', letterSpacing: '-0.025em', lineHeight: '1.05' }}
           >
             Five BOM types.{' '}
-            <span style={{ color: 'var(--c5)' }}>One unified platform.</span>
+            <span style={{ color: '#00B1DC' }}>One unified platform.</span>
           </h2>
-          <p className="text-lg max-w-[560px]" style={{ color: 'var(--ink-600)' }}>
+          <p className="text-lg" style={{ color: 'var(--ink-600)' }}>
             From software packages to quantum cryptography and physical hardware fully governed, continuously validated, and regulator ready.
           </p>
         </div>
@@ -228,7 +239,7 @@ export default function BOMTypes() {
 
               <h3
                 className="text-3xl md:text-4xl font-bold mb-2"
-                style={{ color: 'var(--ink-950)', letterSpacing: '-0.025em' }}
+                style={{ color: 'var(--ink-700)', letterSpacing: '-0.025em' }}
               >
                 {active.title}
               </h3>
@@ -280,68 +291,57 @@ export default function BOMTypes() {
           </motion.div>
         </AnimatePresence>
 
-        {/* ── CTA Banner ── */}
-        <motion.div
-          onClick={openDemoModal}
-          whileHover={{ scale: 1.012, y: -2 }}
-          whileTap={{ scale: 0.99 }}
-          transition={{ type: 'spring', stiffness: 340, damping: 26 }}
-          className="mt-10 relative rounded-2xl overflow-hidden cursor-pointer select-none"
-          style={{
-            background: 'linear-gradient(120deg, #060B14 0%, #0D1F38 50%, #060B14 100%)',
-            border: '1px solid rgba(61,199,246,0.25)',
-            boxShadow: '0 0 48px rgba(61,199,246,0.08), 0 8px 32px rgba(0,0,0,0.2)',
-          }}
-        >
-          {/* Ambient glow blobs */}
-          <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            <div className="absolute rounded-full" style={{ width: 320, height: 320, background: 'radial-gradient(circle, rgba(61,199,246,0.10), transparent 65%)', top: -100, left: -60 }} />
-            <div className="absolute rounded-full" style={{ width: 280, height: 280, background: 'radial-gradient(circle, rgba(91,108,255,0.10), transparent 65%)', bottom: -80, right: 80 }} />
-          </div>
+      </div>
 
-          <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6 px-8 py-7">
-            {/* Left: text block */}
-            <div className="flex items-start gap-4">
-              {/* Icon */}
-              <div
-                className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5"
-                style={{ background: 'rgba(61,199,246,0.1)', border: '1px solid rgba(61,199,246,0.25)' }}
-              >
-                <Shield className="w-5 h-5" style={{ color: '#3DC7F6' }} />
-              </div>
-              <div>
-                <p
-                  className="text-[17px] md:text-[19px] font-bold mb-1 leading-snug"
-                  style={{ color: '#FFFFFF', letterSpacing: '-0.02em' }}
-                >
-                  Need to compare BOM types for your compliance team?
-                </p>
-                <p className="text-[13px]" style={{ color: 'rgba(197,204,216,0.75)' }}>
-                  Get a personalised walkthrough across SBOM, CBOM, QBOM, AIBOM &amp; HBOM — mapped to your regulatory environment.
-                </p>
-              </div>
+      {/* ── CTA Banner ── full width */}
+      <div
+        className="relative mt-10 overflow-hidden"
+        style={{ background: 'var(--ink-700)' }}
+      >
+        {/* Ambient glow blobs */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute rounded-full" style={{ width: 320, height: 320, background: 'radial-gradient(circle, rgba(61,199,246,0.10), transparent 65%)', top: -100, left: -60 }} />
+          <div className="absolute rounded-full" style={{ width: 280, height: 280, background: 'radial-gradient(circle, rgba(91,108,255,0.10), transparent 65%)', bottom: -80, right: 80 }} />
+        </div>
+
+        <div className="relative z-10 max-w-[1440px] mx-auto flex flex-col md:flex-row items-center justify-between gap-6 px-8 py-7">
+          {/* Left: text block */}
+          <div className="flex items-start gap-4">
+            <div
+              className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5"
+              style={{ background: 'rgba(61,199,246,0.1)', border: '1px solid rgba(61,199,246,0.25)' }}
+            >
+              <Shield className="w-5 h-5" style={{ color: '#3DC7F6' }} />
             </div>
-
-            {/* Right: CTA */}
-            <div className="flex items-center gap-3 flex-shrink-0">
-
-
-              <motion.button
-                whileHover={{ x: 3 }}
-                transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[14px] font-semibold"
-                style={{
-                  background: '#3DC7F6',
-                  color: '#060B14',
-                  boxShadow: '0 0 24px rgba(61,199,246,0.35)',
-                }}
+            <div>
+              <p
+                className="text-[17px] md:text-[19px] font-bold mb-1 leading-snug"
+                style={{ color: '#FFFFFF', letterSpacing: '-0.02em' }}
               >
-                Request a Demo
-                <ArrowRight className="w-4 h-4" />
-              </motion.button>
+                Need to compare BOM types for your compliance team?
+              </p>
+              <p className="text-[13px]" style={{ color: 'rgba(197,204,216,0.75)' }}>
+                Get a personalised walkthrough across SBOM, CBOM, QBOM, AIBOM &amp; HBOM mapped to your regulatory environment.
+              </p>
             </div>
           </div>
-        </motion.div>
+
+          {/* Right: CTA */}
+          <div className="flex items-center gap-3 flex-shrink-0">
+            <button
+              onClick={openDemoModal}
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[14px] font-semibold cursor-pointer"
+              style={{
+                background: '#3DC7F6',
+                color: '#ffffff',
+                // boxShadow: '0 0 24px rgba(61,199,246,0.35)',
+              }}
+            >
+              Request a Demo
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
       </div>
     </section>
   );

@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { X, CheckCircle2 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
+import intelliXbomDark from '../../assets/IntelliXbom-Dark.png';
+import intelliXbomWhite from '../../assets/IntelliXbom-White.png';
 
 export default function DemoModal() {
   const [isOpen, setIsOpen] = useState(false);
@@ -103,22 +105,18 @@ export default function DemoModal() {
           ) : (
             <>
               <div className="mb-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <div
-                    className="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold text-white"
-                    style={{ background: 'linear-gradient(135deg, var(--c5), var(--c6))' }}
-                  >
-                    IX
-                  </div>
-                  <span className="text-[11px] uppercase tracking-[0.1em] font-medium" style={{ color: 'var(--app-text-dimmer)' }}>
-                    IntelliXBOM
-                  </span>
+                <div className="mb-4">
+                  <img
+                    src={isDark ? intelliXbomWhite : intelliXbomDark}
+                    alt="IntelliXBOM"
+                    style={{ height: 28, width: 'auto', display: 'block' }}
+                  />
                 </div>
                 <h2 className="text-2xl font-bold mb-1.5" style={{ color: 'var(--app-text-primary)' }}>
                   Request a Demo
                 </h2>
                 <p className="text-sm" style={{ color: 'var(--app-text-muted)' }}>
-                  See IntelliXBOM in action tailored to your compliance environment.
+                  See IntelliXBOM in action, tailored to your compliance.
                 </p>
               </div>
 
@@ -160,10 +158,9 @@ export default function DemoModal() {
 
                 <div>
                   <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--app-text-muted)' }}>
-                    Organization *
+                    Organization 
                   </label>
                   <input
-                    required
                     type="text"
                     value={form.org}
                     onChange={e => setForm(f => ({ ...f, org: e.target.value }))}
@@ -173,25 +170,6 @@ export default function DemoModal() {
                     onFocus={e => (e.currentTarget.style.borderColor = 'rgba(0,177,220,0.6)')}
                     onBlur={e => (e.currentTarget.style.borderColor = 'var(--app-border)')}
                   />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--app-text-muted)' }}>
-                    Primary Regulatory Interest
-                  </label>
-                  <select
-                    value={form.interest}
-                    onChange={e => setForm(f => ({ ...f, interest: e.target.value }))}
-                    className="w-full px-3 py-2.5 text-sm rounded-lg outline-none transition-colors appearance-none cursor-pointer"
-                    style={inputStyle}
-                  >
-                    <option value="cert-in">CERT-In v2.0 (All Sectors)</option>
-                    <option value="rbi">RBI Advisory 11/2024 (Banking)</option>
-                    <option value="meity">MeitY 2025 (Government IT)</option>
-                    <option value="nciipc">NCIIPC (Critical Infrastructure)</option>
-                    <option value="sebi">SEBI (Capital Markets)</option>
-                    <option value="general">General BOM Governance</option>
-                  </select>
                 </div>
 
                 <button

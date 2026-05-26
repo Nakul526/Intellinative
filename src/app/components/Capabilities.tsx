@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+﻿import { useRef } from 'react';
 import { motion, useInView } from 'motion/react';
 import platformImage from '../../assets/platform.png';
 
@@ -49,26 +49,15 @@ export default function Capabilities() {
             <div className="flex items-baseline gap-3 flex-wrap">
               <span
                 className="text-[36px] md:text-[52px] font-black"
-                style={{ color: 'var(--ink-950)', lineHeight: 1.05 }}
+                style={{ color: 'var(--ink-700)', lineHeight: 1.05 }}
               >
-                Enterprise
-              </span>
-              <span
-                className="text-[28px] md:text-[40px] font-light"
-                style={{
-                  color: 'var(--ink-600)',
-                  fontStyle: 'italic',
-                  lineHeight: 1.05,
-                  fontFamily: 'Georgia, "Times New Roman", serif',
-                }}
-              >
-                grade
+                Enterprise Grade
               </span>
                 <span
                 className="text-[36px] md:text-[52px] font-black"
                 style={{ color: 'var(--c5)', lineHeight: 1.05 }}
               >
-                capabilities.
+                Capabilities.
               </span>
             </div>
 
@@ -102,7 +91,7 @@ export default function Capabilities() {
           <div
             className="rounded-2xl overflow-hidden"
             style={{
-              background: '#0E1A2E',
+              background: 'var(--ink-700)',
               border: '1px solid #1A2030',
               boxShadow: '0 48px 120px rgba(0,0,0,0.28), 0 0 80px rgba(0,177,220,0.06)',
             }}
@@ -110,7 +99,7 @@ export default function Capabilities() {
             {/* Browser chrome bar */}
             <div
               className="flex items-center gap-2 px-4 py-3"
-              style={{ background: '#060B14', borderBottom: '1px solid #1A2030' }}
+              style={{ background: 'var(--ink-700)', borderBottom: '1px solid #1A2030' }}
             >
               <div className="flex items-center gap-1.5">
                 <div className="w-3 h-3 rounded-full" style={{ background: '#E53935' }} />
@@ -120,13 +109,13 @@ export default function Capabilities() {
               <div
                 className="flex-1 mx-4 px-3 flex items-center"
                 style={{
-                  background: '#0E1A2E',
+                  background: 'var(--ink-700)',
                   border: '1px solid #1A2030',
                   borderRadius: 6,
                   height: 26,
                 }}
               >
-                <span style={{ fontSize: 11, color: '#4B5570', fontFamily: 'var(--f-m)' }}>
+                <span style={{ fontSize: 11, color: '#c5ccd8', fontFamily: 'var(--f-m)' }}>
                   app.intellixbom.com/dashboard
                 </span>
               </div>
@@ -200,7 +189,7 @@ export default function Capabilities() {
             <div
               className="rounded-2xl p-4 w-[180px]"
               style={{
-                background: '#0E1A2E',
+                background: 'var(--ink-700)',
                 border: '1px solid #1A2030',
                 boxShadow: '0 16px 48px rgba(0,0,0,0.4)',
               }}
@@ -214,7 +203,7 @@ export default function Capabilities() {
               <div className="text-[13px] font-semibold mb-1" style={{ color: '#FFFFFF' }}>
                 24 CVEs need triage
               </div>
-              <div className="text-[10px] mb-3" style={{ color: '#4B5570', fontFamily: 'var(--f-m)', lineHeight: 1.5 }}>
+              <div className="text-[10px] mb-3" style={{ color: '#c5ccd8', fontFamily: 'var(--f-m)', lineHeight: 1.5 }}>
                 Severity score<br />
                 crossed 53%. Top<br />
                 items: openssl<br />
@@ -244,7 +233,7 @@ export default function Capabilities() {
             <div
               className="rounded-xl overflow-hidden w-[280px]"
               style={{
-                background: '#060B14',
+                background: 'var(--ink-700)',
                 border: '1px solid #1A2030',
                 boxShadow: '0 12px 40px rgba(0,0,0,0.45)',
               }}
@@ -252,14 +241,14 @@ export default function Capabilities() {
               {/* Terminal title bar */}
               <div
                 className="flex items-center justify-between px-3 py-2"
-                style={{ background: '#0E1A2E', borderBottom: '1px solid #1A2030' }}
+                style={{ background: 'var(--ink-700)', borderBottom: '1px solid #1A2030' }}
               >
                 <div className="flex items-center gap-1.5">
                   <div className="w-2 h-2 rounded-full" style={{ background: '#E53935' }} />
                   <div className="w-2 h-2 rounded-full" style={{ background: '#F59E0B' }} />
                   <div className="w-2 h-2 rounded-full" style={{ background: '#10B981' }} />
                 </div>
-                <span style={{ fontSize: 10, color: '#4B5570', fontFamily: 'var(--f-m)' }}>
+                <span style={{ fontSize: 10, color: '#e4dcdc', fontFamily: 'var(--f-m)' }}>
                   ixbom · scan.log
                 </span>
               </div>
@@ -267,12 +256,12 @@ export default function Capabilities() {
               <div className="p-3 space-y-1" style={{ fontFamily: 'var(--f-m)', fontSize: 10, lineHeight: 1.6 }}>
                 {[
                   { text: '$ ixbom scan --target prod', color: '#3DC7F6' },
-                  { text: '  → resolving 247 components in 3.8s', color: '#C5CCD8' },
-                  { text: '  CERT-In schema PASS ✓', color: '#10B981' },
-                  { text: '  CycloneDX 1.5 PASS ✓', color: '#10B981' },
-                  { text: '  in-toto sign PASS ✓', color: '#10B981' },
-                  { text: '  risk threshold REVIEW ⚠', color: '#F59E0B' },
-                  { text: '  24 high · build artefact published ✓', color: '#C5CCD8' },
+                  { text: '  → resolving 247 components in 3.8s', color: '#c5ccd8' },
+                  { text: '  ✓ CERT-In schema PASS', color: '#10B981' },
+                  { text: '  ✓ CycloneDX 1.5 PASS ', color: '#10B981' },
+                  { text: '  ✓ in-toto sign PASS ', color: '#10B981' },
+                  { text: '  ⚠ risk threshold REVIEW ', color: '#F59E0B' },
+                  { text: '  ✓ 24 high · build artefact published ', color: '#C5CCD8' },
                 ].map((line, i) => (
                   <div key={i} style={{ color: line.color }}>{line.text}</div>
                 ))}

@@ -43,7 +43,7 @@ export default function WhyPage() {
             style={{ background: 'rgba(67,97,238,0.1)', border: '1px solid rgba(67,97,238,0.3)' }}
           >
             <div className="w-2 h-2 rounded-full bg-[#4361EE]" />
-            <span className="text-xs font-medium tracking-wide" style={{ color: 'var(--app-text-muted)' }}>WHY INTELLIXBOM</span>
+            <span className="text-xs font-medium tracking-wide" style={{ color: 'var(--app-text-muted)' }}>Why IxBOM</span>
           </div>
           <h1 className="text-5xl md:text-7xl font-bold leading-[1.05] tracking-[-0.03em] mb-6" style={{ color: 'var(--app-text-primary)' }}>
             The SBOM problem<br />

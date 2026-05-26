@@ -1,45 +1,7 @@
 import { Linkedin, Github, Twitter, Mail, Shield } from 'lucide-react';
 import { Link } from 'react-router';
 import { motion } from 'motion/react';
-
-function BrandLockup({ size = 17 }: { size?: number }) {
-  const xW = size * 0.9;
-  return (
-    <span className="inline-flex items-center gap-0 select-none" style={{ lineHeight: 1 }}>
-      <span style={{
-        fontFamily: 'Inter, system-ui, sans-serif', fontWeight: 700,
-        fontSize: size, letterSpacing: '-0.03em', color: 'var(--ink-950)',
-      }}>Intelli</span>
-      <svg
-        viewBox="0 0 200 200" width={xW} height={xW}
-        style={{ margin: '0 -1px', transform: 'translateY(-1px)', flexShrink: 0 }}
-        aria-hidden="true"
-      >
-        <defs>
-          <linearGradient id="ft-xbase" x1="50%" y1="0%" x2="50%" y2="100%">
-            <stop offset="0%"   stopColor="#0B5478" />
-            <stop offset="55%"  stopColor="#00B1DC" />
-            <stop offset="100%" stopColor="#3DE0DC" />
-          </linearGradient>
-          <linearGradient id="ft-xshine" x1="20%" y1="0%" x2="80%" y2="100%">
-            <stop offset="0%"   stopColor="#0B5478" />
-            <stop offset="38%"  stopColor="#0B5478" />
-            <stop offset="48%"  stopColor="#FFFFFF" />
-            <stop offset="58%"  stopColor="#A8E5F0" />
-            <stop offset="75%"  stopColor="#00B1DC" />
-            <stop offset="100%" stopColor="#3DE0DC" />
-          </linearGradient>
-        </defs>
-        <path d="M 38 28 L 78 28 L 162 172 L 122 172 Z" fill="url(#ft-xbase)" />
-        <path d="M 122 28 L 162 28 L 78 172 L 38 172 Z" fill="url(#ft-xshine)" />
-      </svg>
-      <span style={{
-        fontFamily: 'Inter, system-ui, sans-serif', fontWeight: 700,
-        fontSize: size, letterSpacing: '-0.03em', color: 'var(--c5)',
-      }}>bom</span>
-    </span>
-  );
-}
+import intelliXbomDark from '../../assets/IntelliXbom-Dark.png';
 
 export default function Footer() {
   return (
@@ -59,7 +21,7 @@ export default function Footer() {
           {/* Brand column */}
           <div className="md:col-span-2">
             <Link to="/" className="inline-flex items-center mb-5">
-              <BrandLockup size={20} />
+              <img src={intelliXbomDark} alt="IntelliXBOM" style={{ height: 36, width: 'auto', display: 'block' }} />
             </Link>
             <p className="text-[13px] mb-6 max-w-[240px] leading-relaxed"
               style={{ color: 'var(--ink-500)' }}>
@@ -69,9 +31,7 @@ export default function Footer() {
             {/* Social icons */}
             <div className="flex items-center gap-2.5 mb-6">
               {[
-                { href: 'https://linkedin.com', Icon: Linkedin, label: 'LinkedIn' },
-                { href: 'https://github.com',   Icon: Github,   label: 'GitHub'   },
-                { href: 'https://twitter.com',  Icon: Twitter,  label: 'X / Twitter' },
+                { href: 'https://www.linkedin.com/company/intellinative/', Icon: Linkedin, label: 'LinkedIn' },
               ].map(({ href, Icon, label }) => (
                 <motion.a key={label} href={href} target="_blank" rel="noopener noreferrer"
                   aria-label={label} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.94 }}
@@ -91,89 +51,77 @@ export default function Footer() {
                   <Icon className="w-4 h-4" />
                 </motion.a>
               ))}
+
+              {/* Reddit */}
+              <motion.a
+                href="https://reddit.com/intellinative"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Reddit"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.94 }}
+                className="w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-200"
+                style={{ color: 'var(--ink-500)', background: 'var(--p1)', border: '1px solid var(--p3)' }}
+                onMouseEnter={e => {
+                  (e.currentTarget as HTMLElement).style.color = 'var(--c5)';
+                  (e.currentTarget as HTMLElement).style.borderColor = 'rgba(0,177,220,0.4)';
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(0,177,220,0.06)';
+                }}
+                onMouseLeave={e => {
+                  (e.currentTarget as HTMLElement).style.color = 'var(--ink-500)';
+                  (e.currentTarget as HTMLElement).style.borderColor = 'var(--p3)';
+                  (e.currentTarget as HTMLElement).style.background = 'var(--p1)';
+                }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                  <path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/>
+                </svg>
+              </motion.a>
             </div>
 
-            {/* Compliance badges */}
-            <div className="flex flex-wrap gap-2">
-              {['CERT-In', 'RBI', 'MeitY', 'NCIIPC'].map(f => (
-                <span key={f}
-                  className="px-2 py-0.5 rounded text-[10px] font-semibold"
-                  style={{
-                    background: 'rgba(200,148,31,0.08)',
-                    border: '1px solid rgba(200,148,31,0.22)',
-                    color: '#C8941F',
-                    fontFamily: 'var(--f-m)',
-                    letterSpacing: '0.04em',
-                  }}>
-                  {f}
-                </span>
-              ))}
-            </div>
+
           </div>
 
           <FooterColumn title="Platform" links={[
-            { label: 'SBOM', href: '/bom-types#sbom' },
-            { label: 'CBOM', href: '/bom-types#cbom' },
-            { label: 'QBOM', href: '/bom-types#qbom' },
-            { label: 'AIBOM', href: '/bom-types#aibom' },
-            { label: 'HBOM', href: '/bom-types#hbom' },
-            { label: 'Platform Overview', href: '/platform' },
+            { label: 'SBOM', href: '/#sbom' },
+            { label: 'CBOM', href: '/#cbom' },
+            { label: 'QBOM', href: '/#qbom' },
+            { label: 'AIBOM', href: '/#aibom' },
+            { label: 'HBOM', href: '/#hbom' },
+            { label: 'Platform Overview', href: '/' },
           ]} />
 
           <FooterColumn title="Compliance" links={[
-            { label: 'CERT-In v2.0', href: '/compliance#cert-in' },
-            { label: 'RBI Advisory', href: '/compliance#rbi' },
-            { label: 'MeitY 2025', href: '/compliance#meity' },
-            { label: 'NCIIPC', href: '/compliance#nciipc' },
-            { label: 'SEBI', href: '/compliance#sebi' },
+            { label: 'CERT-In v2.0', href: '/#cert-in' },
+            { label: 'RBI Advisory', href: '/#rbi' },
+            { label: 'MeitY 2025', href: '/#meity' },
+            { label: 'NCIIPC', href: '/#nciipc' },
+            { label: 'SEBI', href: '/#sebi' },
           ]} />
 
           <FooterColumn title="Company" links={[
-            { label: 'About Us', href: '/about' },
-            { label: 'Blog', href: '/blog' },
-            { label: 'Why IxBOM', href: '/why' },
-            { label: 'BOM Comparison', href: '/compare' },
-            { label: 'Contact Us', href: '#contact' },
+            { label: 'About Us', href: '/#about' },
+            { label: 'Blog', href: '/#blog' },
+            { label: 'Why IxBOM', href: '/#why' },
+            { label: 'BOM Comparison', href: '/#compare' },
+            { label: 'Contact Us', href: '/#contact' },
           ]} />
         </div>
 
-        {/* Contact strip */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 px-5 py-4 rounded-xl mb-8"
-          style={{ background: 'var(--p1)', border: '1px solid var(--p3)' }}>
-          <div className="flex items-center gap-2 flex-shrink-0">
-            <div className="w-7 h-7 rounded-lg flex items-center justify-center"
-              style={{ background: 'rgba(0,177,220,0.1)', border: '1px solid rgba(0,177,220,0.2)' }}>
-              <Shield className="w-3.5 h-3.5" style={{ color: 'var(--c5)' }} />
-            </div>
-            <span className="text-[12px] font-semibold" style={{ color: 'var(--ink-950)' }}>
-              Enterprise Enquiries
-            </span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <Mail className="w-3.5 h-3.5" style={{ color: 'var(--c5)' }} />
-            <a href="mailto:sales@intellixbom.com"
-              className="text-[13px] font-medium transition-colors"
-              style={{ color: 'var(--c5)' }}
-              onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = 'var(--c6)')}
-              onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = 'var(--c5)')}>
-              sales@intellixbom.com
-            </a>
-          </div>
-          <div className="sm:ml-auto text-[11px]" style={{ color: 'var(--ink-400)', fontFamily: 'var(--f-m)' }}>
-            Response within 24 hrs
-          </div>
-        </div>
+
 
         {/* Bottom bar */}
         <div className="pt-6 flex flex-col md:flex-row items-center justify-between gap-3"
           style={{ borderTop: '1px solid var(--p3)' }}>
-          <p className="text-[12px] select-none" style={{ color: 'var(--ink-400)', fontFamily: 'var(--f-m)' }}>
-            © 2026 IntelliXBOM · Built for India's Digital Sovereignty
-          </p>
+          <div className="flex items-center gap-1.5 select-none">
+            <span className="text-[12px]" style={{ color: 'var(--ink-400)', fontFamily: 'var(--f-m)' }}>© 2026</span>
+            <img src={intelliXbomDark} alt="IntelliXBOM" style={{ height: 24, width: 'auto', display: 'block', opacity: 0.6,marginBottom:"5px" }} />
+            <span className="text-[12px]" style={{ color: 'var(--ink-400)', fontFamily: 'var(--f-m)' }}>Built for India's Digital Sovereignty</span>
+          </div>
           <div className="flex items-center gap-5">
-            {['Privacy Policy', 'Terms of Service', 'Security'].map(item => (
+            {['Privacy Policy', 'Security'].map(item => (
               <Link key={item}
-                to={`#${item.toLowerCase().replace(/\s+/g, '-')}`}
+                to={`#`}
                 className="text-[12px] transition-colors duration-200"
                 style={{ color: 'var(--ink-400)' }}
                 onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = 'var(--c5)')}

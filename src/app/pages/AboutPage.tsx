@@ -341,7 +341,7 @@ export default function AboutPage() {
               onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'var(--app-elevated)'; (e.currentTarget as HTMLElement).style.color = 'var(--app-text-primary)'; }}
               onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; (e.currentTarget as HTMLElement).style.color = 'var(--app-text-muted)'; }}
             >
-              Why IntelliXBOM
+              Why IxBOM
             </Link>
           </div>
         </div>

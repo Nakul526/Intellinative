@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+﻿import { useRef } from 'react';
 import { motion, useInView } from 'motion/react';
 import { Link } from 'react-router';
 import { ArrowRight, Shield, CheckCircle2 } from 'lucide-react';
@@ -44,7 +44,7 @@ export default function Hero() {
                 initial={{ y: 70, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.72, delay: 0.10, ease: [0.16, 1, 0.3, 1] }}
                 className="font-bold leading-[1.08] tracking-[-0.04em]"
-                style={{ color: 'var(--ink-950)', fontFamily: 'var(--f-d)', fontSize: 'clamp(30px, 4.2vw, 52px)' }}
+                style={{ color: 'var(--ink-700)', fontFamily: 'var(--f-d)', fontSize: 'clamp(30px, 4.2vw, 52px)' }}
               >
                 A Digital Trust Platform
               </motion.h1>
@@ -54,7 +54,7 @@ export default function Hero() {
                 initial={{ y: 70, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.72, delay: 0.16, ease: [0.16, 1, 0.3, 1] }}
                 className="font-bold leading-[1.0] tracking-[-0.04em]"
-                style={{ color: 'var(--ink-950)', fontFamily: 'var(--f-d)', fontSize: 'clamp(30px, 4.2vw, 52px)' }}
+                style={{ color: 'var(--ink-700)', fontFamily: 'var(--f-d)', fontSize: 'clamp(30px, 4.2vw, 52px)' }}
               >
                 for Continuous
               </motion.div>
@@ -64,7 +64,7 @@ export default function Hero() {
                 initial={{ y: 70, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.72, delay: 0.22, ease: [0.16, 1, 0.3, 1] }}
                 className="font-bold leading-[1.0] tracking-[-0.04em]"
-                style={{ color: 'var(--c5)', fontFamily: 'var(--f-d)', fontSize: 'clamp(30px, 4.2vw, 52px)' }}
+                style={{ color: '#00B1DC', fontFamily: 'var(--f-d)', fontSize: 'clamp(30px, 4.2vw, 52px)' }}
               >
                 SBOM Based Compliance
               </motion.div>
@@ -98,9 +98,9 @@ export default function Hero() {
               <motion.div
                 whileHover={{ y: -3, scale: 1.02 }} whileTap={{ scale: 0.97 }}>
                 <Link
-                  to="/platform"
+                  to="#"
                   className="flex items-center justify-center gap-2 px-7 py-3.5 text-[15px] font-semibold rounded-lg w-full"
-                  style={{ color: 'var(--ink-700)', border: '1px solid var(--p4)', background: 'transparent' }}>
+                  style={{ color: '#ffffff', background: 'var(--ink-700)' }}>
                   Explore Platform
                   <ArrowRight className="w-4 h-4" />
                 </Link>
@@ -156,11 +156,11 @@ export default function Hero() {
 
 /* ── Horizontal pipeline rows (left → right) ── */
 const ROWS = [
-  { id: 'r-sbom',  y: 46,  label: 'SBOM',  color: '#00B1DC', nodeX: 188, dur: '3.0s', pkts: ['0s',   '1.5s'        ] },
-  { id: 'r-cbom',  y: 104, label: 'CBOM',  color: '#5B6CFF', nodeX: 150, dur: '2.7s', pkts: ['0.4s', '1.9s'        ] },
-  { id: 'r-qbom',  y: 162, label: 'QBOM',  color: '#8B5CF6', nodeX: 222, dur: '2.3s', pkts: ['0.2s', '1.2s', '2.3s'] },
+  { id: 'r-sbom',  y: 46,  label: 'SBOM ',  color: '#00B1DC', nodeX: 188, dur: '3.0s', pkts: ['0s',   '1.5s'        ] },
+  { id: 'r-cbom',  y: 104, label: 'CBOM ',  color: '#5B6CFF', nodeX: 150, dur: '2.7s', pkts: ['0.4s', '1.9s'        ] },
+  { id: 'r-qbom',  y: 162, label: 'QBOM ',  color: '#8B5CF6', nodeX: 222, dur: '2.3s', pkts: ['0.2s', '1.2s', '2.3s'] },
   { id: 'r-aibom', y: 220, label: 'AIBOM', color: '#F97316', nodeX: 168, dur: '2.7s', pkts: ['0.7s', '2.1s'        ] },
-  { id: 'r-hbom',  y: 278, label: 'HBOM',  color: '#10B981', nodeX: 200, dur: '3.0s', pkts: ['0.9s', '2.3s'        ] },
+  { id: 'r-hbom',  y: 278, label: 'HBOM ',  color: '#0d4a52', nodeX: 200, dur: '3.0s', pkts: ['0.9s', '2.3s'        ] },
 ];
 const HLEFT  = 90;   // left rail x
 const HRIGHT = 408;  // elbow x before angling into hub

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * BomDependencyGraph  Graph View + Tree View tabs
  */
 
@@ -140,7 +140,7 @@ export default function BomDependencyGraph() {
 
   return (
     <div className="rounded-2xl overflow-hidden"
-      style={{ border: '1px solid #1A2030', boxShadow: 'var(--sh-md)', background: '#0E1A2E' }}>
+      style={{ border: '1px solid #1A2030', boxShadow: 'var(--sh-md)', background: 'var(--dash-dark, var(--ink-700))' }}>
 
       {/* ── Header ── */}
       <div className="flex items-center justify-between px-5 py-3.5"
@@ -254,7 +254,7 @@ export default function BomDependencyGraph() {
             </div>
 
             {/* Right: overview / cluster / detail panel — 30% */}
-            <div style={{ width: '30%', borderLeft: '1px solid #1A2030', background: '#0E1A2E' }}>
+            <div style={{ width: '30%', borderLeft: '1px solid #1A2030', background: 'var(--dash-dark, var(--ink-700))' }}>
               <AnimatePresence mode="wait">
                 {view === 'overview' && (
                   <motion.div key="ov" initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }}
@@ -621,7 +621,7 @@ function TreeViewPanel() {
       </div>
 
       {/* Right: details panel — 30% */}
-      <div style={{ width: '30%', height: '100%', borderLeft: '1px solid #1A2030', background: '#0E1A2E' }}>
+      <div style={{ width: '30%', height: '100%', borderLeft: '1px solid #1A2030', background: 'var(--dash-dark, var(--ink-700))' }}>
         <AnimatePresence mode="wait">
           {selectedId ? (
             (() => {

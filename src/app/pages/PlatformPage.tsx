@@ -147,7 +147,7 @@ export default function PlatformPage() {
                 className="flex-1 mx-4 px-3 flex items-center"
                 style={{ background: '#0E1A2E', border: '1px solid #1A2030', borderRadius: 6, height: 26 }}
               >
-                <span style={{ fontSize: 11, color: '#4B5570', fontFamily: 'var(--f-m)' }}>
+                <span style={{ fontSize: 11, color: '#c5ccd8', fontFamily: 'var(--f-m)' }}>
                   app.intellixbom.com/dashboard
                 </span>
               </div>
@@ -265,7 +265,7 @@ export default function PlatformPage() {
                   {s.value}
                 </div>
                 <div className="text-sm font-semibold mb-1" style={{ color: '#FFFFFF' }}>{s.label}</div>
-                <div className="text-[11px] leading-[1.5]" style={{ color: '#4B5570', fontFamily: 'var(--f-m)' }}>{s.sub}</div>
+                <div className="text-[11px] leading-[1.5]" style={{ color: '#c5ccd8', fontFamily: 'var(--f-m)' }}>{s.sub}</div>
               </div>
             ))}
           </div>
