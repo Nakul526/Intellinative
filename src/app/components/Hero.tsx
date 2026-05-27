@@ -1,7 +1,7 @@
 ﻿import { useRef } from 'react';
 import { motion, useInView } from 'motion/react';
 import { Link } from 'react-router';
-import { ArrowRight, Shield, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import { openDemoModal } from './DemoModal';
 import intelliXbomSymbol from '../../assets/IntelliXbom-Symbol.png';
 
@@ -12,8 +12,8 @@ export default function Hero() {
 
   return (
     <section
-      className="relative flex items-center overflow-hidden"
-      style={{ background: 'var(--p1)', paddingTop: '3rem', minHeight: '92vh', paddingBottom: '0' }}
+      className="relative flex items-start sm:items-center overflow-hidden"
+      style={{ background: 'var(--p1)', paddingTop: 0, paddingBottom: 0 }}
     >
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -22,22 +22,11 @@ export default function Hero() {
         <div className="absolute inset-0 animate-grid-pan" style={{ backgroundImage: 'linear-gradient(var(--app-grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--app-grid-line) 1px, transparent 1px)', backgroundSize: '72px 72px', maskImage: 'radial-gradient(ellipse 75% 85% at 40% 50%, black 20%, transparent 75%)' }} />
       </div>
 
-      <div className="relative z-10 w-full max-w-[1440px] mx-auto px-6 lg:px-14 pt-6 pb-2">
+      <div className="relative z-10 w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-14 pt-5 sm:pt-14 lg:pt-16 pb-6 sm:pb-14 lg:pb-16">
         <div className="grid lg:grid-cols-[1fr_600px] xl:grid-cols-[1fr_700px] gap-8 xl:gap-12 items-center">
 
           {/* ── LEFT ── */}
           <div ref={ref}>
-            {/* Eyebrow */}
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55 }}
-              className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full mb-4"
-              style={{ background: 'var(--c1)', border: '1px solid var(--c2)' }}>
-              <div className="w-1.5 h-1.5 rounded-full" style={{ background: 'var(--c5)', animation: 'pulse-dot 2s infinite' }} />
-              <span className="text-[11px] font-semibold tracking-widest uppercase" style={{ color: 'var(--c6)', fontFamily: 'var(--f-m)' }}>
-                A Digital Trust Platform
-              </span>
-              <Shield className="w-3.5 h-3.5" style={{ color: 'var(--c6)' }} />
-            </motion.div>
-
             {/* Headline */}
             <div className="overflow-hidden mb-1 pb-1">
               <motion.h1
@@ -59,7 +48,7 @@ export default function Hero() {
                 for Continuous
               </motion.div>
             </div>
-            <div className="overflow-hidden mb-3">
+            <div className="overflow-hidden mb-2 sm:mb-3">
               <motion.div
                 initial={{ y: 70, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.72, delay: 0.22, ease: [0.16, 1, 0.3, 1] }}
@@ -74,7 +63,7 @@ export default function Hero() {
             <motion.p
               initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.32 }}
-              className="text-[15px] leading-[1.65] max-w-[480px] mb-6"
+              className="text-[13px] sm:text-[15px] leading-[1.6] max-w-[480px] mb-3 sm:mb-6"
               style={{ color: 'var(--ink-600)' }}>
               Complete BOM governance across software, hardware, quantum, and
               cryptography with compliance evidence and CERT-In alignment for
@@ -85,12 +74,12 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, delay: 0.42 }}
-              className="flex flex-col sm:flex-row items-stretch gap-3 mb-5">
+              className="flex flex-row items-center gap-2 sm:gap-3 mb-3 sm:mb-5">
               <motion.button
                 whileHover={{ y: -3, scale: 1.02 }} whileTap={{ scale: 0.97 }}
                 onClick={openDemoModal}
-                className="flex items-center justify-center gap-2 px-7 py-3.5 text-[15px] font-semibold text-white rounded-lg"
-                style={{ background: 'var(--c5)', boxShadow: '0 2px 12px rgba(0,177,220,0.38)' }}>
+                className="flex items-center justify-center gap-2 px-7 text-[15px] font-semibold text-white rounded-lg"
+                style={{ background: 'var(--c5)', boxShadow: '0 2px 12px rgba(0,177,220,0.38)', height: '52px' }}>
                 Request a Demo
                 <ArrowRight className="w-4 h-4" />
               </motion.button>
@@ -99,8 +88,8 @@ export default function Hero() {
                 whileHover={{ y: -3, scale: 1.02 }} whileTap={{ scale: 0.97 }}>
                 <Link
                   to="#"
-                  className="flex items-center justify-center gap-2 px-7 py-3.5 text-[15px] font-semibold rounded-lg w-full"
-                  style={{ color: '#ffffff', background: 'var(--ink-700)' }}>
+                  className="flex items-center justify-center gap-2 px-7 text-[15px] font-semibold rounded-lg"
+                  style={{ color: '#ffffff', background: 'var(--ink-700)', height: '52px' }}>
                   Explore Platform
                   <ArrowRight className="w-4 h-4" />
                 </Link>
@@ -111,9 +100,9 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0 }} animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.54 }}
-              className="flex flex-wrap gap-2.5 mb-4">
+              className="flex flex-wrap gap-1.5 sm:gap-2.5 mb-3 sm:mb-4">
               {['CERT-In v2.0', 'RBI Advisory 11/2024', 'MeitY SBOM Guidelines', '100% Self-Hosted'].map(badge => (
-                <div key={badge} className="flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-[12px] font-semibold"
+                <div key={badge} className="flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-lg text-[11px] sm:text-[12px] font-semibold"
                   style={{ background: 'var(--gold-1)', border: '1px solid rgba(200,148,31,0.3)', color: 'var(--gold-7)', fontFamily: 'var(--f-m)' }}>
                   <CheckCircle2 className="w-3.5 h-3.5" style={{ color: 'var(--gold-5)' }} />
                   {badge}
@@ -129,9 +118,9 @@ export default function Hero() {
                 { value: '100',  label: 'Self-Hosted',       unit: '%' },
                 { value: '3',    label: 'Indian frameworks', unit: '' },
               ].map((s, i) => (
-                <div key={i} className="flex flex-col items-center text-center px-8"
+                <div key={i} className="flex flex-col items-center text-center px-4 sm:px-8"
                   style={i > 0 ? { borderLeft: '1px solid var(--p3)' } : {}}>
-                  <div className="text-[24px] font-bold leading-none mb-0.5 tabular-nums"
+                  <div className="text-[20px] sm:text-[24px] font-bold leading-none mb-0.5 tabular-nums"
                     style={{ color: 'var(--c5)', letterSpacing: '-0.04em' }}>
                     {s.value}<span style={{ color: 'var(--c5)' }}>{s.unit}</span>
                   </div>

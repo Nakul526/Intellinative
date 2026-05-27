@@ -1,8 +1,12 @@
 ﻿import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { motion, AnimatePresence } from 'motion/react';
-import { CheckCircle2, ArrowRight, Shield, Zap } from 'lucide-react';
+import { CheckCircle2, ArrowRight, Shield } from 'lucide-react';
 import { openDemoModal } from './DemoModal';
+import sbomImage  from '../../assets/BOM TYPE/SBOM.jpeg';
+import cbomImage  from '../../assets/BOM TYPE/CBOM.jpeg';
+import aibomImage from '../../assets/BOM TYPE/AIBOM.jpeg';
+import hbomImage  from '../../assets/BOM TYPE/HBOM.jpeg';
 
 type BOMType = 'SBOM' | 'CBOM' | 'QBOM' | 'AIBOM' | 'HBOM';
 
@@ -12,6 +16,7 @@ const bomData = {
     color: '#00B1DC',
     bg: '#E6F7FC',
     border: 'rgba(0,177,220,0.3)',
+    image: sbomImage,
     category: 'SOFTWARE BILL OF MATERIALS',
     title: 'Complete Software Transparency',
     description: 'Real-time visibility into every software component, dependency, and library across your entire application estate from containers to cloud. Auto-verify against CERT-In mandatory fields.',
@@ -38,6 +43,7 @@ const bomData = {
     color: '#5B6CFF',
     bg: '#EEEFFE',
     border: 'rgba(91,108,255,0.3)',
+    image: cbomImage,
     category: 'CRYPTOGRAPHIC BILL OF MATERIALS',
     title: 'Cryptographic Asset Visibility',
     description: 'Inventory every cipher suite, certificate, and key across your infrastructure. Detect weak algorithms and expiring certificates before auditors or attackers do.',
@@ -62,6 +68,7 @@ const bomData = {
     color: '#8B5CF6',
     bg: '#F3EEFE',
     border: 'rgba(139,92,246,0.3)',
+    image: cbomImage,
     category: 'QUANTUM BILL OF MATERIALS',
     title: 'Quantum-Safe Migration Tracking',
     description: 'Identify quantum-vulnerable cryptography in your systems and track migration to NIST PQC standards. The Q-Day deadline is ~8 years migration planning starts today.',
@@ -87,6 +94,7 @@ const bomData = {
     color: '#C8941F',
     bg: '#FBF5E5',
     border: 'rgba(200,148,31,0.3)',
+    image: aibomImage,
     category: 'AI BILL OF MATERIALS',
     title: 'AI Model & Dataset Governance',
     description: 'Track AI/ML models, training datasets, and inference pipelines across your estate. Ensure compliance with emerging AI regulations and surface bias risks before they become headlines.',
@@ -113,6 +121,7 @@ const bomData = {
     color: '#4A5570',
     bg: '#EBEDF2',
     border: 'rgba(74,85,112,0.3)',
+    image: hbomImage,
     category: 'HARDWARE BILL OF MATERIALS',
     title: 'Hardware Supply Chain Security',
     description: 'Inventory physical nodes, firmware versions, and TPM modules. Detect counterfeit CPUs, outdated BIOS, and untracked HSMs before NCIIPC auditors find them first.',
@@ -153,11 +162,11 @@ export default function BOMTypes() {
   }, [location.hash]);
 
   return (
-    <section id="bom-types" className="py-16 md:py-24" style={{ background: 'var(--p0)' }}>
+    <section id="bom-types" className="py-8 md:py-14" style={{ background: 'var(--p0)' }}>
       <div className="max-w-[1440px] mx-auto px-6">
 
         {/* Header */}
-        <div className="mb-10">
+        <div className="mb-6 sm:mb-10">
           <p
             className="text-[11px] uppercase tracking-[0.1em] font-semibold mb-3"
             style={{ color: 'var(--ink-500)', fontFamily: 'var(--f-m)' }}
@@ -165,7 +174,7 @@ export default function BOMTypes() {
             Five BOM Types · One Platform
           </p>
           <h2
-            className="text-[36px] md:text-[52px] font-bold mb-4"
+            className="text-[26px] sm:text-[36px] md:text-[52px] font-bold mb-3 sm:mb-4"
             style={{ color: 'var(--ink-700)', letterSpacing: '-0.025em', lineHeight: '1.05' }}
           >
             Five BOM types.{' '}
@@ -185,7 +194,7 @@ export default function BOMTypes() {
               <button
                 key={type}
                 onClick={() => setActiveTab(type)}
-                className="flex items-center gap-2.5 px-6 py-3 rounded-xl font-semibold text-[15px] transition-all duration-200 cursor-pointer"
+                className="flex items-center gap-2 sm:gap-2.5 px-4 sm:px-6 py-2 sm:py-3 rounded-xl font-semibold text-[13px] sm:text-[15px] transition-all duration-200 cursor-pointer"
                 style={
                   isActive
                     ? { background: cfg.bg, border: `1px solid ${cfg.border}`, color: cfg.color, boxShadow: `0 2px 14px ${cfg.border}` }
@@ -231,10 +240,10 @@ export default function BOMTypes() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -16 }}
             transition={{ duration: 0.2 }}
-            className="grid md:grid-cols-2 gap-10 items-center"
+            className="grid md:grid-cols-2 gap-6 sm:gap-10 items-start"
           >
-            {/* Left: Text */}
-            <div>
+            {/* Left: Text  pushed below terminal on mobile */}
+            <div className="order-2 md:order-1 flex flex-col justify-start md:overflow-y-auto md:pr-2 custom-scrollbar">
 
 
               <h3
@@ -284,9 +293,12 @@ export default function BOMTypes() {
               </div>
             </div>
 
-            {/* Right: Code block */}
-            <div>
-              <TerminalCard type={activeTab} data={active.code} color={active.color} />
+            {/* Right: Image or terminal card — image first on mobile */}
+            <div className="order-1 md:order-2 overflow-y-auto custom-scrollbar" style={{ maxHeight: '420px' }}>
+              {active.image
+                ? <BrowserFrame src={active.image} label={`${activeTab} · IntelliXBOM`} accentColor={active.color} />
+                : <TerminalCard type={activeTab} data={active.code} color={active.color} />
+              }
             </div>
           </motion.div>
         </AnimatePresence>
@@ -304,7 +316,7 @@ export default function BOMTypes() {
           <div className="absolute rounded-full" style={{ width: 280, height: 280, background: 'radial-gradient(circle, rgba(91,108,255,0.10), transparent 65%)', bottom: -80, right: 80 }} />
         </div>
 
-        <div className="relative z-10 max-w-[1440px] mx-auto flex flex-col md:flex-row items-center justify-between gap-6 px-8 py-7">
+        <div className="relative z-10 max-w-[1440px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6 px-4 sm:px-8 py-5 sm:py-7">
           {/* Left: text block */}
           <div className="flex items-start gap-4">
             <div
@@ -347,7 +359,55 @@ export default function BOMTypes() {
   );
 }
 
-function TerminalCard({ type, data, color }: { type: BOMType; data: object; color: string }) {
+function BrowserFrame({ src, label, accentColor }: { src: string; label: string; accentColor: string }) {
+  return (
+    <div
+      className="rounded-2xl overflow-hidden"
+      style={{
+        border: '1px solid var(--p3)',
+        boxShadow: '0 16px 56px rgba(14,26,46,0.10)',
+      }}
+    >
+      {/* Chrome bar */}
+      <div
+        className="flex items-center gap-2 px-4 py-2.5"
+        style={{ background: 'var(--p2)', borderBottom: '1px solid var(--p3)' }}
+      >
+        <div className="flex items-center gap-1.5">
+          <div className="w-2.5 h-2.5 rounded-full" style={{ background: '#E53935' }} />
+          <div className="w-2.5 h-2.5 rounded-full" style={{ background: '#F59E0B' }} />
+          <div className="w-2.5 h-2.5 rounded-full" style={{ background: '#10B981' }} />
+        </div>
+        <div
+          className="flex-1 mx-3 px-3 flex items-center gap-2"
+          style={{
+            background: 'var(--p0)',
+            border: '1px solid var(--p3)',
+            borderRadius: 6,
+            height: 24,
+          }}
+        >
+          <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: accentColor, opacity: 0.7 }} />
+          <span style={{ fontSize: 11, color: 'var(--ink-500)', fontFamily: 'var(--f-m)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            app.intellixbom.com · {label}
+          </span>
+        </div>
+      </div>
+
+      {/* Screenshot */}
+      <div style={{ lineHeight: 0 }}>
+        <img
+          src={src}
+          alt={label}
+          className="w-full"
+          style={{ display: 'block' }}
+        />
+      </div>
+    </div>
+  );
+}
+
+function TerminalCard({ type, data }: { type: BOMType; data: object; color?: string }) {
   return (
     <div
       className="rounded-xl overflow-hidden"

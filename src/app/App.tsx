@@ -14,6 +14,7 @@ import PlatformPage from './pages/PlatformPage';
 import CompliancePage from './pages/CompliancePage';
 import AboutPage from './pages/AboutPage';
 import BOMComparisonPage from './pages/BOMComparisonPage';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 
 function ScrollToTopButton() {
   const [visible, setVisible] = useState(false);
@@ -63,6 +64,7 @@ export default function App() {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/blog/:slug" element={<BlogPostPage />} />
+            <Route path="/privacy" element={<PrivacyPolicyPage />} />
           </Routes>
           </div>
           <Footer />

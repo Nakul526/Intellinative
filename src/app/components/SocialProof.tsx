@@ -23,7 +23,7 @@ const ROW2 = [
 function LogoChip({ name, color }: { name: string; color: string }) {
   return (
     <div
-      className="flex items-center gap-3 px-6 py-3 rounded-xl select-none cursor-default flex-1 justify-center min-w-[120px] transition-all duration-200"
+      className="flex items-center gap-2 sm:gap-3 px-3 sm:px-6 py-2 sm:py-3 rounded-xl select-none cursor-default flex-1 justify-center min-w-[60px] sm:min-w-[120px] transition-all duration-200"
       style={{
         background: 'var(--p0)',
         border: '1px solid var(--p3)',
@@ -39,7 +39,7 @@ function LogoChip({ name, color }: { name: string; color: string }) {
       }}
     >
       <span
-        className="text-[14px] font-semibold whitespace-nowrap"
+        className="text-[11px] sm:text-[14px] font-semibold whitespace-nowrap"
         style={{ color: 'var(--ink-700)', fontFamily: 'var(--f-m)' }}
       >
         {name}
@@ -51,7 +51,7 @@ function LogoChip({ name, color }: { name: string; color: string }) {
 export default function SocialProof() {
   return (
     <section
-      className="py-12"
+      className="py-8 sm:py-12"
       style={{ background: 'var(--p1)', borderBottom: '1px solid var(--p3)' }}
     >
       {/* Label */}
@@ -60,10 +60,10 @@ export default function SocialProof() {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        className="text-center mb-8"
+        className="text-center mb-5 sm:mb-8"
       >
         <span
-          className="text-[20px] uppercase tracking-[0.20em] font-semibold select-none"
+          className="text-[13px] sm:text-[20px] uppercase tracking-[0.15em] sm:tracking-[0.20em] font-semibold select-none"
           style={{ color: 'var(--ink-700)', fontFamily: 'var(--f-m)' }}
         >
           Guidelines Supported
@@ -79,13 +79,13 @@ export default function SocialProof() {
         className="max-w-[1200px] mx-auto px-6 lg:px-14 flex flex-col gap-4"
       >
         {/* Row 1 */}
-        <div className="flex gap-4">
+        <div className="flex gap-2 sm:gap-4">
           {ROW1.map(logo => (
             <LogoChip key={logo.name} {...logo} />
           ))}
         </div>
         {/* Row 2 */}
-        <div className="flex gap-4">
+        <div className="flex gap-2 sm:gap-4">
           {ROW2.map(logo => (
             <LogoChip key={logo.name} {...logo} />
           ))}

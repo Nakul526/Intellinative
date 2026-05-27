@@ -262,7 +262,7 @@ export default function Navbar() {
               boxShadow: '0 2px 8px rgba(0,177,220,0.35)',
             }}
           >
-            Request Demo →
+            Request a Demo →
           </button>
         </div>
 

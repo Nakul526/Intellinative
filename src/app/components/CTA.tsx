@@ -5,7 +5,7 @@ import { openDemoModal } from './DemoModal';
 export default function CTA() {
   return (
     <section
-      className="relative py-20 md:py-28 px-6 overflow-hidden"
+      className="relative py-12 md:py-14 px-4 sm:px-6 overflow-hidden"
       style={{ background: 'var(--p0)', borderTop: '1px solid var(--p3)' }}
     >
       {/* Ambient glow */}
@@ -32,7 +32,7 @@ export default function CTA() {
         >
           {/* Headline */}
           <h2
-            className="text-[36px] md:text-[52px] font-bold leading-[1.05] mb-5"
+            className="text-[28px] sm:text-[36px] md:text-[52px] font-bold leading-[1.05] mb-4 sm:mb-5"
             style={{ color: 'var(--ink-700)', letterSpacing: '-0.03em' }}
           >Ready to Achieve <br></br>
             <span style={{ color: '#00B1DC' }}>Complete Digital Trust?</span>
@@ -53,7 +53,7 @@ export default function CTA() {
               whileHover={{ y: -3, scale: 1.02 }}
               whileTap={{ scale: 0.97 }}
               onClick={openDemoModal}
-              className="group flex items-center justify-center gap-2 px-8 py-4 text-[15px] font-semibold rounded-xl"
+              className="group flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 text-[14px] sm:text-[15px] font-semibold rounded-xl"
               style={{
                 background: '#3DC7F6',
                 color: '#060B14',
@@ -68,7 +68,7 @@ export default function CTA() {
               whileHover={{ y: -3, scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={openDemoModal}
-              className="flex items-center justify-center gap-2 px-8 py-4 text-[15px] font-medium rounded-xl transition-all duration-200"
+              className="flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 text-[14px] sm:text-[15px] font-medium rounded-xl transition-all duration-200"
               style={{
                 color: 'var(--ink-700)',
                 border: '1px solid var(--p4)',
@@ -80,7 +80,7 @@ export default function CTA() {
           </div>
 
           {/* Trust pills */}
-          <div className="flex flex-wrap items-center justify-center gap-6 mb-8">
+          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 mb-6 sm:mb-8">
             {[
               { Icon: CheckCircle2, text: 'No credit card' },
               { Icon: Shield,       text: 'Instant validation' },
@@ -113,7 +113,7 @@ export default function CTA() {
           </div>
 
           {/* Dark stat cards */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-14 text-center">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mt-10 sm:mt-14 text-center">
             {[
               { value: '5',    label: 'BOM Types',     sub: 'SBOM · CBOM · QBOM · AIBOM · HBOM' },
               { value: '21',   label: 'CERT-In Fields', sub: 'Auto-validated on every push' },
@@ -122,7 +122,7 @@ export default function CTA() {
             ].map((s, i) => (
               <div
                 key={i}
-                className="rounded-xl p-5 text-center"
+                className="rounded-xl p-3 sm:p-5 text-center"
                 style={{ background: 'var(--p1)', border: '1px solid var(--p3)' }}
               >
                 <div

@@ -118,7 +118,7 @@ export default function Dashboard() {
 
   return (
     <section
-      className="relative py-16 md:py-24 px-6 overflow-hidden"
+      className="relative py-10 md:py-14 px-4 sm:px-6 overflow-hidden"
       style={{ background: 'var(--p0)', borderTop: '1px solid var(--p3)' }}
     >
       {/* Ambient glow */}
@@ -139,7 +139,7 @@ export default function Dashboard() {
         >
           {/* Headline */}
           <h2
-            className="text-[36px] md:text-[52px] font-black leading-[1.0] mb-5"
+            className="text-[26px] sm:text-[36px] md:text-[52px] font-black leading-[1.0] mb-4 sm:mb-5"
             style={{ letterSpacing: '-0.03em', color: 'var(--ink-700)' }}
           >
             See everything.{' '}
@@ -198,20 +198,20 @@ export default function Dashboard() {
           </div>
 
           {/* ── Content inside monitor ── */}
-          <div className="p-5">
+          <div className="p-3 sm:p-5">
             {/* Stat cards */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 mb-3 sm:mb-5">
               {cards.map((card, i) => (
                 <motion.div
                   key={i}
                   initial={{ opacity: 0, y: 12 }}
                   animate={inView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.4, delay: 0.25 + i * 0.07 }}
-                  className="rounded-xl p-4 flex flex-col justify-between"
+                  className="rounded-xl p-3 sm:p-4 flex flex-col justify-between"
                   style={{
                     background: D.bg,
                     border: `1px solid ${D.border}`,
-                    minHeight: 110,
+                    minHeight: 90,
                   }}
                 >
                   {/* Label */}
@@ -225,7 +225,7 @@ export default function Dashboard() {
                   {/* Value row with sparkline */}
                   <div className="flex items-end justify-between gap-2">
                     <div
-                      className="text-[32px] font-bold tabular-nums leading-none"
+                      className="text-[22px] sm:text-[32px] font-bold tabular-nums leading-none"
                       style={{ color: card.color, letterSpacing: '-0.04em', fontFamily: 'var(--f-d)' }}
                     >
                       {typeof card.value === 'number' ? card.value.toLocaleString() : card.value}

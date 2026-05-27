@@ -1,17 +1,28 @@
 import { useState, useEffect } from 'react';
-import { X, CheckCircle2 } from 'lucide-react';
+import { X, CheckCircle2, Loader2, AlertCircle } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import intelliXbomDark from '../../assets/IntelliXbom-Dark.png';
 import intelliXbomWhite from '../../assets/IntelliXbom-White.png';
 
+// ─── Paste your Power Automate HTTP trigger URL here ───────────────────────
+const POWER_AUTOMATE_URL = 'YOUR_POWER_AUTOMATE_HTTP_TRIGGER_URL';
+// ───────────────────────────────────────────────────────────────────────────
+
 export default function DemoModal() {
   const [isOpen, setIsOpen] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [form, setForm] = useState({ name: '', email: '', org: '', interest: 'cert-in' });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [form, setForm] = useState({ name: '', email: '', org: '' });
   const { isDark } = useTheme();
 
   useEffect(() => {
-    const handler = () => { setIsOpen(true); setSubmitted(false); };
+    const handler = () => {
+      setIsOpen(true);
+      setSubmitted(false);
+      setError('');
+      setForm({ name: '', email: '', org: '' });
+    };
     window.addEventListener('openDemoModal', handler);
     return () => window.removeEventListener('openDemoModal', handler);
   }, []);
@@ -23,9 +34,27 @@ export default function DemoModal() {
 
   const close = () => setIsOpen(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitted(true);
+    setLoading(true);
+    setError('');
+    try {
+      await fetch(POWER_AUTOMATE_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          organization: form.org,
+          submittedAt: new Date().toISOString(),
+        }),
+      });
+      setSubmitted(true);
+    } catch {
+      setError('Something went wrong. Please try again or email us directly.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (!isOpen) return null;
@@ -172,15 +201,30 @@ export default function DemoModal() {
                   />
                 </div>
 
+                {error && (
+                  <div
+                    className="flex items-start gap-2.5 px-3.5 py-3 rounded-lg text-sm"
+                    style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.25)', color: '#f87171' }}
+                  >
+                    <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                    {error}
+                  </div>
+                )}
+
                 <button
                   type="submit"
-                  className="w-full py-3 text-sm font-semibold text-white rounded-lg transition-all hover:-translate-y-0.5 mt-1"
+                  disabled={loading}
+                  className="w-full py-3 text-sm font-semibold text-white rounded-lg transition-all mt-1 flex items-center justify-center gap-2"
                   style={{
-                    background: 'var(--c5)',
-                    boxShadow: '0 0 24px rgba(0,177,220,0.4)'
+                    background: loading ? 'rgba(0,177,220,0.55)' : 'var(--c5)',
+                    boxShadow: loading ? 'none' : '0 0 24px rgba(0,177,220,0.4)',
+                    cursor: loading ? 'not-allowed' : 'pointer',
                   }}
                 >
-                  Request Demo →
+                  {loading
+                    ? <><Loader2 className="w-4 h-4 animate-spin" /> Submitting…</>
+                    : 'Request Demo →'
+                  }
                 </button>
 
                 <p className="text-[11px] text-center" style={{ color: 'var(--app-text-dimmer)' }}>

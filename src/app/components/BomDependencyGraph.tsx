@@ -219,42 +219,44 @@ export default function BomDependencyGraph() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.18 }}
-            className="flex"
-            style={{ height: 440 }}
+            className="flex flex-col sm:flex-row sm:h-[440px]"
           >
-            {/* Left: bubble chart — 70% */}
-            <div className="relative" style={{ width: '70%', background: '#060B14', minWidth: 0 }}>
+            {/* Left: bubble chart  full width on mobile, 70% on sm+ */}
+            <div className="relative w-full sm:w-[70%] h-[240px] sm:h-full" style={{ background: '#060B14', minWidth: 0 }}>
               <BubbleChart activeSev={activeSev} onClickBubble={openCluster} />
 
-              {/* Interaction hint  only shown when nothing is selected */}
+              {/* Interaction hint  top-centre on mobile, bottom-left on desktop */}
               {!activeSev && (
-                <div className="absolute bottom-4 left-4 flex items-center gap-2 px-3 py-1.5 rounded-full"
+                <div
+                  className="absolute top-2 left-1/2 -translate-x-1/2 sm:top-auto sm:bottom-4 sm:left-4 sm:translate-x-0 flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1 sm:py-1.5 rounded-full"
                   style={{
                     background: 'rgba(0,177,220,0.08)',
                     border: '1px solid rgba(0,177,220,0.22)',
                     pointerEvents: 'none',
                     whiteSpace: 'nowrap',
-                  }}>
+                  }}
+                >
                   {/* Pulsing dot */}
-                  <span className="relative flex h-2 w-2">
+                  <span className="relative flex h-1.5 w-1.5 sm:h-2 sm:w-2">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-60"
                       style={{ background: 'var(--c5)' }} />
-                    <span className="relative inline-flex rounded-full h-2 w-2"
+                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 sm:h-2 sm:w-2"
                       style={{ background: 'var(--c5)' }} />
                   </span>
-                  {/* Cursor icon */}
-                  <svg width="11" height="13" viewBox="0 0 11 13" fill="none" style={{ flexShrink: 0 }}>
+                  {/* Cursor icon  hidden on mobile to save width */}
+                  <svg className="hidden sm:block" width="11" height="13" viewBox="0 0 11 13" fill="none" style={{ flexShrink: 0 }}>
                     <path d="M1 1l8.5 5.5-4 1L4 11 1 1z" fill="var(--c5)" fillOpacity="0.85" stroke="var(--c5)" strokeWidth="0.5" strokeLinejoin="round"/>
                   </svg>
-                  <span className="text-[11px] font-semibold" style={{ color: 'var(--c6)', fontFamily: 'var(--f-m)' }}>
-                    Click any bubble to explore
+                  <span className="text-[9px] sm:text-[11px] font-semibold" style={{ color: 'var(--c6)', fontFamily: 'var(--f-m)' }}>
+                    Tap a bubble to explore
                   </span>
                 </div>
               )}
             </div>
 
-            {/* Right: overview / cluster / detail panel — 30% */}
-            <div style={{ width: '30%', borderLeft: '1px solid #1A2030', background: 'var(--dash-dark, var(--ink-700))' }}>
+            {/* Right: overview / cluster / detail panel  full width on mobile, 30% on sm+ */}
+            <div className="w-full sm:w-[30%] h-[260px] sm:h-full overflow-auto border-t border-[#1A2030] sm:border-t-0 sm:border-l"
+              style={{ background: 'var(--dash-dark, var(--ink-700))' }}>
               <AnimatePresence mode="wait">
                 {view === 'overview' && (
                   <motion.div key="ov" initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }}
@@ -289,7 +291,7 @@ export default function BomDependencyGraph() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.18 }}
-            style={{ height: 440, overflow: 'hidden' }}
+            className="sm:h-[440px] overflow-hidden"
           >
             <TreeViewPanel />
           </motion.div>
@@ -423,7 +425,7 @@ function BubbleChart({ activeSev, onClickBubble }: {
       <circle cx={HUB.cx} cy={HUB.cy} r={HUB.r - 10}
         fill="none" stroke="rgba(61,199,246,0.18)" strokeWidth={1}
       />
-      {/* Project name — line 1 */}
+      {/* Project name  line 1 */}
       <text x={HUB.cx} y={HUB.cy - 9}
         textAnchor="middle" dominantBaseline="middle"
         fontSize={10} fontWeight="800" fill="#FFFFFF"
@@ -431,7 +433,7 @@ function BubbleChart({ activeSev, onClickBubble }: {
         style={{ letterSpacing: '-0.01em' }}>
         {PROJECT.slice(0, 7)}
       </text>
-      {/* Project name — line 2 */}
+      {/* Project name  line 2 */}
       <text x={HUB.cx} y={HUB.cy + 4}
         textAnchor="middle" dominantBaseline="middle"
         fontSize={10} fontWeight="800" fill="#FFFFFF"
@@ -565,11 +567,11 @@ function TreeViewPanel() {
   }
 
   return (
-    <div className="flex" style={{ height: 440 }}>
-      {/* Tree — 70% */}
-      <div className="flex flex-col" style={{ width: '70%', height: '100%', background: '#060B14', minWidth: 0 }}>
+    <div className="flex flex-col sm:flex-row sm:h-[440px]">
+      {/* Tree  full width on mobile, 70% on sm+ */}
+      <div className="flex flex-col w-full sm:w-[70%] h-[320px] sm:h-full" style={{ background: '#060B14', minWidth: 0 }}>
         {/* Toolbar */}
-        <div className="flex items-center gap-3 px-5 py-3"
+        <div className="flex flex-wrap items-center gap-2 px-3 py-2"
           style={{ borderBottom: '1px solid #1A2030', background: '#060B14' }}>
           <span className="text-[11px] font-semibold uppercase tracking-[0.08em]"
             style={{ color: '#C5CCD8', fontFamily: 'var(--f-m)' }}>
@@ -620,8 +622,9 @@ function TreeViewPanel() {
         </div>
       </div>
 
-      {/* Right: details panel — 30% */}
-      <div style={{ width: '30%', height: '100%', borderLeft: '1px solid #1A2030', background: 'var(--dash-dark, var(--ink-700))' }}>
+      {/* Right: details panel  full width on mobile, 30% on sm+ */}
+      <div className="w-full sm:w-[30%] h-[180px] sm:h-full border-t border-[#1A2030] sm:border-t-0 sm:border-l sm:border-l-[#1A2030]"
+        style={{ background: 'var(--dash-dark, var(--ink-700))' }}>
         <AnimatePresence mode="wait">
           {selectedId ? (
             (() => {

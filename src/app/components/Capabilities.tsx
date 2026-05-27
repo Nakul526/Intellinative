@@ -9,30 +9,18 @@ export default function Capabilities() {
   return (
     <section
       ref={ref}
-      className="relative py-16 md:py-24 px-6 overflow-hidden"
+      className="relative pt-8 pb-10 md:pt-10 md:pb-14 px-4 sm:px-6 md:px-10 lg:px-6"
       style={{ background: 'var(--p0)', borderTop: '1px solid var(--p3)' }}
     >
-      {/* Subtle top glow */}
-      <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[400px] pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse, rgba(0,177,220,0.05), transparent 70%)' }}
-      />
+      {/* Subtle top glow — clipped inside its own div so it never causes scrollbar */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div
+          className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[400px]"
+          style={{ background: 'radial-gradient(ellipse, rgba(0,177,220,0.05), transparent 70%)' }}
+        />
+      </div>
 
       <div className="max-w-[1200px] mx-auto">
-
-        {/* ── Top meta row: badge left + section label right ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.45 }}
-          className="flex items-center justify-between mb-10"
-        >
-          {/* Platform badge */}
-
-
-
-
-        </motion.div>
 
         {/* ── Display heading ── */}
         <motion.div
@@ -48,13 +36,13 @@ export default function Capabilities() {
             {/* Line 1: "Enterprise grade" */}
             <div className="flex items-baseline gap-3 flex-wrap">
               <span
-                className="text-[36px] md:text-[52px] font-black"
+                className="text-[26px] sm:text-[36px] md:text-[52px] font-black"
                 style={{ color: 'var(--ink-700)', lineHeight: 1.05 }}
               >
                 Enterprise Grade
               </span>
                 <span
-                className="text-[36px] md:text-[52px] font-black"
+                className="text-[26px] sm:text-[36px] md:text-[52px] font-black"
                 style={{ color: 'var(--c5)', lineHeight: 1.05 }}
               >
                 Capabilities.

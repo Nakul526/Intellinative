@@ -13,23 +13,23 @@ export default function Footer() {
       <div className="absolute top-0 left-0 right-0 h-[2px]"
         style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(0,177,220,0.5) 35%, rgba(61,224,220,0.3) 65%, transparent 100%)' }} />
 
-      <div className="max-w-[1200px] mx-auto px-6 pt-14 pb-8">
+      <div className="max-w-[1200px] mx-auto px-5 sm:px-6 pt-10 sm:pt-14 pb-6 sm:pb-8">
 
         {/* Main grid */}
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-10 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-10 mb-8 md:mb-12">
 
           {/* Brand column */}
-          <div className="md:col-span-2">
-            <Link to="/" className="inline-flex items-center mb-5">
-              <img src={intelliXbomDark} alt="IntelliXBOM" style={{ height: 36, width: 'auto', display: 'block' }} />
+          <div className="md:col-span-2 flex flex-col items-center md:items-start text-center md:text-left">
+            <Link to="/" className="inline-flex items-center mb-4">
+              <img src={intelliXbomDark} alt="IntelliXBOM" style={{ height: 28, width: 'auto', display: 'block' }} />
             </Link>
-            <p className="text-[13px] mb-6 max-w-[240px] leading-relaxed"
+            <p className="text-[12px] sm:text-[13px] mb-4 sm:mb-6 max-w-[260px] leading-relaxed"
               style={{ color: 'var(--ink-500)' }}>
               Complete Digital Trust for India's most regulated environments  field by field.
             </p>
 
             {/* Social icons */}
-            <div className="flex items-center gap-2.5 mb-6">
+            <div className="flex items-center justify-center md:justify-start gap-2.5 mb-5">
               {[
                 { href: 'https://www.linkedin.com/company/intellinative/', Icon: Linkedin, label: 'LinkedIn' },
               ].map(({ href, Icon, label }) => (
@@ -54,7 +54,7 @@ export default function Footer() {
 
               {/* Reddit */}
               <motion.a
-                href="https://reddit.com/intellinative"
+                href="https://www.reddit.com/user/intellixbom/"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Reddit"
@@ -82,51 +82,57 @@ export default function Footer() {
 
           </div>
 
-          <FooterColumn title="Platform" links={[
-            { label: 'SBOM', href: '/#sbom' },
-            { label: 'CBOM', href: '/#cbom' },
-            { label: 'QBOM', href: '/#qbom' },
-            { label: 'AIBOM', href: '/#aibom' },
-            { label: 'HBOM', href: '/#hbom' },
-            { label: 'Platform Overview', href: '/' },
-          ]} />
+          {/* 3 link columns  side-by-side on mobile via sub-grid, then each in its own col on md+ */}
+          <div className="grid grid-cols-3 md:contents gap-4 md:gap-0">
+            <FooterColumn title="Platform" links={[
+              { label: 'SBOM', href: '/#sbom' },
+              { label: 'CBOM', href: '/#cbom' },
+              { label: 'QBOM', href: '/#qbom' },
+              { label: 'AIBOM', href: '/#aibom' },
+              { label: 'HBOM', href: '/#hbom' },
+              { label: 'Platform Overview', href: '/' },
+            ]} />
 
-          <FooterColumn title="Compliance" links={[
-            { label: 'CERT-In v2.0', href: '/#cert-in' },
-            { label: 'RBI Advisory', href: '/#rbi' },
-            { label: 'MeitY 2025', href: '/#meity' },
-            { label: 'NCIIPC', href: '/#nciipc' },
-            { label: 'SEBI', href: '/#sebi' },
-          ]} />
+            <FooterColumn title="Compliance" links={[
+              { label: 'CERT-In v2.0', href: '/#cert-in' },
+              { label: 'RBI Advisory', href: '/#rbi' },
+              { label: 'MeitY 2025', href: '/#meity' },
+              { label: 'NCIIPC', href: '/#nciipc' },
+              { label: 'SEBI', href: '/#sebi' },
+            ]} />
 
-          <FooterColumn title="Company" links={[
-            { label: 'About Us', href: '/#about' },
-            { label: 'Blog', href: '/#blog' },
-            { label: 'Why IxBOM', href: '/#why' },
-            { label: 'BOM Comparison', href: '/#compare' },
-            { label: 'Contact Us', href: '/#contact' },
-          ]} />
+            <FooterColumn title="Company" links={[
+              { label: 'About Us', href: '/#about' },
+              { label: 'Blog', href: '/#blog' },
+              { label: 'Why IxBOM', href: '/#why' },
+              { label: 'BOM Comparison', href: '/#compare' },
+              { label: 'Contact Us', href: '/#contact' },
+            ]} />
+          </div>
         </div>
 
 
 
         {/* Bottom bar */}
-        <div className="pt-6 flex flex-col md:flex-row items-center justify-between gap-3"
+        <div className="pt-4 sm:pt-6 flex flex-col sm:flex-row items-center justify-between gap-3"
           style={{ borderTop: '1px solid var(--p3)' }}>
           <div className="flex items-center gap-1.5 select-none">
             <span className="text-[12px]" style={{ color: 'var(--ink-400)', fontFamily: 'var(--f-m)' }}>© 2026</span>
-            <img src={intelliXbomDark} alt="IntelliXBOM" style={{ height: 24, width: 'auto', display: 'block', opacity: 0.6,marginBottom:"5px" }} />
             <span className="text-[12px]" style={{ color: 'var(--ink-400)', fontFamily: 'var(--f-m)' }}>Built for India's Digital Sovereignty</span>
           </div>
           <div className="flex items-center gap-5">
-            {['Privacy Policy', 'Security'].map(item => (
-              <Link key={item}
-                to={`#`}
+            {[
+              { label: 'Privacy Policy', href: '/privacy' },
+              { label: 'Security',       href: '#' },
+            ].map(({ label, href }) => (
+              <Link key={label}
+                to={href}
                 className="text-[12px] transition-colors duration-200"
                 style={{ color: 'var(--ink-400)' }}
+                onClick={() => window.scrollTo({ top: 0, behavior: 'instant' })}
                 onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = 'var(--c5)')}
                 onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = 'var(--ink-400)')}>
-                {item}
+                {label}
               </Link>
             ))}
           </div>
@@ -140,15 +146,15 @@ export default function Footer() {
 function FooterColumn({ title, links }: { title: string; links: { label: string; href: string }[] }) {
   return (
     <div>
-      <h4 className="text-[10px] uppercase tracking-[0.14em] font-bold mb-5 select-none"
+      <h4 className="text-[9px] sm:text-[10px] uppercase tracking-[0.1em] sm:tracking-[0.14em] font-bold mb-3 sm:mb-5 select-none"
         style={{ color: 'var(--ink-400)', fontFamily: 'var(--f-m)' }}>
         {title}
       </h4>
-      <ul className="space-y-3">
+      <ul className="space-y-2 sm:space-y-3">
         {links.map(link => (
           <li key={link.label}>
             <Link to={link.href}
-              className="text-[13px] transition-colors duration-150"
+              className="text-[11px] sm:text-[13px] transition-colors duration-150"
               style={{ color: 'var(--ink-600)' }}
               onClick={() => window.scrollTo({ top: 0, behavior: 'instant' })}
               onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = 'var(--c5)')}
