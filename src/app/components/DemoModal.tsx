@@ -4,8 +4,8 @@ import { useTheme } from '../context/ThemeContext';
 import intelliXbomDark from '../../assets/IntelliXbom-Dark.png';
 import intelliXbomWhite from '../../assets/IntelliXbom-White.png';
 
-// ─── Paste your Power Automate HTTP trigger URL here ───────────────────────
-const POWER_AUTOMATE_URL = 'YOUR_POWER_AUTOMATE_HTTP_TRIGGER_URL';
+// ─── API endpoint (Express server — see server/index.js) ───────────────────
+const API_URL = 'http://localhost:3001/api/demo-request';
 // ───────────────────────────────────────────────────────────────────────────
 
 export default function DemoModal() {
@@ -39,16 +39,19 @@ export default function DemoModal() {
     setLoading(true);
     setError('');
     try {
-      await fetch(POWER_AUTOMATE_URL, {
+      const res = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: form.name,
           email: form.email,
           organization: form.org,
-          submittedAt: new Date().toISOString(),
         }),
       });
+      if (!res.ok) {
+        const json = await res.json().catch(() => ({}));
+        throw new Error(json.error || 'Server error');
+      }
       setSubmitted(true);
     } catch {
       setError('Something went wrong. Please try again or email us directly.');
